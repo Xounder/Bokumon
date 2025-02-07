@@ -1,6 +1,11 @@
 # Bokumon
 It's a fanmade game of Pokémon made in Python
 
+![BokumonFight](bokumon-presentation.png)
+
+# How to Run
+
+To run the game just run the [game.py](game.py) file
 
 # EN
 
