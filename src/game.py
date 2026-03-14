@@ -2,6 +2,7 @@ import pygame, sys
 from settings.settings import *
 from scenes import Level
 
+
 class Game:
     def __init__(self):
         pygame.init()
@@ -9,19 +10,19 @@ class Game:
         self.clock = pygame.time.Clock()
         self.level = Level(self.screen)
 
-    
     def run(self):
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-            
-            self.screen.fill('blue')
+
+            self.screen.fill("blue")
             self.level.update()
             self.level.draw()
-            pygame.display.update() 
+            pygame.display.update()
             self.clock.tick(60)
+
 
 game = Game()
 game.run()

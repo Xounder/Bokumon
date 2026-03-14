@@ -10,5 +10,3 @@ from .level import Level
 from .menu_game import Menu
 from .menu_player import MenuPlayer
 from .view_bokumon import ViewBokumon
-
-
