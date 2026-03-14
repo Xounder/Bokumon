@@ -1,7 +1,8 @@
 screen_width = 800
 screen_height = 600
 
-tile_size = 32
+TILE_SIZE = 32
+SPRITE_SIZE = 64
 
 # posição do wild bokumon e do player na batalha
 boku_pos = [[600, 200], [170, 400]]

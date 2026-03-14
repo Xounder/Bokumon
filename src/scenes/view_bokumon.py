@@ -31,7 +31,7 @@ class ViewBokumon:
         self.list_selected = 0        
         self.selected_action = [0, False, '']
         # bokuball img
-        self.boku_ball_img = [pygame.image.load('src/assets/imgs/boku_ball.png').convert_alpha(), pygame.image.load('src/assets/imgs/boku_ball2.png').convert_alpha()]
+        self.boku_ball_img = [load_asset_image("boku_ball", is_convert_alpha=True), load_asset_image("boku_ball2", is_convert_alpha=True)]
 
     def set_view(self):
         if not self.seted:
@@ -44,7 +44,7 @@ class ViewBokumon:
 
     def draw_boku_ball(self, rect_center, scale, num):
         self.boku_ball_rect = self.boku_ball_img[num].get_rect(center = (rect_center))
-        image_mod = pygame.transform.scale(self.boku_ball_img[num], (self.boku_ball_img[num].get_width()/scale, 
+        image_mod = scale_image(self.boku_ball_img[num], (self.boku_ball_img[num].get_width()/scale, 
                                                                     self.boku_ball_img[num].get_height()/scale))
         self.display_surface.blit(image_mod, self.boku_ball_rect)
 

@@ -1,4 +1,5 @@
 import pygame
+from settings.settings import SPRITE_SIZE
 
 def blit_text(text, color, pos, font, right=False, center=False):
     display_surface = pygame.display.get_surface()
@@ -15,6 +16,33 @@ def blit_text(text, color, pos, font, right=False, center=False):
 def blit_text_shadow(text, color, pos, font, back_color='black', right=False, center=False):
     blit_text(text, back_color, [pos[0] + 2, pos[1] + 2], font, right, center)
     blit_text(text, color, pos, font, right, center)
+
+def load_asset_image(
+    image_name: str,
+    extesion: str = "png",
+    is_convert: bool = False,
+    is_convert_alpha: bool = False,
+    is_scale: bool = False,
+    scale: tuple = (SPRITE_SIZE, SPRITE_SIZE),
+) -> pygame.surface.Surface:
+    src_path = "src/assets/imgs"
+    full_path = f"{src_path}/{image_name}.{extesion}"
+
+    image = pygame.image.load(full_path)
+
+    if is_convert:
+        image = image.convert()
+
+    if is_convert_alpha:
+        image = image.convert_alpha()
+
+    if is_scale:
+        image = scale_image(image, scale)
+
+    return image
+
+def scale_image(image: pygame.surface.Surface, scale: tuple) -> pygame.surface.Surface:
+    return pygame.transform.scale(image, scale)
 
 def save_game(player, bag):
     # usado no menu_player

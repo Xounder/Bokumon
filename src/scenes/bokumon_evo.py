@@ -16,7 +16,7 @@ class BokuEvo:
         self.pressed_z = False
         self.pressed_x = False
 
-        self.background = pygame.transform.scale(pygame.image.load('src/assets/imgs/fight2.png'), (screen_width, screen_height - 100))
+        self.background = load_asset_image('fight2', is_scale=True, scale=(screen_width, screen_height - 100))
         self.font_42 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 42)
         self.font_25 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 25)
 

@@ -21,9 +21,9 @@ class BokuSummary:
         self.font_50 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 50)
         #boku_ball
         self.boku_ball_img = { 
-            'Boku Ball': pygame.image.load('src/assets/imgs/boku_ball.png').convert_alpha(),
-            'Great Ball': pygame.image.load('src/assets/imgs/great_ball.png').convert_alpha(),
-            'Ultra Ball': pygame.image.load('src/assets/imgs/ultra_ball.png').convert_alpha(),
+            'Boku Ball': load_asset_image('boku_ball', is_convert_alpha=True),
+            'Great Ball': load_asset_image('great_ball', is_convert_alpha=True),
+            'Ultra Ball': load_asset_image('ultra_ball', is_convert_alpha=True),
         }
         #timer
         self.timer = Timer(0.12)
@@ -126,7 +126,7 @@ class BokuSummary:
     def draw_boku_ball(self, rect_center, scale):
         bokumon_ball = self.boku_local[self.boku_selected].ball
         self.boku_ball_rect = self.boku_ball_img[bokumon_ball].get_rect(center = (rect_center))
-        image_mod = pygame.transform.scale(self.boku_ball_img[bokumon_ball], (self.boku_ball_img[bokumon_ball].get_width()/scale, 
+        image_mod = scale_image(self.boku_ball_img[bokumon_ball], (self.boku_ball_img[bokumon_ball].get_width()/scale, 
                                                                     self.boku_ball_img[bokumon_ball].get_height()/scale))
         self.display_surface.blit(image_mod, self.boku_ball_rect)
 

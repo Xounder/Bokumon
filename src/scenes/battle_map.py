@@ -52,12 +52,12 @@ class BattleMap:
         self.check_catch = [False, False]
         # bokuball
         self.boku_ball_img = {
-            'Boku Ball': pygame.transform.scale(pygame.image.load('src/assets/imgs/boku_ball.png'), (64, 64)),
-            'Great Ball': pygame.transform.scale(pygame.image.load('src/assets/imgs/great_ball.png'), (64, 64)),
-            'Ultra Ball': pygame.transform.scale(pygame.image.load('src/assets/imgs/ultra_ball.png'), (64, 64)),
+            'Boku Ball': load_asset_image('boku_ball', is_scale=True),
+            'Great Ball': load_asset_image('great_ball', is_scale=True),
+            'Ultra Ball': load_asset_image('ultra_ball', is_scale=True),
         }
         # battle background
-        self.background = pygame.transform.scale(pygame.image.load('src/assets/imgs/fight2.png'), (screen_width, screen_height - 100))
+        self.background = load_asset_image('fight2', is_scale=True, scale=(screen_width, screen_height - 100))
         # fonts
         self.font_20 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 20)
         self.font_25 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 25)

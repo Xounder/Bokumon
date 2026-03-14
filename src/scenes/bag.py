@@ -48,12 +48,12 @@ class Bag:
             'Hyper Potion': [['Use', 'Toss', 'Cancel'], ['Use', 'Cancel']]
         }
         self.items_image = {
-            'Boku Ball': pygame.transform.scale(pygame.image.load('src/assets/imgs/boku_ball.png'), (64, 64)),
-            'Great Ball': pygame.transform.scale(pygame.image.load('src/assets/imgs/great_ball.png'), (64, 64)),
-            'Ultra Ball': pygame.transform.scale(pygame.image.load('src/assets/imgs/ultra_ball.png'), (64, 64)),
-            'Potion': pygame.transform.scale(pygame.image.load('src/assets/imgs/potion.png'), (64, 64)),
-            'Super Potion': pygame.transform.scale(pygame.image.load('src/assets/imgs/super_potion.png'), (64, 64)),
-            'Hyper Potion': pygame.transform.scale(pygame.image.load('src/assets/imgs/hyper_potion.png'), (64, 64))
+            'Boku Ball': load_asset_image('boku_ball', is_scale=True),
+            'Great Ball': load_asset_image('great_ball', is_scale=True),
+            'Ultra Ball': load_asset_image('ultra_ball', is_scale=True),
+            'Potion': load_asset_image('potion', is_scale=True),
+            'Super Potion': load_asset_image('super_potion', is_scale=True),
+            'Hyper Potion': load_asset_image('hyper_potion', is_scale=True),
         }
 
         self.font_20 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 20)

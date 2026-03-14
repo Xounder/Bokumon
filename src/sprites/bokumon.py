@@ -2,12 +2,13 @@ import pygame
 from random import randint
 from settings.settings import *
 from settings.bokumons_settings import *
+from utils.support import load_asset_image, scale_image
 
 class BokuMon:
     def __init__(self, screen, name, wild=False,level=5):
         self.display_surface = screen
-        img_surf = pygame.image.load(f'src/assets/imgs/bokumon/{name}.png').convert_alpha()
-        self.image = pygame.transform.scale(img_surf, (tile_size*3, tile_size*3))
+        img_surf = load_asset_image(f'bokumon/{name}', is_convert_alpha=True)
+        self.image = scale_image(img_surf, (TILE_SIZE*3, TILE_SIZE*3))
         self.rect = self.image.get_rect(center= (boku_pos[0] if wild else boku_pos[1]))
 
         # atributes
@@ -78,8 +79,8 @@ class BokuMon:
     def evolve(self):
         self.previous_name = self.name
         self.name = self.evo_step[0]
-        self.image = img_surf = pygame.image.load(f'src/assets/imgs/bokumon/{self.name}.png').convert_alpha()
-        self.image = pygame.transform.scale(img_surf, (tile_size*3, tile_size*3))
+        self.image = img_surf = load_asset_image(f'bokumon/{self.name}', is_convert_alpha=True)
+        self.image = scale_image(img_surf, (TILE_SIZE*3, TILE_SIZE*3))
         self.evo_step = bokumons_evo_steps[self.name] ###
         if self.evolved[0][1]:
             self.evolved[0][1] = True
@@ -99,7 +100,7 @@ class BokuMon:
     
     def draw_modified(self, rect_center, scale):
         self.rect.center = rect_center
-        image_mod = pygame.transform.scale(self.image, (self.image.get_width()/scale, self.image.get_height()/scale))
+        image_mod = scale_image(self.image, (self.image.get_width()/scale, self.image.get_height()/scale))
         self.display_surface.blit(image_mod, self.rect)
 
     

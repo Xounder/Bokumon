@@ -2,6 +2,7 @@ import pygame
 from random import randint
 from maps.map import map_1
 from settings.settings import *
+from utils.support import load_asset_image, scale_image
 from utils.timer import Timer
 from .bokumon import BokuMon
 
@@ -24,7 +25,7 @@ class Player:
         self.tickets = 0
         # image
         self.image = self.frames[self.status][self.frame_index]
-        self.rect = self.image.get_rect(topleft= ((self.position[0] * tile_size) - self.camera[0], (self.position[1] * tile_size) - self.camera[1]))
+        self.rect = self.image.get_rect(topleft= ((self.position[0] * TILE_SIZE) - self.camera[0], (self.position[1] * TILE_SIZE) - self.camera[1]))
         # player bokumon
         self.bokumons = [BokuMon(self.display_surface, 'Pan')]
         self.atual_bokumon = self.bokumons[0]
@@ -39,9 +40,9 @@ class Player:
     def import_assets(self):
         self.frames = {'up': [], 'down': [], 'left': [], 'right': []}
         for direction in self.frames:
-            path = 'src/assets/imgs/player/' + direction + '/'
+            path = f'player/{direction}'
             for i in range(3):
-                image = pygame.transform.scale(pygame.image.load(path + f'{i}.png').convert_alpha(), (tile_size, tile_size))
+                image = load_asset_image(f'{path}/{i}', is_convert_alpha=True, is_scale=True, scale=(TILE_SIZE, TILE_SIZE))
                 self.frames[direction].append(image)
 
     def input(self):
@@ -100,7 +101,7 @@ class Player:
             return
                     
         self.position = expect_pos
-        self.rect.topleft = (((self.position[0] * tile_size) - self.camera[0]), (self.position[1] * tile_size) - self.camera[1])
+        self.rect.topleft = (((self.position[0] * TILE_SIZE) - self.camera[0]), (self.position[1] * TILE_SIZE) - self.camera[1])
         if map_1[expect_pos[1]][expect_pos[0]] == 'G' and self.previous_position != self.position and self.bokumon_alive():
             # caso esteja na grama verificar possiveis batalhas
             if self.wild_bokumon_chance():
@@ -231,8 +232,8 @@ class Player:
         for i, boku in enumerate(list_state):
             if i > len(self_list) - 1:
                 self_list.append(BokuMon(self.display_surface, boku[0][0]))
-            img_surf = pygame.image.load(f'src/assets/imgs/bokumon/{boku[0][0]}.png').convert_alpha()
-            self_list[i].image = pygame.transform.scale(img_surf, (tile_size*3, tile_size*3))
+            img_surf = load_asset_image(f'bokumon/{boku[0][0]}', is_convert_alpha=True)
+            self_list[i].image = scale_image(img_surf, (TILE_SIZE*3, TILE_SIZE*3))
             self_list[i].name = boku[0][0]
             self_list[i].previous_name = self_list[i].name 
             self_list[i].level = boku[0][1]

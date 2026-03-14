@@ -1,5 +1,5 @@
-import pygame
 from settings.settings import *
+from utils.support import load_asset_image
 from maps.map import map_1
 from sprites import Player
 from .bag import Bag
@@ -17,11 +17,11 @@ class Level:
         self.map = map_1
         self.camera = [0, 0]
         self.map_tile_images = {
-            'G': pygame.transform.scale(pygame.image.load('src/assets/imgs/ground/grass/0.png').convert(), (tile_size, tile_size)),
-            'T': pygame.transform.scale(pygame.image.load('src/assets/imgs/ground/sand/0.png').convert(), (tile_size, tile_size)),
-            'H': pygame.transform.scale(pygame.image.load('src/assets/imgs/boku_center/heal_point.png').convert(), (tile_size, tile_size)),
-            'P': pygame.transform.scale(pygame.image.load('src/assets/imgs/boku_center/pc.png').convert(), (tile_size, tile_size)),
-            'S': pygame.transform.scale(pygame.image.load('src/assets/imgs/trader.png').convert(), (tile_size, tile_size)),
+            'G': load_asset_image("ground/grass/0", is_convert=True, is_scale=True, scale=(TILE_SIZE, TILE_SIZE)),
+            'T': load_asset_image("ground/sand/0", is_convert=True, is_scale=True, scale=(TILE_SIZE, TILE_SIZE)),
+            'H': load_asset_image("boku_center/heal_point", is_convert=True, is_scale=True, scale=(TILE_SIZE, TILE_SIZE)),
+            'P': load_asset_image("boku_center/pc", is_convert=True, is_scale=True, scale=(TILE_SIZE, TILE_SIZE)),
+            'S': load_asset_image("trader", is_convert=True, is_scale=True, scale=(TILE_SIZE, TILE_SIZE)),
         }
         self.player = Player(screen, self.camera)
         self.view_bokumon = ViewBokumon(screen, self.player)
@@ -42,8 +42,8 @@ class Level:
         self.determine_camera()
         for line, line_map in enumerate(self.map):
             for col, tile in enumerate(line_map):
-                x_map = col * tile_size - self.camera[0]
-                y_map = line * tile_size - self.camera[1]
+                x_map = col * TILE_SIZE - self.camera[0]
+                y_map = line * TILE_SIZE - self.camera[1]
                 self.display_surface.blit(self.map_tile_images[tile], (x_map, y_map)) 
 
     def update(self):  
@@ -121,22 +121,22 @@ class Level:
 
     def determine_camera(self):
         # movimenta a tela para seguir o player
-        max_y = len(self.map) - round(screen_height/tile_size)
-        y_pos = self.player.position[1] - round(screen_height/tile_size/2)
-        max_x = len(self.map[0]) - round(screen_width/tile_size)
-        x_pos = self.player.position[0] - round(screen_width/tile_size/2)
+        max_y = len(self.map) - round(screen_height/TILE_SIZE)
+        y_pos = self.player.position[1] - round(screen_height/TILE_SIZE/2)
+        max_x = len(self.map[0]) - round(screen_width/TILE_SIZE)
+        x_pos = self.player.position[0] - round(screen_width/TILE_SIZE/2)
 
         if 0 <= y_pos <= max_y:
-            self.camera[1] = y_pos * tile_size
+            self.camera[1] = y_pos * TILE_SIZE
         elif y_pos < 0:
             self.camera[1] = 0
         else:
-            self.camera[1] = max_y * tile_size
+            self.camera[1] = max_y * TILE_SIZE
  
         if 0 <= x_pos <= max_x:
-            self.camera[0] = x_pos * tile_size
+            self.camera[0] = x_pos * TILE_SIZE
         elif x_pos < 0:
             self.camera[0] = 0
         else:
-            self.camera[0] = max_x * tile_size             
+            self.camera[0] = max_x * TILE_SIZE             
             
