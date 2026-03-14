@@ -1,0 +1,422 @@
+{
+  "Pan": {
+    "evolutionLevel": 16,
+    "status": {
+      "life": 18,
+      "attack": 14,
+      "defense": 17,
+      "speed": 9,
+      "criticalChance": 0
+    },
+    "evolution": {
+      "nextEvolutionName": "Popan",
+      "lastEvolution": false
+    }
+  },
+  "Popan": {
+    "evolutionLevel": 36,
+    "status": {
+      "life": 24,
+      "attack": 20,
+      "defense": 23,
+      "speed": 15,
+      "criticalChance": 2
+    },
+    "evolution": {
+      "nextEvolutionName": "Pandaro",
+      "lastEvolution": false
+    }
+  },
+  "Pandaro": {
+    "evolutionLevel": null,
+    "status": {
+      "life": 30,
+      "attack": 26,
+      "defense": 29,
+      "speed": 21,
+      "criticalChance": 4
+    },
+    "evolution": {
+      "nextEvolutionName": null,
+      "lastEvolution": true
+    }
+  },
+  "Hippop": {
+    "evolutionLevel": 14,
+    "status": {
+      "life": 15,
+      "attack": 18,
+      "defense": 19,
+      "speed": 9,
+      "criticalChance": 1
+    },
+    "evolution": {
+      "nextEvolutionName": "Papotas",
+      "lastEvolution": false
+    }
+  },
+  "Papotas": {
+    "evolutionLevel": 30,
+    "status": {
+      "life": 21,
+      "attack": 24,
+      "defense": 25,
+      "speed": 15,
+      "criticalChance": 2
+    },
+    "evolution": {
+      "nextEvolutionName": "Hippapo",
+      "lastEvolution": false
+    }
+  },
+  "Hippapo": {
+    "evolutionLevel": null,
+    "status": {
+      "life": 27,
+      "attack": 30,
+      "defense": 31,
+      "speed": 21,
+      "criticalChance": 3
+    },
+    "evolution": {
+      "nextEvolutionName": null,
+      "lastEvolution": true
+    }
+  },
+  "Fant": {
+    "evolutionLevel": 20,
+    "status": {
+      "life": 17,
+      "attack": 17,
+      "defense": 16,
+      "speed": 8,
+      "criticalChance": 0
+    },
+    "evolution": {
+      "nextEvolutionName": "Mast",
+      "lastEvolution": false
+    }
+  },
+  "Mast": {
+    "evolutionLevel": 38,
+    "status": {
+      "life": 23,
+      "attack": 23,
+      "defense": 22,
+      "speed": 14,
+      "criticalChance": 1
+    },
+    "evolution": {
+      "nextEvolutionName": "Masfant",
+      "lastEvolution": false
+    }
+  },
+  "Masfant": {
+    "evolutionLevel": null,
+    "status": {
+      "life": 29,
+      "attack": 29,
+      "defense": 28,
+      "speed": 20,
+      "criticalChance": 2
+    },
+    "evolution": {
+      "nextEvolutionName": null,
+      "lastEvolution": true
+    }
+  },
+  "Girf": {
+    "evolutionLevel": 15,
+    "status": {
+      "life": 16,
+      "attack": 13,
+      "defense": 16,
+      "speed": 10,
+      "criticalChance": 0
+    },
+    "evolution": {
+      "nextEvolutionName": "Ferg",
+      "lastEvolution": false
+    }
+  },
+  "Ferg": {
+    "evolutionLevel": 26,
+    "status": {
+      "life": 22,
+      "attack": 19,
+      "defense": 22,
+      "speed": 16,
+      "criticalChance": 2
+    },
+    "evolution": {
+      "nextEvolutionName": "Girarff",
+      "lastEvolution": false
+    }
+  },
+  "Girarff": {
+    "evolutionLevel": null,
+    "status": {
+      "life": 28,
+      "attack": 25,
+      "defense": 28,
+      "speed": 22,
+      "criticalChance": 3
+    },
+    "evolution": {
+      "nextEvolutionName": null,
+      "lastEvolution": true
+    }
+  },
+  "Oik": {
+    "evolutionLevel": 18,
+    "status": {
+      "life": 13,
+      "attack": 14,
+      "defense": 16,
+      "speed": 10,
+      "criticalChance": 2
+    },
+    "evolution": {
+      "nextEvolutionName": "Linok",
+      "lastEvolution": false
+    }
+  },
+  "Linok": {
+    "evolutionLevel": 27,
+    "status": {
+      "life": 19,
+      "attack": 20,
+      "defense": 22,
+      "speed": 16,
+      "criticalChance": 4
+    },
+    "evolution": {
+      "nextEvolutionName": "Cokinik",
+      "lastEvolution": false
+    }
+  },
+  "Cokinik": {
+    "evolutionLevel": 30,
+    "status": {
+      "life": 25,
+      "attack": 26,
+      "defense": 28,
+      "speed": 22,
+      "criticalChance": 5
+    },
+    "evolution": {
+      "nextEvolutionName": null,
+      "lastEvolution": true
+    }
+  },
+  "Koely": {
+    "evolutionLevel": 12,
+    "status": {
+      "life": 14,
+      "attack": 11,
+      "defense": 11,
+      "speed": 19,
+      "criticalChance": 2
+    },
+    "evolution": {
+      "nextEvolutionName": "Ryolty",
+      "lastEvolution": false
+    }
+  },
+  "Ryolty": {
+    "evolutionLevel": 23,
+    "status": {
+      "life": 20,
+      "attack": 17,
+      "defense": 17,
+      "speed": 25,
+      "criticalChance": 3
+    },
+    "evolution": {
+      "nextEvolutionName": "Robity",
+      "lastEvolution": false
+    }
+  },
+  "Robity": {
+    "evolutionLevel": null,
+    "status": {
+      "life": 26,
+      "attack": 23,
+      "defense": 23,
+      "speed": 31,
+      "criticalChance": 5
+    },
+    "evolution": {
+      "nextEvolutionName": null,
+      "lastEvolution": true
+    }
+  },
+  "Parrot": {
+    "evolutionLevel": 16,
+    "status": {
+      "life": 12,
+      "attack": 19,
+      "defense": 11,
+      "speed": 17,
+      "criticalChance": 5
+    },
+    "evolution": {
+      "nextEvolutionName": "Pardok",
+      "lastEvolution": false
+    }
+  },
+  "Pardok": {
+    "evolutionLevel": 36,
+    "status": {
+      "life": 18,
+      "attack": 25,
+      "defense": 17,
+      "speed": 23,
+      "criticalChance": 5
+    },
+    "evolution": {
+      "nextEvolutionName": "Pardokan",
+      "lastEvolution": false
+    }
+  },
+  "Pardokan": {
+    "evolutionLevel": null,
+    "status": {
+      "life": 24,
+      "attack": 31,
+      "defense": 23,
+      "speed": 29,
+      "criticalChance": 7
+    },
+    "evolution": {
+      "nextEvolutionName": null,
+      "lastEvolution": true
+    }
+  },
+  "Ping": {
+    "evolutionLevel": 28,
+    "status": {
+      "life": 15,
+      "attack": 16,
+      "defense": 16,
+      "speed": 12,
+      "criticalChance": 2
+    },
+    "evolution": {
+      "nextEvolutionName": "Pong",
+      "lastEvolution": false
+    }
+  },
+  "Pong": {
+    "evolutionLevel": 36,
+    "status": {
+      "life": 21,
+      "attack": 22,
+      "defense": 22,
+      "speed": 18,
+      "criticalChance": 3
+    },
+    "evolution": {
+      "nextEvolutionName": "Pingpong",
+      "lastEvolution": false
+    }
+  },
+  "Pingpong": {
+    "evolutionLevel": null,
+    "status": {
+      "life": 27,
+      "attack": 28,
+      "defense": 28,
+      "speed": 24,
+      "criticalChance": 4
+    },
+    "evolution": {
+      "nextEvolutionName": null,
+      "lastEvolution": true
+    }
+  },
+  "Snacks": {
+    "evolutionLevel": 20,
+    "status": {
+      "life": 13,
+      "attack": 15,
+      "defense": 11,
+      "speed": 19,
+      "criticalChance": 3
+    },
+    "evolution": {
+      "nextEvolutionName": "Serpett",
+      "lastEvolution": false
+    }
+  },
+  "Serpett": {
+    "evolutionLevel": 40,
+    "status": {
+      "life": 19,
+      "attack": 21,
+      "defense": 17,
+      "speed": 25,
+      "criticalChance": 4
+    },
+    "evolution": {
+      "nextEvolutionName": "Snakonda",
+      "lastEvolution": false
+    }
+  },
+  "Snakonda": {
+    "evolutionLevel": null,
+    "status": {
+      "life": 25,
+      "attack": 27,
+      "defense": 23,
+      "speed": 31,
+      "criticalChance": 5
+    },
+    "evolution": {
+      "nextEvolutionName": null,
+      "lastEvolution": true
+    }
+  },
+  "Monk": {
+    "evolutionLevel": 16,
+    "status": {
+      "life": 12,
+      "attack": 15,
+      "defense": 15,
+      "speed": 18,
+      "criticalChance": 4
+    },
+    "evolution": {
+      "nextEvolutionName": "Mukiny",
+      "lastEvolution": false
+    }
+  },
+  "Mukiny": {
+    "evolutionLevel": 36,
+    "status": {
+      "life": 18,
+      "attack": 21,
+      "defense": 21,
+      "speed": 24,
+      "criticalChance": 5
+    },
+    "evolution": {
+      "nextEvolutionName": "Monking",
+      "lastEvolution": false
+    }
+  },
+  "Monking": {
+    "evolutionLevel": null,
+    "status": {
+      "life": 24,
+      "attack": 27,
+      "defense": 27,
+      "speed": 30,
+      "criticalChance": 6
+    },
+    "evolution": {
+      "nextEvolutionName": null,
+      "lastEvolution": true
+    }
+  }
+}
