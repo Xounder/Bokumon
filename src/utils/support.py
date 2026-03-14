@@ -1,5 +1,7 @@
 import pygame
-from settings.settings import ASSETS_PATH, SPRITE_SIZE
+import os
+import json
+from settings.settings import ASSETS_PATH, SAVE_PATH, SPRITE_SIZE
 
 
 def blit_text(text, color, pos, font, right=False, center=False):
@@ -57,26 +59,50 @@ def load_font(
 
 
 def save_game(player, bag):
-    # usado no menu_player
-    file = open("saves/bokumon_save.txt", "w")
-    file.write(
-        f"{player.name};{player.previous_status};{player.position};{player.tickets}"
-    )
-    file.write("\n")
-    for boku in player.bokumons:
-        file.write(
-            f"{boku.name};{boku.level};{boku.life};{boku.atual_life};{boku.attack};{boku.defense};{boku.speed};{boku.critical_chance};{boku.atual_exp};{boku.up_exp};{boku.all_exp};{boku.ball};{boku.atual_name}/{boku.moves[0]}/{boku.moves[1]}/{boku.moves[2]}/{boku.moves[3]}/"
-        )
-    file.write("\n")
-    for boku in player.bokumon_storage:
-        file.write(
-            f"{boku.name};{boku.level};{boku.life};{boku.atual_life};{boku.attack};{boku.defense};{boku.speed};{boku.critical_chance};{boku.atual_exp};{boku.up_exp};{boku.all_exp};{boku.ball};{boku.atual_name}/{boku.moves[0]}/{boku.moves[1]}/{boku.moves[2]}/{boku.moves[3]}/"
-        )
-    file.write("\n")
-    for section in bag.all_items.values():
-        for items in section:
-            file.write(f"{items}/")
-        file.write("\n")
+    #### Mudar esse método para outro local (analisar melhor local)
+    player_bokumons = [_bokumon_to_dict(bokumon) for bokumon in player.bokumons]
+    storage_bokumons = [_bokumon_to_dict(bokumon) for bokumon in player.bokumon_storage]
+
+    data = {
+        "name": player.name,
+        "status": player.previous_status,
+        "position": player.position,
+        "tickets": player.tickets,
+        "bokumons": player_bokumons,
+        "bokumonStorage": storage_bokumons,
+        "bag": bag.all_items,
+    }
+
+    try:
+        os.makedirs(os.path.dirname(SAVE_PATH), exist_ok=True)
+
+        with open(SAVE_PATH, "w") as file:
+            json.dump(data, file, indent=4)
+
+    except OSError as e:
+        print(f"Erro ao salvar o jogo: {e}")
+
+
+def _bokumon_to_dict(bokumon):
+    #### Mudar esse método para outro local (analisar melhor local)
+    return {
+        "name": bokumon.name,
+        "atualName": bokumon.atual_name,
+        "level": bokumon.level,
+        "maxLife": bokumon.life,
+        "atualLife": bokumon.atual_life,
+        "bokuBall": bokumon.ball,
+        "status": {
+            "attack": bokumon.attack,
+            "defense": bokumon.defense,
+            "speed": bokumon.speed,
+            "criticalChance": bokumon.critical_chance,
+            "atualExperience": bokumon.atual_exp,
+            "upgradeExperience": bokumon.up_exp,
+            "totalExperience": bokumon.all_exp,
+        },
+        "moves": bokumon.moves, # separar em outros atributos
+    }
 
 
 def load_game():

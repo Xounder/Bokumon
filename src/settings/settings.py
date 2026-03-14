@@ -5,6 +5,7 @@ TILE_SIZE = 32
 SPRITE_SIZE = 64
 
 ASSETS_PATH = "src/assets"
+SAVE_PATH = "saves/save.json"
 
 # posição do wild bokumon e do player na batalha
 boku_pos = [[600, 200], [170, 400]]
