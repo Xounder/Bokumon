@@ -59,11 +59,11 @@ class BattleMap:
         # battle background
         self.background = load_asset_image('fight2', is_scale=True, scale=(screen_width, screen_height - 100))
         # fonts
-        self.font_20 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 20)
-        self.font_25 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 25)
-        self.font_35 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 35)
-        self.font_42 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 42)
-        self.font_50 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 50)
+        self.font_20 = load_font('Pixeltype', 20)
+        self.font_25 = load_font('Pixeltype', 25)
+        self.font_35 = load_font('Pixeltype', 35)
+        self.font_42 = load_font('Pixeltype', 42)
+        self.font_50 = load_font('Pixeltype', 50)
         
     def create_wild_bokumon(self, screen, player_bokumon):
         boku_name = bokumons_spawn_selector(player_bokumon.level)

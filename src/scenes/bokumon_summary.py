@@ -15,10 +15,10 @@ class BokuSummary:
         self.boku_selected = None
         self.last_boku_pos = 0
         #fonts
-        self.font_25 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 25)
-        self.font_35 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 35)
-        self.font_42 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 42)
-        self.font_50 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 50)
+        self.font_25 = load_font("Pixeltype", 25)
+        self.font_35 = load_font("Pixeltype", 35)
+        self.font_42 = load_font("Pixeltype", 42)
+        self.font_50 = load_font("Pixeltype", 50)
         #boku_ball
         self.boku_ball_img = { 
             'Boku Ball': load_asset_image('boku_ball', is_convert_alpha=True),

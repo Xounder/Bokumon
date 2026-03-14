@@ -19,10 +19,10 @@ class Menu:
         self.msg = False
         self.select_new_game = False
 
-        self.font_25 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 25)
-        self.font_35 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 35)
-        self.font_42 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 42)
-        self.font_50 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 50)
+        self.font_25 = load_font("Pixeltype", 25)
+        self.font_35 = load_font("Pixeltype", 35)
+        self.font_42 = load_font("Pixeltype", 42)
+        self.font_50 = load_font("Pixeltype", 50)
 
         self.firts_bokumons = [BokuMon(self.display_surface, 'Pan'), BokuMon(self.display_surface, 'Parrot'), BokuMon(self.display_surface, 'Monk')]
 

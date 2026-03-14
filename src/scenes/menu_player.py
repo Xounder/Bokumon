@@ -15,11 +15,11 @@ class MenuPlayer:
         self.timer = Timer(0.12)
         self.saved = False
 
-        self.font_20 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 20)
-        self.font_25 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 25)
-        self.font_35 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 35)
-        self.font_42 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 42)
-        self.font_50 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 50)
+        self.font_20 = load_font("Pixeltype", 20)
+        self.font_25 = load_font("Pixeltype", 25)
+        self.font_35 = load_font("Pixeltype", 35)
+        self.font_42 = load_font("Pixeltype", 42)
+        self.font_50 = load_font("Pixeltype", 50)
 
     def draw_overlay(self):
         pos  = [screen_width - 200, 50]

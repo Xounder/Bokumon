@@ -21,10 +21,10 @@ class ViewBokumon:
         self.bag_used = False
         self.set_view()
 
-        self.font_25 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 25)
-        self.font_35 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 35)
-        self.font_42 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 42)
-        self.font_50 = pygame.font.Font('src/assets/font/Pixeltype.ttf', 50)
+        self.font_25 = load_font("Pixeltype", 25)
+        self.font_35 = load_font("Pixeltype", 35)
+        self.font_42 = load_font("Pixeltype", 42)
+        self.font_50 = load_font("Pixeltype", 50)
 
         # select_action
         self.text_select_action = [['Summary', 'Switch', 'Cancel'], ['Shift', 'Summary', 'Cancel'], ['Send Out', 'Summary', 'Cancel']]
