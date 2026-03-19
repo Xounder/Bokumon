@@ -77,7 +77,7 @@ class BattleMap:
         else:
             wild_lvl = abs(player_bokumon.level + randint(-15, 6))
         wild_lvl = wild_lvl if wild_lvl > 0 else player_bokumon.level
-        self.wild_bokumon = BokuMon(screen, boku_name, True, wild_lvl)
+        self.wild_bokumon = BokuMon(boku_name, screen, True, wild_lvl)
 
     def set_battle(self, screen, player, first=False, reset=False):
         if self.create_wild or first or reset:

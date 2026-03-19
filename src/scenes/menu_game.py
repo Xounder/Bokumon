@@ -26,9 +26,9 @@ class Menu:
         self.font_50 = load_font("Pixeltype", 50)
 
         self.firts_bokumons = [
-            BokuMon(self.display_surface, "Pan"),
-            BokuMon(self.display_surface, "Parrot"),
-            BokuMon(self.display_surface, "Monk"),
+            BokuMon("Pan", self.display_surface),
+            BokuMon("Parrot", self.display_surface),
+            BokuMon("Monk", self.display_surface),
         ]
 
     def draw(self):
@@ -221,6 +221,7 @@ class Menu:
                 else:
                     if not self.selected[1]:
                         self.selected[1] = True
+                        # TODO: remover load_game
                         if self.selected[0] == 0 and not load_game():
                             self.selected[1] = False
                             self.msg = True
@@ -249,66 +250,12 @@ class Menu:
                         self.msg = False
             self.timer.active()
 
-    def load_saved_game(self):
-        # carrega o game salvo
-        words = load_game()
-        bk_state = []
-        bk_store = []
-        bag_list = []
-        # player_states
-        ply_state = [
-            words[0][0],
-            words[0][1],
-            text_to_list(words[0][2]),
-            int(words[0][3]),
-        ]
-        # bokumons_states
-        for i, word in enumerate(words[1]):
-            bk_state.append(list_text_to_int(word))
-        for word in words[2]:
-            bk_store.append(list_text_to_int(word))
-        bk_state = self.adjust_list(bk_state)
-        bk_store = self.adjust_list(bk_store)
-        # bag_states
-        for i in range(3, 6):
-            if words[i][0] != "":
-                bag_list.append(self.adjust_list_bag(words, i))
-            else:
-                bag_list.append([])
+    def load_saved_game(self) -> None:
+        # TODO: verificar melhor forma de carregar os dados e modificar a forma de enviar os dados
 
-        self.bag.load_bag(bag_list)
-        self.player.load_states(ply_state, bk_state, bk_store)
+        data = load_game()
+        player_data = dict(list(data.items())[:-1])
+        bag_data = data["bag"]
 
-    def adjust_list(self, list_state):
-        # retorna a lista ajustada
-        aux = []
-        for i, bk in enumerate(list_state):
-            if i % 5 != 0:
-                list_state[i] = text_to_list(list_state[i][0])
-        for i in range(int(len(list_state) / 5)):
-            aux.append(list_state[(i * 5) : ((i + 1) * 5)])
-        return aux
-
-    def adjust_list_bag(self, bag_list, pos):
-        # retorna a lista da bag ajustada
-        aux = []
-        for i, word in enumerate(bag_list[pos]):
-            aux.append(text_to_list(word[0]))
-            aux[i][0] = aux[i][0].replace("'", "")
-            aux[i][0] = self.add_space(aux[i][0])
-            aux[i][1] = (
-                float(aux[i][1]) if aux[i][0].count("Ball") == 1 else int(aux[i][1])
-            )
-        return aux
-
-    def add_space(self, word):
-        # adiciona o espaço retirado, na hora do load, à palavra
-        cont = 0
-        pos = 0
-        for i, l in enumerate(word):
-            if l.isupper():
-                cont += 1
-                pos = i
-        if cont == 2:
-            word = word[0:pos] + " " + word[pos : len(word)]
-        return word
+        self.bag.load_states(bag_data)
+        self.player.load_states(player_data)

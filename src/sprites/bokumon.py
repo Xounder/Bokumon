@@ -6,8 +6,13 @@ from utils.support import load_asset_image, scale_image
 
 
 class BokuMon:
-    def __init__(self, screen, name, wild=False, level=5):
+    def __init__(self, name, screen=None, wild=False, level=5):
         self.display_surface = screen
+
+        # TODO: remover posteriormente
+        if not self.display_surface:
+           self.display_surface = pygame.display.get_surface()
+
         img_surf = load_asset_image(f"bokumon/{name}", is_convert_alpha=True)
         self.image = scale_image(img_surf, (TILE_SIZE * 3, TILE_SIZE * 3))
         self.rect = self.image.get_rect(center=(boku_pos[0] if wild else boku_pos[1]))
@@ -17,6 +22,7 @@ class BokuMon:
         self.previous_name = name
         self.atual_name = name
         self.wild = wild
+
         self.step_evolution()
 
         self.level = level
@@ -42,6 +48,9 @@ class BokuMon:
             )
             if self.catch_rate <= 0:
                 self.catch_rate = randint(5, 40)
+
+        # TODO: Remover codigo abaixo
+
         # attacks type (por hr so um atk normal)
         # Nome, dano, chance de acerto, PP
         a = (
@@ -55,6 +64,30 @@ class BokuMon:
             ["Bite", 45, 85, [15, 15]],
             a,
         ]
+        self.set_moves_pp()
+
+    def apply_state(self, data):  # TODO: adicionar tipagens
+        self.atual_name = data["atualName"]
+        self.previous_name = data["name"]
+        self.life = data["maxLife"]
+        self.atual_life = data["atualLife"]
+        self.attack = data["name"]
+        self.defense = data["name"]
+        self.speed = data["name"]
+        self.critical_chance = data["name"]
+        self.atual_exp = data["name"]
+        self.up_exp = data["name"]
+        self.all_exp = data["name"]
+        self.ball = data["bokuBall"]
+        self.moves = data["moves"]
+
+    @classmethod
+    def from_dict(cls, data):  # TODO: adicionar tipagens
+        player = cls(name=data["name"], level=data["level"])
+        player.apply_state(data)
+        return player
+
+    def set_moves_pp(self):
         self.moves_pp = [
             self.moves[0][3],
             self.moves[1][3],

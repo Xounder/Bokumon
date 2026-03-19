@@ -58,8 +58,8 @@ def load_font(
     return pygame.font.Font(font_path, font_size)
 
 
-def save_game(player, bag):
-    #### Mudar esse método para outro local (analisar melhor local)
+def save_game(player, bag):  # TODO: adicionar tipagens
+    #### TODO: Mudar esse método para outro local (analisar melhor local)
     player_bokumons = [_bokumon_to_dict(bokumon) for bokumon in player.bokumons]
     storage_bokumons = [_bokumon_to_dict(bokumon) for bokumon in player.bokumon_storage]
 
@@ -83,8 +83,8 @@ def save_game(player, bag):
         print(f"Erro ao salvar o jogo: {e}")
 
 
-def _bokumon_to_dict(bokumon):
-    #### Mudar esse método para outro local (analisar melhor local)
+def _bokumon_to_dict(bokumon):  # TODO: adicionar tipagens
+    #### TODO: Mudar esse método para outro local (analisar melhor local)
     return {
         "name": bokumon.name,
         "atualName": bokumon.atual_name,
@@ -101,41 +101,11 @@ def _bokumon_to_dict(bokumon):
             "upgradeExperience": bokumon.up_exp,
             "totalExperience": bokumon.all_exp,
         },
-        "moves": bokumon.moves, # separar em outros atributos
+        "moves": bokumon.moves,  # TODO:separar em outros atributos
     }
 
 
-def load_game():
-    # usado no level menu
-    try:
-        file = open("saves/bokumon_save.txt", "r")
-        line = file.readlines()
-        list_words = []
-        aux_list = []
-        for i, l in enumerate(line):
-            if l.count("/") == 0:
-                list_words.append(l.replace("\n", "").split(";"))
-            else:
-                for seq in l.split("/"):
-                    if seq.split(";")[0] != "\n":
-                        aux_list.append(seq.split(";"))
-                list_words.append(aux_list[:])
-                aux_list.clear()
-        return list_words
-    except Exception as e:
-        return False
-
-
-def text_to_list(text):
-    text = text.replace("[", "").replace("]", "").replace(" ", "").split(",")
-    for i in range(len(text)):
-        if text[i].isnumeric():
-            text[i] = int(text[i])
-    return text
-
-
-def list_text_to_int(list_text):
-    for i in range(len(list_text)):
-        if list_text[i].replace(".", "").isnumeric():
-            list_text[i] = int(float(list_text[i]))
-    return list_text
+def load_game() -> None:
+    #### TODO: Mudar esse método para outro local (analisar melhor local)
+    with open(SAVE_PATH, "r") as file:
+        return json.loads(file.read())

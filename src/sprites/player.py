@@ -33,13 +33,13 @@ class Player:
             )
         )
         # player bokumon
-        self.bokumons = [BokuMon(self.display_surface, "Pan")]
-        self.atual_bokumon = self.bokumons[0]
+        self.bokumons: list[BokuMon] = [BokuMon("Pan", self.display_surface)]
+        self.atual_bokumon: BokuMon = self.bokumons[0]
         self.bokumons_battle = [0, 1, 2, 3, 4, 5]
         self.bokumon_part_battle = []
         self.reseted_pos = False
         # bokumon storage
-        self.bokumon_storage = []
+        self.bokumon_storage: list[BokuMon] = []
         # timer inputs
         self.timer = Timer(0.12)
 
@@ -238,54 +238,14 @@ class Player:
             self.bokumon_storage.append(new_bokumon)
 
     #   LOAD GAME
-    def first_bokumon(self, new_bokumon):
-        self.bokumons.append(new_bokumon)
-        self.bokumons.pop(0)
-        self.atual_bokumon = self.bokumons[0]
+    def load_states(self, data):  # TODO: adicionar tipagens
+        self.name = data["name"]
+        self.previous_status = data["status"]
+        self.position = data["position"]
+        self.tickets = data["tickets"]
 
-    def load_states(self, player_state, bokumon_state, bokumon_store):
-        # player
-        self.name = player_state[0]
-        self.previous_status = player_state[1]
-        self.position = player_state[2]
-        self.tickets = player_state[3]
-        # player bokumons
-        self.load_state_bokumons(bokumon_state, self.bokumons)
-        # storage bokumons
-        if bokumon_store:
-            self.load_state_bokumons(bokumon_store, self.bokumon_storage)
+        for bokumon_data in data["bokumons"]:
+            self.bokumons.append(BokuMon.from_dict(bokumon_data))
 
-    def load_state_bokumons(self, list_state, self_list):
-        for i, boku in enumerate(list_state):
-            if i > len(self_list) - 1:
-                self_list.append(BokuMon(self.display_surface, boku[0][0]))
-            img_surf = load_asset_image(f"bokumon/{boku[0][0]}", is_convert_alpha=True)
-            self_list[i].image = scale_image(img_surf, (TILE_SIZE * 3, TILE_SIZE * 3))
-            self_list[i].name = boku[0][0]
-            self_list[i].previous_name = self_list[i].name
-            self_list[i].level = boku[0][1]
-            self_list[i].life = boku[0][2]
-            self_list[i].atual_life = boku[0][3]
-            self_list[i].attack = boku[0][4]
-            self_list[i].defense = boku[0][5]
-            self_list[i].speed = boku[0][6]
-            self_list[i].critical_chance = boku[0][7]
-            self_list[i].atual_exp = boku[0][8]
-            self_list[i].up_exp = boku[0][9]
-            self_list[i].all_exp = boku[0][10]
-            self_list[i].ball = boku[0][11]
-            self_list[i].atual_name = boku[0][12]
-            self_list[i].step_evolution()
-            for j in range(1, 5):
-                self_list[i].moves[j - 1] = [
-                    boku[j][0].replace("'", ""),
-                    boku[j][1],
-                    boku[j][2],
-                    [boku[j][3], boku[j][4]],
-                ]
-            self_list[i].moves_pp = [
-                self_list[i].moves[0][3],
-                self_list[i].moves[1][3],
-                self_list[i].moves[2][3],
-                self_list[i].moves[3][3],
-            ]
+        for bokumon_data in data["bokumons"]:
+            self.bokumon_storage.append(BokuMon.from_dict(bokumon_data))

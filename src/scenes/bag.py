@@ -102,10 +102,9 @@ class Bag:
             self.bag_used = [False]
             self.used_item = False
 
-    def load_bag(self, bag_items):
-        keys_name = ["Items", "Key Items", "Boku Balls"]
-        for i, section_items in enumerate(bag_items):
-            self.all_items[keys_name[i]] = section_items
+    def load_states(self, data: dict) -> None:
+        for section, item in data.items():
+            self.all_items[section] = item
 
     def buy_item(self, item, qnt, section):
         for i, item_bag in enumerate(self.all_items[section]):
