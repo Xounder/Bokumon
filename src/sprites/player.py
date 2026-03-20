@@ -238,6 +238,12 @@ class Player:
         else:
             self.bokumon_storage.append(new_bokumon)
 
+    # TODO: verificar necessidade, atualmente é utilizado no New Game
+    def first_bokumon(self, new_bokumon):
+        self.bokumons.append(new_bokumon)
+        self.bokumons.pop(0)
+        self.atual_bokumon = self.bokumons[0]
+
     def load_states(self, data: PlayerData) -> None:
         self.name = data["name"]
         self.previous_status = data["status"]
