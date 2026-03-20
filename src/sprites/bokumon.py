@@ -83,6 +83,26 @@ class BokuMon:
         self.ball = data["bokuBall"]
         self.moves = data["moves"]
 
+    def to_dict(self) -> BokumonData:
+        return {
+            "name": self.name,
+            "atualName": self.atual_name,
+            "level": self.level,
+            "maxLife": self.life,
+            "atualLife": self.atual_life,
+            "bokuBall": self.ball,
+            "status": {
+                "attack": self.attack,
+                "defense": self.defense,
+                "speed": self.speed,
+                "criticalChance": self.critical_chance,
+                "atualExperience": self.atual_exp,
+                "upgradeExperience": self.up_exp,
+                "totalExperience": self.all_exp,
+            },
+            "moves": self.moves,  # TODO:separar em outros atributos
+        }
+
     @classmethod
     def from_dict(cls, data: BokumonData) -> Self:
         player = cls(name=data["name"], level=data["level"])

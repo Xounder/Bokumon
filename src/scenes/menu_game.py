@@ -221,14 +221,13 @@ class Menu:
                 else:
                     if not self.selected[1]:
                         self.selected[1] = True
-                        # TODO: remover load_game
-                        if self.selected[0] == 0 and not load_game():
+                        if self.selected[0] == 0 and not has_saved_game():
                             self.selected[1] = False
                             self.msg = True
                     else:
                         if self.selected_button == 0:
                             if self.selected[0] == 0:
-                                self.load_saved_game()
+                                self.load_game()
                                 self.intro = False
                             else:
                                 self.select_new_game = True
@@ -250,10 +249,11 @@ class Menu:
                         self.msg = False
             self.timer.active()
 
-    def load_saved_game(self) -> None:
+    def load_game(self) -> None:
         # TODO: verificar melhor forma de carregar os dados e modificar a forma de enviar os dados
+        # TODO: Mudar esse método para outro local (analisar melhor local)
 
-        data = load_game()
+        data = load_data()
         player_data = dict(list(data.items())[:-1])
         bag_data = data["bag"]
 

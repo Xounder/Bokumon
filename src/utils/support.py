@@ -2,7 +2,7 @@ import pygame
 import os
 import json
 from settings.settings import ASSETS_PATH, SAVE_PATH, SPRITE_SIZE
-from game_types import PlayerData, BokumonData
+from game_types import PlayerData
 
 
 def blit_text(text, color, pos, font, right=False, center=False):
@@ -59,21 +59,7 @@ def load_font(
     return pygame.font.Font(font_path, font_size)
 
 
-def save_game(player, bag) -> None:  # TODO: adicionar tipagens
-    #### TODO: Mudar esse método para outro local (analisar melhor local)
-    player_bokumons = [_bokumon_to_dict(bokumon) for bokumon in player.bokumons]
-    storage_bokumons = [_bokumon_to_dict(bokumon) for bokumon in player.bokumon_storage]
-
-    data: PlayerData = {
-        "name": player.name,
-        "status": player.previous_status,
-        "position": player.position,
-        "tickets": player.tickets,
-        "bokumons": player_bokumons,
-        "bokumonStorage": storage_bokumons,
-        "bag": bag.all_items,
-    }
-
+def save_data(data: PlayerData) -> None:
     try:
         os.makedirs(os.path.dirname(SAVE_PATH), exist_ok=True)
 
@@ -84,29 +70,10 @@ def save_game(player, bag) -> None:  # TODO: adicionar tipagens
         print(f"Erro ao salvar o jogo: {e}")
 
 
-def _bokumon_to_dict(bokumon) -> BokumonData:  # TODO: adicionar tipagens
-    #### TODO: Mudar esse método para outro local (analisar melhor local)
-    return {
-        "name": bokumon.name,
-        "atualName": bokumon.atual_name,
-        "level": bokumon.level,
-        "maxLife": bokumon.life,
-        "atualLife": bokumon.atual_life,
-        "bokuBall": bokumon.ball,
-        "status": {
-            "attack": bokumon.attack,
-            "defense": bokumon.defense,
-            "speed": bokumon.speed,
-            "criticalChance": bokumon.critical_chance,
-            "atualExperience": bokumon.atual_exp,
-            "upgradeExperience": bokumon.up_exp,
-            "totalExperience": bokumon.all_exp,
-        },
-        "moves": bokumon.moves,  # TODO:separar em outros atributos
-    }
-
-
-def load_game() -> PlayerData:
-    #### TODO: Mudar esse método para outro local (analisar melhor local)
+def load_data() -> PlayerData:
     with open(SAVE_PATH, "r") as file:
         return json.loads(file.read())
+
+
+def has_saved_game() -> bool:
+    return os.path.exists(SAVE_PATH)

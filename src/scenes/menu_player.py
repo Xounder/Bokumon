@@ -2,6 +2,7 @@ import pygame
 from settings.settings import *
 from utils.support import *
 from utils.timer import Timer
+from game_types import PlayerData
 
 
 class MenuPlayer:
@@ -136,8 +137,27 @@ class MenuPlayer:
                     self.choose = "BAG"
                     pass
                 elif self.selected == 2:
-                    save_game(self.player, self.bag)
+                    self.save_game()
                     self.saved = True
                 else:
                     self.close = True
             self.timer.active()
+
+    def save_game(self) -> None:
+        # TODO: Mudar esse método para outro local (analisar melhor local)
+        player_bokumons = [bokumon.to_dict() for bokumon in self.player.bokumons]
+        storage_bokumons = [
+            bokumon.to_dict() for bokumon in self.player.bokumon_storage
+        ]
+
+        data: PlayerData = {
+            "name": self.player.name,
+            "status": self.player.previous_status,
+            "position": self.player.position,
+            "tickets": self.player.tickets,
+            "bokumons": player_bokumons,
+            "bokumonStorage": storage_bokumons,
+            "bag": self.bag.all_items,
+        }
+
+        save_data(data)
