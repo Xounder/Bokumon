@@ -2,8 +2,9 @@ import pygame
 from random import randint
 from maps.map import map_1
 from settings.settings import *
-from utils.support import load_asset_image, scale_image
+from utils.support import load_asset_image
 from utils.timer import Timer
+from game_types import PlayerData
 from .bokumon import BokuMon
 
 
@@ -237,8 +238,7 @@ class Player:
         else:
             self.bokumon_storage.append(new_bokumon)
 
-    #   LOAD GAME
-    def load_states(self, data):  # TODO: adicionar tipagens
+    def load_states(self, data: PlayerData) -> None:
         self.name = data["name"]
         self.previous_status = data["status"]
         self.position = data["position"]

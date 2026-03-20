@@ -2,6 +2,7 @@ import pygame
 import os
 import json
 from settings.settings import ASSETS_PATH, SAVE_PATH, SPRITE_SIZE
+from game_types import PlayerData, BokumonData
 
 
 def blit_text(text, color, pos, font, right=False, center=False):
@@ -58,12 +59,12 @@ def load_font(
     return pygame.font.Font(font_path, font_size)
 
 
-def save_game(player, bag):  # TODO: adicionar tipagens
+def save_game(player, bag) -> None:  # TODO: adicionar tipagens
     #### TODO: Mudar esse método para outro local (analisar melhor local)
     player_bokumons = [_bokumon_to_dict(bokumon) for bokumon in player.bokumons]
     storage_bokumons = [_bokumon_to_dict(bokumon) for bokumon in player.bokumon_storage]
 
-    data = {
+    data: PlayerData = {
         "name": player.name,
         "status": player.previous_status,
         "position": player.position,
@@ -83,7 +84,7 @@ def save_game(player, bag):  # TODO: adicionar tipagens
         print(f"Erro ao salvar o jogo: {e}")
 
 
-def _bokumon_to_dict(bokumon):  # TODO: adicionar tipagens
+def _bokumon_to_dict(bokumon) -> BokumonData:  # TODO: adicionar tipagens
     #### TODO: Mudar esse método para outro local (analisar melhor local)
     return {
         "name": bokumon.name,
@@ -105,7 +106,7 @@ def _bokumon_to_dict(bokumon):  # TODO: adicionar tipagens
     }
 
 
-def load_game() -> None:
+def load_game() -> PlayerData:
     #### TODO: Mudar esse método para outro local (analisar melhor local)
     with open(SAVE_PATH, "r") as file:
         return json.loads(file.read())

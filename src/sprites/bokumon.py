@@ -1,8 +1,10 @@
 import pygame
+from typing import Self
 from random import randint
 from settings.settings import *
 from settings.bokumons_settings import *
 from utils.support import load_asset_image, scale_image
+from game_types import BokumonData
 
 
 class BokuMon:
@@ -11,7 +13,7 @@ class BokuMon:
 
         # TODO: remover posteriormente
         if not self.display_surface:
-           self.display_surface = pygame.display.get_surface()
+            self.display_surface = pygame.display.get_surface()
 
         img_surf = load_asset_image(f"bokumon/{name}", is_convert_alpha=True)
         self.image = scale_image(img_surf, (TILE_SIZE * 3, TILE_SIZE * 3))
@@ -66,23 +68,23 @@ class BokuMon:
         ]
         self.set_moves_pp()
 
-    def apply_state(self, data):  # TODO: adicionar tipagens
+    def apply_state(self, data: BokumonData) -> None:
         self.atual_name = data["atualName"]
         self.previous_name = data["name"]
         self.life = data["maxLife"]
         self.atual_life = data["atualLife"]
-        self.attack = data["name"]
-        self.defense = data["name"]
-        self.speed = data["name"]
-        self.critical_chance = data["name"]
-        self.atual_exp = data["name"]
-        self.up_exp = data["name"]
-        self.all_exp = data["name"]
+        self.attack = data["status"]["attack"]
+        self.defense = data["status"]["defense"]
+        self.speed = data["status"]["speed"]
+        self.critical_chance = data["status"]["criticalChance"]
+        self.atual_exp = data["status"]["atualExperience"]
+        self.up_exp = data["status"]["upgradeExperience"]
+        self.all_exp = data["status"]["totalExperience"]
         self.ball = data["bokuBall"]
         self.moves = data["moves"]
 
     @classmethod
-    def from_dict(cls, data):  # TODO: adicionar tipagens
+    def from_dict(cls, data: BokumonData) -> Self:
         player = cls(name=data["name"], level=data["level"])
         player.apply_state(data)
         return player
