@@ -2,6 +2,8 @@ import pygame
 from settings.settings import ASSETS_PATH, SPRITE_SIZE
 
 
+# TODO: modificar para uma classe Renderer que receba o display_surface como parametro
+# TODO: instanciar no arquivo game.py e passar como argumento para as classes que usam display_surface
 def load_asset_image(
     image_name: str,
     extesion: str = "png",
@@ -9,7 +11,7 @@ def load_asset_image(
     is_convert_alpha: bool = False,
     is_scale: bool = False,
     scale: tuple = (SPRITE_SIZE, SPRITE_SIZE),
-) -> pygame.surface.Surface:
+) -> pygame.Surface:
     image_path = f"{ASSETS_PATH}/imgs/{image_name}.{extesion}"
     image = pygame.image.load(image_path)
 
@@ -25,7 +27,7 @@ def load_asset_image(
     return image
 
 
-def scale_image(image: pygame.surface.Surface, scale: tuple) -> pygame.surface.Surface:
+def scale_image(image: pygame.Surface, scale: tuple) -> pygame.Surface:
     return pygame.transform.scale(image, scale)
 
 
@@ -36,6 +38,54 @@ def load_font(
     return pygame.font.Font(font_path, font_size)
 
 
+def draw_rect(
+    surface: pygame.Surface,
+    color: str | tuple[int, int, int],  # TODO: remover tuple dos arquivos, preferir str
+    rect: tuple[int, int, int, int],
+    width: int = 0,
+    border_radius: int = -1,
+    border_top_left_radius: int = -1,
+    border_top_right_radius: int = -1,
+    border_bottom_left_radius: int = -1,
+    border_bottom_right_radius: int = -1,
+) -> pygame.Rect:
+    pygame.draw.rect(
+        surface,
+        color,
+        rect,
+        width,
+        border_radius,
+        border_top_left_radius,
+        border_top_right_radius,
+        border_bottom_left_radius,
+        border_bottom_right_radius,
+    )
+
+
+def draw_circle(
+    surface: pygame.Surface,
+    color: str | tuple[int, int, int],
+    center: tuple[int, int],
+    radius: float,
+    width: int = 0,
+    draw_top_right: bool = False,
+    draw_top_left: bool = False,
+    draw_bottom_left: bool = False,
+    draw_bottom_right: bool = False,
+) -> pygame.Rect:
+    pygame.draw.circle(
+        surface,
+        color,
+        center,
+        radius,
+        width,
+        draw_top_right,
+        draw_top_left,
+        draw_bottom_left,
+        draw_bottom_right,
+    )
+
+
 def blit_text(
     text: str,
     color: str,
@@ -44,7 +94,9 @@ def blit_text(
     right: bool = False,
     center: bool = False,
 ) -> None:
-    display_surface = pygame.display.get_surface()
+    display_surface = (
+        pygame.display.get_surface()
+    )  # TODO: remover daqui, passar como parametro
     overlay_text = font.render(text, False, color)
 
     if right:

@@ -53,7 +53,7 @@ class LetterSelection:
                     center=True,
                 )
                 if self.selected_button[0] == i and self.selected_button[1] == j:
-                    pygame.draw.rect(
+                    render_utils.draw_rect(
                         self.display_surface,
                         "red",
                         (90 + space[1], screen_height / 2 - 75 + space[0], 40, 40),
@@ -65,24 +65,24 @@ class LetterSelection:
             space[0] += 90
 
     def draw_ballon_text(self):
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [224, 216, 88], (0, 0, screen_width, screen_height)
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [192, 184, 176],
             (100, 20, screen_width - 200, 150),
             0,
             15,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [140, 140, 136],
             (100, 20, screen_width - 200, 150),
             3,
             15,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "white", (110, 30, screen_width - 220, 130), 0, 15
         )
         render_utils.blit_text(
@@ -107,23 +107,23 @@ class LetterSelection:
         return new_word
 
     def draw_buttons(self):
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [152, 200, 224],
             (60, screen_height / 2 - 100, screen_width - 250, screen_height / 2 + 70),
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [96, 136, 160],
             (60, screen_height / 2 - 100, screen_width - 250, screen_height / 2 + 70),
             3,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [120, 168, 192],
             (70, screen_height / 2 - 90, screen_width - 270, screen_height / 2 + 50),
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [72, 112, 136],
             (70, screen_height / 2 - 90, screen_width - 270, screen_height / 2 + 50),
@@ -138,21 +138,21 @@ class LetterSelection:
                 if self.selected_button[0] == i and self.selected_button[1] == 7
                 else "black"
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "white",
                 (screen_width - 185, screen_height / 2 + space_y, 130, 50),
                 0,
                 15,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 color_sel,
                 (screen_width - 185, screen_height / 2 + space_y, 130, 50),
                 3,
                 15,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 color,
                 (screen_width - 180, screen_height / 2 + 5 + space_y, 120, 40),

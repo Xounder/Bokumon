@@ -124,32 +124,32 @@ class Bag:
             self.view_bokumon.draw()
 
     def draw_overlay(self):
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [101, 95, 255], (0, 0, screen_width, screen_height)
         )
         # Items
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "orange",
             (250, 20, screen_width - 270, screen_height - 200),
             0,
             5,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             (250, 17, screen_width - 270, screen_height - 197),
             3,
             5,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "#ECD580",
             (300, 40, screen_width - 350, screen_height - 250),
             0,
             5,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             (300, 40, screen_width - 350, screen_height - 250),
@@ -157,20 +157,20 @@ class Bag:
             5,
         )
         # Nome seção
-        pygame.draw.rect(self.display_surface, "black", (18, 17, 240, 106), 3, 5)
-        pygame.draw.rect(self.display_surface, "orange", (20, 20, 250, 100), 0, 3)
+        render_utils.draw_rect(self.display_surface, "black", (18, 17, 240, 106), 3, 5)
+        render_utils.draw_rect(self.display_surface, "orange", (20, 20, 250, 100), 0, 3)
         render_utils.blit_shadow_text(
             f"{self.section}", "white", (140, 80), font=self.font_50, center=True
         )
         # parte de baixo
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "blue",
             (0, screen_height - 150, screen_width, 150),
             0,
             3,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             (0, screen_height - 150, screen_width, 150),
@@ -178,22 +178,22 @@ class Bag:
             5,
         )
         # image rect
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "white", (20, screen_height - 120, 90, 90), 0, 5
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "black", (20, screen_height - 120, 90, 90), 3, 5
         )
         if self.selected:
             # aviso de seleção (caixa de texto)
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "white",
                 (140, screen_height - 140, 420, 130),
                 0,
                 5,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "black",
                 (140, screen_height - 140, 420, 130),
@@ -224,7 +224,7 @@ class Bag:
                 if self.marked[self.section][0] == i:
                     # botão de seleção
                     color = "black" if not self.selected else "red"
-                    pygame.draw.rect(
+                    render_utils.draw_rect(
                         self.display_surface, color, (315, 65 + space_y, 10, 10), 0, 20
                     )
                     space_y_desc = 0
@@ -270,21 +270,21 @@ class Bag:
                         qnt_sel = len(self.selected_item) - 2 if not self.toss else 0
                         tam = [(screen_height - 150) - qnt_sel * 40, 150 + qnt_sel * 40]
                         # caixa de seleção do item
-                        pygame.draw.rect(
+                        render_utils.draw_rect(
                             self.display_surface,
                             "#00008B",
                             (screen_width - 230, tam[0], 220, tam[1]),
                             0,
                             3,
                         )
-                        pygame.draw.rect(
+                        render_utils.draw_rect(
                             self.display_surface,
                             "black",
                             (screen_width - 230, tam[0], 220, tam[1]),
                             3,
                             5,
                         )
-                        pygame.draw.rect(
+                        render_utils.draw_rect(
                             self.display_surface,
                             "white",
                             (screen_width - 220, tam[0] + 10, 200, tam[1] - 20),
@@ -305,7 +305,7 @@ class Bag:
                                 )
                                 if self.marked[self.section][1] == j:
                                     # botão de seleção
-                                    pygame.draw.rect(
+                                    render_utils.draw_rect(
                                         self.display_surface,
                                         "black",
                                         (
@@ -535,7 +535,7 @@ class Bag:
                         if self.toss_values[1]
                         else screen_height - 60
                     )
-                    pygame.draw.rect(
+                    render_utils.draw_rect(
                         self.display_surface,
                         "black",
                         (screen_width - 180, pos, 10, 10),

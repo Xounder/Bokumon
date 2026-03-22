@@ -31,30 +31,30 @@ class BokuStorage:
 
     def draw_player_bokumon(self):
         # bokumon data
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [144, 144, 168], [-10, 5, 250, screen_height - 20]
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [248, 224, 208], [-10, 5, 250, screen_height - 20], 5
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [112, 112, 120],
             [-5, 10, 240, screen_height / 2 - 20],
             0,
             5,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [80, 80, 88], [-10, 8, 245, screen_height - 26], 3, 5
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [184, 212, 244],
             [15, 60, 200, screen_height / 2 - 90],
             0,
             10,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [96, 96, 104],
             [15, 60, 200, screen_height / 2 - 90],
@@ -90,42 +90,42 @@ class BokuStorage:
 
         if self.deposit or self.show_party:
             # bokumon_player_section
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface, [56, 136, 136], [240, 0, 300, screen_height - 20]
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 [128, 168, 176],
                 [240, 0, 300, screen_height - 20],
                 10,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 [80, 96, 112],
                 [240, 0, 300, screen_height - 20],
                 3,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 [40, 104, 96],
                 [250, 10, 280, screen_height - 40],
                 5,
             )
             # bokumon's space
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 [60, 108, 112],
                 [260, screen_height / 2 - 70, 110, 80],
                 5,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 [0, 120, 248],
                 [265, screen_height / 2 - 65, 100, 70],
             )
             self.player.bokumons[0].draw_modified([330, screen_height / 2 - 15], 1.5)
             if self.select_player_boku[0] == 0:
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface,
                     "red",
                     [260, screen_height / 2 - 70, 110, 80],
@@ -133,26 +133,26 @@ class BokuStorage:
                 )
             space_y = 20
             for i in range(5):
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface,
                     [60, 108, 112],
                     [400, 20 + space_y, 110, 80],
                     5,
                 )
                 if i + 1 <= len(self.player.bokumons) - 1:
-                    pygame.draw.rect(
+                    render_utils.draw_rect(
                         self.display_surface,
                         [0, 120, 248],
                         [405, 25 + space_y, 100, 70],
                     )
                     self.player.bokumons[i + 1].draw_modified([470, space_y + 75], 1.5)
                     if self.select_player_boku[0] == i + 1:
-                        pygame.draw.rect(
+                        render_utils.draw_rect(
                             self.display_surface, "red", [400, 20 + space_y, 110, 80], 5
                         )
                 space_y += 90
 
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 [160, 208, 240],
                 [415, 55 + space_y, 100, 40],
@@ -170,30 +170,30 @@ class BokuStorage:
                 back_color="black",
             )
             if self.select_player_boku[0] == 6:
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface, "red", [415, 55 + space_y, 100, 40], 3, 5
                 )
 
     def draw_poke_space(self):
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [248, 228, 216], [0, 0, screen_width, screen_height]
         )
         # bokumon_space
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [184, 184, 184],
             [240, 100, 550, screen_height - 120],
             0,
             10,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [224, 224, 224],
             [244, 104, 541, screen_height - 129],
             5,
             10,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [144, 128, 176],
             [240, 100, 550, screen_height - 120],
@@ -201,13 +201,13 @@ class BokuStorage:
             10,
         )
         # section_num
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [144, 136, 224], [390, 40, 250, 50], 0, 10
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [248, 248, 248], [395, 45, 240, 40], 3, 10
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [158, 146, 178], [390, 40, 250, 50], 5, 10
         )
         render_utils.blit_shadow_text(
@@ -219,27 +219,35 @@ class BokuStorage:
             center=True,
         )
         if self.select_boku_box[0] == 1:
-            pygame.draw.rect(self.display_surface, "red", [395, 45, 240, 40], 3, 10)
+            render_utils.draw_rect(
+                self.display_surface, "red", [395, 45, 240, 40], 3, 10
+            )
         # party bokumon
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [164, 156, 156], [240, -10, 195, 48], 0, 5
         )
-        pygame.draw.rect(self.display_surface, [160, 232, 144], [248, 3, 180, 30], 0, 5)
+        render_utils.draw_rect(
+            self.display_surface, [160, 232, 144], [248, 3, 180, 30], 0, 5
+        )
         render_utils.blit_shadow_text(
             f"PARTY BOKUMON", "white", [258, 8], self.font_35, back_color="black"
         )
-        pygame.draw.rect(self.display_surface, [80, 96, 112], [240, -10, 195, 48], 3, 5)
+        render_utils.draw_rect(
+            self.display_surface, [80, 96, 112], [240, -10, 195, 48], 3, 5
+        )
         if self.select_boku_box[0] == 0 and self.select_boku_box[1] == 0:
-            pygame.draw.rect(self.display_surface, "red", [240, -10, 195, 48], 3, 5)
+            render_utils.draw_rect(
+                self.display_surface, "red", [240, -10, 195, 48], 3, 5
+            )
         # close box
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [160, 200, 240],
             [screen_width - 200, 3, 195, 30],
             0,
             10,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [112, 112, 120],
             [screen_width - 200, 3, 195, 30],
@@ -254,7 +262,7 @@ class BokuStorage:
             back_color="black",
         )
         if self.select_boku_box[0] == 0 and self.select_boku_box[1] == 1:
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface, "red", [screen_width - 200, 3, 195, 30], 3, 10
             )
 
@@ -270,7 +278,7 @@ class BokuStorage:
                     and cont_mat[1] == self.select_boku_box[1]
                     and cont_mat[0] == self.select_boku_box[0] - 2
                 ):
-                    pygame.draw.rect(
+                    render_utils.draw_rect(
                         self.display_surface,
                         "red",
                         [space[0] - 50, space[1] - 50, 70, 70],
@@ -289,26 +297,28 @@ class BokuStorage:
 
     def draw_selection_pc(self):
         # parte de cima
-        pygame.draw.rect(self.display_surface, "white", [20, 0, 300, 150], 0, 5)
-        pygame.draw.rect(self.display_surface, [112, 104, 128], [20, 0, 300, 150], 5, 5)
+        render_utils.draw_rect(self.display_surface, "white", [20, 0, 300, 150], 0, 5)
+        render_utils.draw_rect(
+            self.display_surface, [112, 104, 128], [20, 0, 300, 150], 5, 5
+        )
         select_list = ["Withdraw Bokumon", "Deposit Bokumon", "See ya!"]
         space_y = 20
         for i, sel in enumerate(select_list):
             render_utils.blit_text(sel, "black", [50, space_y], self.font_42)
             if i == self.selected_action[0]:
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface, "black", [35, space_y + 5, 10, 10], 0, 20
                 )
             space_y += 40
         # parte de baixo
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "white",
             [20, screen_height - 150, screen_width - 40, 140],
             0,
             20,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [160, 208, 224],
             [20, screen_height - 150, screen_width - 40, 140],
@@ -363,21 +373,21 @@ class BokuStorage:
             )
             name = self.player.bokumon_storage[tam].atual_name
             j = 1
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [112, 104, 128],
             [screen_width - 300, screen_height / 2 - 40, 280, 200],
             0,
             10,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             [screen_width - 300, screen_height / 2 - 40, 280, 200],
             3,
             10,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "white",
             [screen_width - 290, screen_height / 2 - 30, 260, 180],
@@ -393,7 +403,7 @@ class BokuStorage:
                 self.font_50,
             )
             if self.select_boku_action == i:
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface,
                     "black",
                     [screen_width - 275, screen_height / 2 - 5 + space_y, 10, 10],
@@ -402,21 +412,21 @@ class BokuStorage:
                 )
             space_y += 50
 
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [96, 112, 120],
             [screen_width - 560, screen_height - 120, 540, 100],
             0,
             5,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             [screen_width - 560, screen_height - 120, 540, 100],
             3,
             5,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "white",
             [screen_width - 550, screen_height - 110, 520, 80],

@@ -49,8 +49,10 @@ class BokuSummary:
 
     def draw(self):
         # parte de cima
-        pygame.draw.rect(self.display_surface, [72, 152, 112], (0, 0, screen_width, 50))
-        pygame.draw.rect(
+        render_utils.draw_rect(
+            self.display_surface, [72, 152, 112], (0, 0, screen_width, 50)
+        )
+        render_utils.draw_rect(
             self.display_surface,
             [120, 216, 160],
             (-20, 0, screen_width / 2 + 50, 50),
@@ -58,11 +60,13 @@ class BokuSummary:
             20,
         )
         move_x = screen_width / 2 if not self.section == 1 else screen_width / 2 + 50
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [248, 232, 152], (-20, 0, move_x, 50), 0, 20
         )
-        pygame.draw.rect(self.display_surface, "black", (-20, 0, move_x, 50), 3, 20)
-        pygame.draw.rect(
+        render_utils.draw_rect(
+            self.display_surface, "black", (-20, 0, move_x, 50), 3, 20
+        )
+        render_utils.draw_rect(
             self.display_surface, "black", (-20, 0, screen_width + 30, 50), 3
         )
         section_text = "Bokumon  Skill" if self.section == 0 else "Know  Moves"
@@ -70,10 +74,10 @@ class BokuSummary:
         # dots
         color_1 = [192, 160, 96] if self.section == 0 else [248, 248, 248]
         color_2 = [192, 160, 96] if self.section == 1 else [248, 248, 248]
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, color_1, (screen_width / 2 - 10, 12, 20, 25), 0, 30
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, color_2, (screen_width / 2 - 60, 12, 20, 25), 0, 30
         )
         # draw seção especifica
@@ -82,18 +86,18 @@ class BokuSummary:
         else:
             self.draw_know_move()
         # bokumon
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [120, 128, 144],
             (0, 49, screen_width / 2, screen_height / 2),
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             (-20, 49, screen_width / 2 + 20, screen_height / 2),
             3,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [192, 192, 192],
             (5, 100, screen_width / 2 - 15, screen_height / 2 - 60),
@@ -189,16 +193,16 @@ class BokuSummary:
 
     def draw_skill_move(self):
         # bloco
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [160, 178, 196], (0, 50, screen_width, screen_height)
         )
         # details
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [212, 228, 246],
             (0, 50, screen_width / 2 + 3, screen_height / 2 + 2),
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [212, 228, 246],
             (screen_width / 2 + 3, 50, screen_width / 2 + 3, 3),
@@ -206,14 +210,14 @@ class BokuSummary:
         # stats
         # life
         atual_boku = self.boku_local[self.boku_selected]
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [232, 240, 248],
             (screen_width / 2 + 120, 60, 250, 40),
             0,
             10,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "black", (screen_width / 2 + 10, 70, 120, 20), 0, 15
         )
         render_utils.blit_text(
@@ -227,17 +231,17 @@ class BokuSummary:
             right=True,
         )
         # rect life
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "black", (screen_width / 2 + 140, 100, 220, 20), 0, 5
         )
         render_utils.blit_text(
             "HP", "yellow", (screen_width / 2 + 145, 102), self.font_35
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "white", (screen_width / 2 + 175, 105, 178, 10)
         )
         x_life = 178 * atual_boku.atual_life / atual_boku.life
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "green", (screen_width / 2 + 175, 105, x_life, 10)
         )
         # other stats
@@ -250,14 +254,14 @@ class BokuSummary:
             f"{atual_boku.critical_chance}%",
         ]
         for i in range(4):
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 [232, 240, 248],
                 (screen_width - 130, space_y, 100, 40),
                 0,
                 10,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "black",
                 (screen_width / 2 + 10, space_y + 10, 120, 20),
@@ -288,14 +292,14 @@ class BokuSummary:
         )
         # parte de baixo
         # EXP
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [200, 216, 232],
             (200, screen_height - 240, screen_width - 230, 100),
             0,
             10,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "black", (10, screen_height - 210, 200, 20), 0, 15
         )
         render_utils.blit_text(
@@ -308,19 +312,19 @@ class BokuSummary:
             "Next  Lv.", "black", (240, screen_height - 170), self.font_50
         )
         # valores exp
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [232, 240, 248],
             (screen_width - 260, space_y + 10, 230, 80),
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [232, 240, 248],
             (screen_width - 260, space_y, 230, 50),
             0,
             10,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [232, 240, 248],
             (screen_width - 260, space_y + 50, 230, 50),
@@ -342,14 +346,14 @@ class BokuSummary:
             right=True,
         )
         # divisoria
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [232, 240, 248],
             (230, screen_height - 189, screen_width - 260, 3),
             0,
             10,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [200, 216, 232],
             (screen_width - 260, screen_height - 189, 220, 3),
@@ -357,7 +361,7 @@ class BokuSummary:
             10,
         )
         # rect exp
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             (screen_width - 290, space_y + 100, 255, 20),
@@ -367,37 +371,37 @@ class BokuSummary:
         render_utils.blit_text(
             "EXP", "yellow", (screen_width - 280, space_y + 105), self.font_25
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "white",
             (screen_width - 248, space_y + 103, 208, 14),
             0,
             20,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [137, 141, 145],
             (screen_width - 240, space_y + 105, 195, 10),
         )
         x_exp = 195 * atual_boku.atual_exp / atual_boku.up_exp
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "blue", (screen_width - 240, space_y + 105, x_exp, 10)
         )
 
     def draw_know_move(self):
         atual_bokumon = self.boku_local[self.boku_selected]
         # bloco
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [160, 178, 196],
             (0, screen_height / 2 + 49, screen_width / 2, screen_height / 2),
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [150, 158, 174],
             (screen_width / 2 - 1, 49, screen_width / 2 + 1, screen_height - 49),
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             (screen_width / 2 - 1, 49, screen_width / 2 + 1, screen_height - 49),
@@ -407,7 +411,7 @@ class BokuSummary:
         space_y = 70
         for i in range(5):
             if i != 4:
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface,
                     [240, 240, 248],
                     (screen_width / 2 + 20, space_y, screen_width / 2 - 35, 80),
@@ -446,7 +450,7 @@ class BokuSummary:
                     if (self.selected_move[1] and self.selected_move[2][0] == i)
                     else "red"
                 )
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface,
                     color,
                     (screen_width / 2 + 20, space_y, screen_width / 2 - 35, 80),
@@ -457,14 +461,14 @@ class BokuSummary:
 
         if self.selected_move[0]:
             # especification move
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 [232, 240, 248],
                 (160, screen_height / 2 + 90, 100, 40),
                 0,
                 10,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "black",
                 (20, screen_height / 2 + 100, 120, 20),
@@ -479,14 +483,14 @@ class BokuSummary:
                 center=True,
             )
 
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 [232, 240, 248],
                 (160, screen_height / 2 + 140, 100, 40),
                 0,
                 10,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "black",
                 (20, screen_height / 2 + 150, 120, 20),

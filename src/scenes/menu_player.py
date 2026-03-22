@@ -25,19 +25,19 @@ class MenuPlayer:
 
     def draw_overlay(self):
         pos = [screen_width - 200, 50]
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "gray", (pos[0], pos[1], 190, screen_height - 200)
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "black", (pos[0], pos[1], 190, screen_height - 200), 4
         )
 
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "gray",
             (50, screen_height - 130, screen_width - 220, 120),
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             (50, screen_height - 130, screen_width - 220, 120),
@@ -77,7 +77,7 @@ class MenuPlayer:
                         )
                     else:
                         self.saved = False
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface,
                     "black",
                     (pos[0] + 10, pos[1] + space_y + 5, 10, 10),

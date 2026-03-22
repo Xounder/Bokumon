@@ -44,21 +44,21 @@ class BokuStore:
 
     def draw_select_action(self):
         list_choose = ["Buy", "Trade", "See ya!"]
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [112, 104, 128],
             [screen_width - 300, screen_height / 2 - 40, 280, 200],
             0,
             10,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             [screen_width - 300, screen_height / 2 - 40, 280, 200],
             3,
             10,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "white",
             [screen_width - 290, screen_height / 2 - 30, 260, 180],
@@ -74,7 +74,7 @@ class BokuStore:
                 self.font_50,
             )
             if self.selected_action[0] == i:
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface,
                     "black",
                     [screen_width - 275, screen_height / 2 - 5 + space_y, 10, 10],
@@ -88,21 +88,21 @@ class BokuStore:
             "Trade  a  Bokumon  to  obtain  a  Ticket  Points.",
             "See   you  later!",
         ]
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [96, 112, 120],
             [20, screen_height - 120, screen_width - 40, 100],
             0,
             5,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             [20, screen_height - 120, screen_width - 40, 100],
             3,
             5,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "white",
             [30, screen_height - 110, screen_width - 60, 80],
@@ -117,11 +117,15 @@ class BokuStore:
         )
 
     def draw_buy_items(self):
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [112, 104, 128], [200, 20, 570, 450], 0, 10
         )
-        pygame.draw.rect(self.display_surface, "black", [200, 20, 570, 450], 3, 10)
-        pygame.draw.rect(self.display_surface, "white", [210, 30, 550, 430], 0, 10)
+        render_utils.draw_rect(
+            self.display_surface, "black", [200, 20, 570, 450], 3, 10
+        )
+        render_utils.draw_rect(
+            self.display_surface, "white", [210, 30, 550, 430], 0, 10
+        )
 
         render_utils.blit_text(
             f"Your   T.P:    {self.player.tickets}", "black", [220, 40], self.font_25
@@ -158,7 +162,7 @@ class BokuStore:
                 )
                 if self.selected_item[0] == i:
                     color = "black" if not self.selected_item[2] else "red"
-                    pygame.draw.rect(
+                    render_utils.draw_rect(
                         self.display_surface, color, [235, 135 + space_y, 10, 10], 0, 20
                     )
                 space_y += 40
@@ -166,21 +170,21 @@ class BokuStore:
                 break
 
         if self.selected_item[2] or self.cant_buy:
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 [96, 112, 120],
                 [20, screen_height - 120, screen_width - 50, 100],
                 0,
                 5,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "black",
                 [20, screen_height - 120, screen_width - 50, 100],
                 3,
                 5,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "white",
                 [30, screen_height - 110, screen_width - 70, 80],
@@ -197,21 +201,21 @@ class BokuStore:
             render_utils.blit_text(msg, "black", [50, screen_height - 90], self.font_50)
 
         if self.selected_item[2]:
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 [96, 112, 120],
                 [screen_width - 230, screen_height - 220, 200, 100],
                 0,
                 5,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "black",
                 [screen_width - 230, screen_height - 220, 200, 100],
                 3,
                 5,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "white",
                 [screen_width - 220, screen_height - 210, 180, 80],
@@ -228,21 +232,21 @@ class BokuStore:
             )
 
         if self.selected_item[1][1]:
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 [96, 112, 120],
                 [screen_width - 130, screen_height - 300, 100, 100],
                 0,
                 5,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "black",
                 [screen_width - 130, screen_height - 300, 100, 100],
                 3,
                 5,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "white",
                 [screen_width - 120, screen_height - 290, 80, 80],
@@ -256,7 +260,7 @@ class BokuStore:
                 "No", "black", [screen_width - 100, screen_height - 240], self.font_35
             )
             sel_y = screen_height - 275 if self.select_buy else screen_height - 235
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "black",
                 [screen_width - 115, sel_y, 10, 10],
@@ -269,21 +273,21 @@ class BokuStore:
         self.draw_merc_trade()
 
     def draw_merc_trade(self):
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [56, 136, 136],
             [350, screen_height / 2 - 200, 420, screen_height / 2 + 60],
             0,
             10,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             [350, screen_height / 2 - 200, 420, screen_height / 2 + 60],
             3,
             10,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "white",
             [360, screen_height / 2 - 190, 400, screen_height / 2 + 40],
@@ -305,7 +309,7 @@ class BokuStore:
         render_utils.blit_text(
             "T.P", "black", [670, screen_height / 2 + 50], self.font_42
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [60, 108, 112],
             [380, screen_height / 2 - 50, 110, 80],
@@ -351,28 +355,28 @@ class BokuStore:
                 self.font_42,
                 center=True,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 [0, 120, 248],
                 [385, screen_height / 2 - 45, 100, 70],
             )
             sel_boku.draw_modified([450, screen_height / 2 + 5], 1.5)
             # choose
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 [56, 136, 136],
                 [screen_width - 130, screen_height - 210, 100, 100],
                 0,
                 5,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "black",
                 [screen_width - 130, screen_height - 210, 100, 100],
                 3,
                 5,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "white",
                 [screen_width - 120, screen_height - 200, 80, 80],
@@ -386,7 +390,7 @@ class BokuStore:
                 "No", "black", [screen_width - 95, screen_height - 150], self.font_35
             )
             sel_y = screen_height - 185 if self.select_trade else screen_height - 145
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "black",
                 [screen_width - 115, sel_y, 10, 10],
@@ -394,21 +398,21 @@ class BokuStore:
                 20,
             )
             # text
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 [96, 112, 120],
                 [20, screen_height - 110, screen_width - 50, 100],
                 0,
                 5,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "black",
                 [20, screen_height - 110, screen_width - 50, 100],
                 3,
                 5,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "white",
                 [30, screen_height - 100, screen_width - 70, 80],
@@ -423,21 +427,21 @@ class BokuStore:
             )
         else:
             if self.cant_trade:
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface,
                     [96, 112, 120],
                     [350, screen_height - 110, 420, 100],
                     0,
                     5,
                 )
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface,
                     "black",
                     [350, screen_height - 110, 420, 100],
                     3,
                     5,
                 )
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface,
                     "white",
                     [360, screen_height - 100, 400, 80],
@@ -467,50 +471,50 @@ class BokuStore:
 
     def draw_player_trade(self):
         # bokumon_player_section
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [56, 136, 136], [20, 10, 300, screen_height - 20]
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [128, 168, 176], [20, 10, 300, screen_height - 20], 10
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [80, 96, 112], [20, 10, 300, screen_height - 20], 3
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [40, 104, 96], [30, 20, 280, screen_height - 40], 5
         )
         # bokumon's space
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             [60, 108, 112],
             [40, screen_height / 2 - 70, 110, 80],
             5,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [0, 120, 248], [45, screen_height / 2 - 65, 100, 70]
         )
         self.player.bokumons[0].draw_modified([110, screen_height / 2 - 15], 1.5)
         if self.select_player_boku[0] == 0:
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface, "red", [40, screen_height / 2 - 70, 110, 80], 5
             )
         space_y = 20
         for i in range(5):
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface, [60, 108, 112], [180, 20 + space_y, 110, 80], 5
             )
             if i + 1 <= len(self.player.bokumons) - 1:
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface, [0, 120, 248], [185, 25 + space_y, 100, 70]
                 )
                 self.player.bokumons[i + 1].draw_modified([250, space_y + 75], 1.5)
                 if self.select_player_boku[0] == i + 1:
-                    pygame.draw.rect(
+                    render_utils.draw_rect(
                         self.display_surface, "red", [180, 20 + space_y, 110, 80], 5
                     )
             space_y += 90
 
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, [160, 208, 240], [195, 55 + space_y, 100, 40], 0, 5
         )
         render_utils.blit_shadow_text(
@@ -524,7 +528,7 @@ class BokuStore:
             back_color="black",
         )
         if self.select_player_boku[0] == 6:
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface, "red", [195, 55 + space_y, 100, 40], 3, 5
             )
 

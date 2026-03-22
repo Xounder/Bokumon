@@ -240,7 +240,7 @@ class BattleMap:
             ]
         else:
             button_pos = select_button_pos[self.select[0]][self.select[1]]
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "black", (button_pos[0], button_pos[1], 10, 10)
         )
 
@@ -255,12 +255,12 @@ class BattleMap:
 
     def draw_overlay(self):
         self.display_surface.blit(self.background, (0, 0))
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "red",
             (0, screen_height - screen_height / 4.5, screen_width, screen_height / 4.5),
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             (
@@ -272,7 +272,7 @@ class BattleMap:
             5,
         )
         if self.status == "" or self.status == "FIGHT":
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "gray",
                 (
@@ -282,7 +282,7 @@ class BattleMap:
                     screen_height / 4.5,
                 ),
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "black",
                 (
@@ -362,14 +362,14 @@ class BattleMap:
 
     def bokumons_info(self):
         # player bokumon info
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "purple",
             (screen_width / 2 + 60, screen_height / 2 + 30, 300, 120),
             0,
             5,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             (screen_width / 2 + 60, screen_height / 2 + 30, 300, 125),
@@ -377,19 +377,19 @@ class BattleMap:
             5,
         )
         # exp bar
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             (screen_width / 2 + 60, screen_height - screen_height / 4.5 - 20, 300, 20),
             border_radius=5,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "white",
             (screen_width / 2 + 110, screen_height - screen_height / 4.5 - 12, 240, 5),
         )
         tam_x_exp = 240 * self.player_bokumon.atual_exp / self.player_bokumon.up_exp
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "blue",
             (
@@ -406,14 +406,14 @@ class BattleMap:
             font=self.font_25,
         )
         # life bar
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             (screen_width / 2 + 120, screen_height - screen_height / 2 + 80, 220, 26),
             0,
             5,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "green",
             (
@@ -431,16 +431,16 @@ class BattleMap:
         )
 
         # wild bokumon info
-        pygame.draw.rect(self.display_surface, "purple", (30, 50, 300, 100), 0, 10)
-        pygame.draw.rect(self.display_surface, "black", (30, 50, 300, 100), 3, 10)
+        render_utils.draw_rect(
+            self.display_surface, "purple", (30, 50, 300, 100), 0, 10
+        )
+        render_utils.draw_rect(self.display_surface, "black", (30, 50, 300, 100), 3, 10)
         # life bar
-        pygame.draw.rect(self.display_surface, "black", (90, 100, 220, 26), 0, 5)
-        pygame.draw.rect(
+        render_utils.draw_rect(self.display_surface, "black", (90, 100, 220, 26), 0, 5)
+        render_utils.draw_rect(
             self.display_surface, "green", (125, 105, self.tam_wild_life, 16)
         )
-        render_utils.blit_shadow_text(
-            "HP", "red", (95, 105), font=self.font_35
-        )
+        render_utils.blit_shadow_text("HP", "red", (95, 105), font=self.font_35)
 
         # info wild and player bokumon
         for i, text in enumerate(self.overlay_bokumon):
@@ -958,12 +958,12 @@ class BattleMap:
                     f"{self.player_bokumon.critical_chance}",
                 ]
 
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "gray",
                 (screen_width / 2 + 120, screen_height / 2 - 200, 220, 220),
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "black",
                 (screen_width / 2 + 120, screen_height / 2 - 200, 220, 220),
@@ -1038,7 +1038,7 @@ class BattleMap:
                 pos = 0
             else:
                 pos = 1
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "#00008B",
             (
@@ -1048,7 +1048,7 @@ class BattleMap:
                 screen_height / 4.5,
             ),
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             (
@@ -1059,7 +1059,7 @@ class BattleMap:
             ),
             5,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             (select_cont_fight[pos][0], select_cont_fight[pos][1], 10, 10),

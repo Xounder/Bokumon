@@ -29,18 +29,18 @@ class BokuEvo:
             if self.show_msg and self.msg_timer.run:
                 self.atual_bokumon.draw((screen_width / 2, screen_height / 2))
                 for gas in self.list_gas:
-                    pygame.draw.circle(
+                    render_utils.draw_circle(
                         self.display_surface,
                         "gray",
                         (gas[0] + randint(-50, 50), gas[1] + randint(-50, 50)),
                         10,
                     )
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface,
                     "white",
                     [0, screen_height - 130, screen_width, 130],
                 )
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface,
                     "black",
                     [0, screen_height - 130, screen_width, 130],
@@ -77,12 +77,12 @@ class BokuEvo:
                     self.msg_timer.active()
 
                 self.atual_bokumon.draw((screen_width / 2, screen_height / 2))
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface,
                     "white",
                     [0, screen_height - 130, screen_width, 130],
                 )
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface,
                     "black",
                     [0, screen_height - 130, screen_width, 130],
@@ -99,12 +99,12 @@ class BokuEvo:
 
         else:
             self.atual_bokumon.draw((screen_width / 2, screen_height / 2))
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "white",
                 [0, screen_height - 130, screen_width, 130],
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "black",
                 [0, screen_height - 130, screen_width, 130],
@@ -185,12 +185,12 @@ class BokuEvo:
                     f"{self.player.atual_bokumon.critical_chance}",
                 ]
 
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "gray",
                 (screen_width / 2 + 120, screen_height / 2 - 200, 220, 220),
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "black",
                 (screen_width / 2 + 120, screen_height / 2 - 200, 220, 220),

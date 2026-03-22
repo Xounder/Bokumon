@@ -80,10 +80,10 @@ class ViewBokumon:
     def draw_overlay(self):
         space_y = 90
         prev_y = 20
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "green", (0, 0, screen_width, screen_height)
         )
-        pygame.draw.rect(self.display_surface, "brown", (20, 100, 300, 200), 0, 5)
+        render_utils.draw_rect(self.display_surface, "brown", (20, 100, 300, 200), 0, 5)
         if self.marked[0] == 0 or self.marked[1] == 0:
             if (self.selected or self.fainted or self.player.battle) and self.marked[
                 0
@@ -94,8 +94,8 @@ class ViewBokumon:
         else:
             color = "white"
         # first bokumon
-        pygame.draw.rect(self.display_surface, color, (20, 100, 300, 200), 7, 5)
-        pygame.draw.rect(self.display_surface, "black", (20, 100, 300, 200), 3, 5)
+        render_utils.draw_rect(self.display_surface, color, (20, 100, 300, 200), 7, 5)
+        render_utils.draw_rect(self.display_surface, "black", (20, 100, 300, 200), 3, 5)
         self.status_txt(
             0,
             [[45, 240], [80, 245]],
@@ -111,7 +111,7 @@ class ViewBokumon:
         self.player.bokumons[0].draw_modified((60, 125), 1.3)
         for i in range(1, 6):
             if i <= self.boku_limit:
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface, "brown", (370, prev_y, 400, space_y), 0, 5
                 )
                 if self.marked[0] == i or self.marked[1] == i:
@@ -123,10 +123,10 @@ class ViewBokumon:
                         color = "black"
                 else:
                     color = "white"
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface, color, (370, prev_y, 400, space_y), 7, 5
                 )
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface, "black", (370, prev_y, 400, space_y), 3, 5
                 )
 
@@ -149,7 +149,7 @@ class ViewBokumon:
                 self.draw_boku_ball((355, prev_y + 30), 0.7, num)
                 self.player.bokumons[i].draw_modified((375, prev_y + 60), 1.3)
             else:
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface, "brown", (370, prev_y, 400, space_y), 5, 5
                 )
             prev_y += space_y + 5
@@ -163,15 +163,19 @@ class ViewBokumon:
                 text = "Move to where?"
             else:
                 text = "Do  what  if  this  Bokumon?"
-        pygame.draw.rect(self.display_surface, "white", (20, 500, 500, 90))
-        pygame.draw.rect(self.display_surface, "blue", (20, 500, 500, 90), 5)
-        pygame.draw.rect(self.display_surface, "black", (20, 500, 500, 90), 3)
+        render_utils.draw_rect(self.display_surface, "white", (20, 500, 500, 90))
+        render_utils.draw_rect(self.display_surface, "blue", (20, 500, 500, 90), 5)
+        render_utils.draw_rect(self.display_surface, "black", (20, 500, 500, 90), 3)
         render_utils.blit_text(text, "black", (50, 535), self.font_42)
         color = "black" if self.marked[0] == 6 or self.marked[1] == 6 else "white"
 
-        pygame.draw.rect(self.display_surface, "purple", (610, 520, 150, 50), 0, 50)
-        pygame.draw.rect(self.display_surface, color, (610, 520, 150, 50), 5, 50)
-        pygame.draw.rect(self.display_surface, "black", (610, 520, 150, 50), 3, 50)
+        render_utils.draw_rect(
+            self.display_surface, "purple", (610, 520, 150, 50), 0, 50
+        )
+        render_utils.draw_rect(self.display_surface, color, (610, 520, 150, 50), 5, 50)
+        render_utils.draw_rect(
+            self.display_surface, "black", (610, 520, 150, 50), 3, 50
+        )
         render_utils.blit_text("Cancel", "black", (660, 535), self.font_42)
         # bokuball cancel
         self.draw_boku_ball((620, 545), 1, 1 if self.marked[0] == 6 else 0)
@@ -183,21 +187,21 @@ class ViewBokumon:
         ):
             if self.marked[0] == 0:
                 tam = [(screen_height - 160), 150]
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface,
                     "#00008B",
                     (0, tam[0], screen_width, tam[1]),
                     0,
                     3,
                 )
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface,
                     "black",
                     (0, tam[0], screen_width, tam[1]),
                     3,
                     5,
                 )
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface,
                     "white",
                     (10, tam[0] + 10, screen_width - 20, tam[1] - 20),
@@ -229,14 +233,14 @@ class ViewBokumon:
             * self.player.bokumons[num_boku].atual_life
             / self.player.bokumons[num_boku].life
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             (pos_rect[0][0], pos_rect[0][1], tam[1], tam[2]),
             0,
             5,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "green",
             (pos_rect[1][0], pos_rect[1][1], tam_life, tam[3]),
@@ -266,13 +270,13 @@ class ViewBokumon:
 
     def draw_potion_use(self):
         tam = [(screen_height - 160), 150]
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "#00008B", (0, tam[0], screen_width, tam[1]), 0, 3
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "black", (0, tam[0], screen_width, tam[1]), 3, 5
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "white",
             (10, tam[0] + 10, screen_width - 20, tam[1] - 20),
@@ -456,21 +460,21 @@ class ViewBokumon:
             qnt_sel = len(self.text_select_action) - 2
             tam = [(screen_height - 160) - qnt_sel * 40, 150 + qnt_sel * 40]
             # caixa de seleção do item
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "#00008B",
                 (screen_width - 250, tam[0], 220, tam[1]),
                 0,
                 3,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "black",
                 (screen_width - 250, tam[0], 220, tam[1]),
                 3,
                 5,
             )
-            pygame.draw.rect(
+            render_utils.draw_rect(
                 self.display_surface,
                 "white",
                 (screen_width - 240, tam[0] + 10, 200, tam[1] - 20),
@@ -493,7 +497,7 @@ class ViewBokumon:
                 )
                 if self.selected_action[0] == i:
                     # botão de seleção
-                    pygame.draw.rect(
+                    render_utils.draw_rect(
                         self.display_surface,
                         "black",
                         (screen_width - 230, tam[0] + space_y_sel + 5, 10, 10),

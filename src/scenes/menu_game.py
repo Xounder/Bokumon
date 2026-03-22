@@ -48,36 +48,36 @@ class Menu:
                 self.blit_msg("Don't  have  any  saved  game.")
 
     def draw_overlay(self):
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "#00009F", (0, 0, screen_width, screen_height)
         )
         pos = [[240, 145], [280, 345]]
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "#00008B", (110, 100, screen_width - 250, 100), 0, 3
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "black", (110, 100, screen_width - 250, 100), 3, 5
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "white", (120, 110, screen_width - 270, 80), 0, 5
         )
         render_utils.blit_text(
             "Continue   Game", "black", [380, 155], font=self.font_50, center=True
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "#00008B", (110, 300, screen_width - 250, 100), 0, 3
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "black", (110, 300, screen_width - 250, 100), 3, 5
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "white", (120, 310, screen_width - 270, 80), 0, 5
         )
         render_utils.blit_text(
             "New   Game", "black", [380, 355], font=self.font_50, center=True
         )
         color = "red" if self.selected[1] else "black"
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             color,
             (pos[self.selected[0]][0], pos[self.selected[0]][1], 10, 10),
@@ -86,21 +86,21 @@ class Menu:
         )
 
     def blit_select_continue(self, pos_rect, selected_button):
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "#00008B",
             (pos_rect[0], pos_rect[1], 120, screen_height / 4.5),
             0,
             3,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             (pos_rect[0], pos_rect[1], 120, screen_height / 4.5),
             3,
             5,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "white",
             (pos_rect[0] + 10, pos_rect[1] + 10, 100, screen_height / 4.5 - 20),
@@ -111,7 +111,7 @@ class Menu:
             [pos_rect[0] + 20, pos_rect[1] + 40],
             [pos_rect[0] + 20, pos_rect[1] + 90],
         ]
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             (pos[selected_button][0], pos[selected_button][1], 10, 10),
@@ -126,10 +126,10 @@ class Menu:
         )
 
     def select_first_bokumon(self):
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface, "#00899F", (0, 0, screen_width, screen_height)
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "#19A99F",
             (60, screen_height / 2 - 100, screen_width - 100, 160),
@@ -146,7 +146,7 @@ class Menu:
                 center=True,
             )
             if self.boku_selected[0] == i:
-                pygame.draw.rect(
+                render_utils.draw_rect(
                     self.display_surface,
                     "red",
                     (75 + space_x, screen_height / 2 - 95, 150, 150),
@@ -156,21 +156,21 @@ class Menu:
             space_x += 250
 
     def blit_msg(self, msg):
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "#00008B",
             (20, screen_height - 120, screen_width - 50, 100),
             0,
             3,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "black",
             (20, screen_height - 120, screen_width - 50, 100),
             3,
             5,
         )
-        pygame.draw.rect(
+        render_utils.draw_rect(
             self.display_surface,
             "white",
             (30, screen_height - 110, screen_width - 70, 80),
