@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import *
-from utils.support import *
+from utils import render_utils
 from utils.timer import Timer
 
 
@@ -16,15 +16,21 @@ class BokuSummary:
         self.boku_selected = None
         self.last_boku_pos = 0
         # fonts
-        self.font_25 = load_font("Pixeltype", 25)
-        self.font_35 = load_font("Pixeltype", 35)
-        self.font_42 = load_font("Pixeltype", 42)
-        self.font_50 = load_font("Pixeltype", 50)
+        self.font_25 = render_utils.load_font("Pixeltype", 25)
+        self.font_35 = render_utils.load_font("Pixeltype", 35)
+        self.font_42 = render_utils.load_font("Pixeltype", 42)
+        self.font_50 = render_utils.load_font("Pixeltype", 50)
         # boku_ball
         self.boku_ball_img = {
-            "Boku Ball": load_asset_image("boku_ball", is_convert_alpha=True),
-            "Great Ball": load_asset_image("great_ball", is_convert_alpha=True),
-            "Ultra Ball": load_asset_image("ultra_ball", is_convert_alpha=True),
+            "Boku Ball": render_utils.load_asset_image(
+                "boku_ball", is_convert_alpha=True
+            ),
+            "Great Ball": render_utils.load_asset_image(
+                "great_ball", is_convert_alpha=True
+            ),
+            "Ultra Ball": render_utils.load_asset_image(
+                "ultra_ball", is_convert_alpha=True
+            ),
         }
         # timer
         self.timer = Timer(0.12)
@@ -60,7 +66,7 @@ class BokuSummary:
             self.display_surface, "black", (-20, 0, screen_width + 30, 50), 3
         )
         section_text = "Bokumon  Skill" if self.section == 0 else "Know  Moves"
-        blit_text(section_text, "black", (10, 15), self.font_50)
+        render_utils.blit_text(section_text, "black", (10, 15), self.font_50)
         # dots
         color_1 = [192, 160, 96] if self.section == 0 else [248, 248, 248]
         color_2 = [192, 160, 96] if self.section == 1 else [248, 248, 248]
@@ -92,13 +98,13 @@ class BokuSummary:
             [192, 192, 192],
             (5, 100, screen_width / 2 - 15, screen_height / 2 - 60),
         )
-        blit_text(
+        render_utils.blit_text(
             f"Lv{self.boku_local[self.boku_selected].level}",
             "black",
             (10, 60),
             self.font_50,
         )
-        blit_text(
+        render_utils.blit_text(
             f"{self.boku_local[self.boku_selected].name}",
             "black",
             (130, 60),
@@ -172,7 +178,7 @@ class BokuSummary:
         self.boku_ball_rect = self.boku_ball_img[bokumon_ball].get_rect(
             center=(rect_center)
         )
-        image_mod = scale_image(
+        image_mod = render_utils.scale_image(
             self.boku_ball_img[bokumon_ball],
             (
                 self.boku_ball_img[bokumon_ball].get_width() / scale,
@@ -210,8 +216,10 @@ class BokuSummary:
         pygame.draw.rect(
             self.display_surface, "black", (screen_width / 2 + 10, 70, 120, 20), 0, 15
         )
-        blit_text("HP", "white", (screen_width / 2 + 70, 82), self.font_35, center=True)
-        blit_text(
+        render_utils.blit_text(
+            "HP", "white", (screen_width / 2 + 70, 82), self.font_35, center=True
+        )
+        render_utils.blit_text(
             f"{atual_boku.atual_life}/{atual_boku.life}",
             "black",
             (screen_width - 40, 70),
@@ -222,7 +230,9 @@ class BokuSummary:
         pygame.draw.rect(
             self.display_surface, "black", (screen_width / 2 + 140, 100, 220, 20), 0, 5
         )
-        blit_text("HP", "yellow", (screen_width / 2 + 145, 102), self.font_35)
+        render_utils.blit_text(
+            "HP", "yellow", (screen_width / 2 + 145, 102), self.font_35
+        )
         pygame.draw.rect(
             self.display_surface, "white", (screen_width / 2 + 175, 105, 178, 10)
         )
@@ -254,14 +264,14 @@ class BokuSummary:
                 0,
                 15,
             )
-            blit_text(
+            render_utils.blit_text(
                 name_list[i],
                 "white",
                 (screen_width / 2 + 70, space_y + 22),
                 self.font_35,
                 center=True,
             )
-            blit_text(
+            render_utils.blit_text(
                 stats_list[i],
                 "black",
                 (screen_width - 40, space_y + 10),
@@ -269,7 +279,7 @@ class BokuSummary:
                 right=True,
             )
             space_y += 60
-        blit_text(
+        render_utils.blit_text(
             "Chance",
             "white",
             (screen_width / 2 + 70, space_y - 23),
@@ -288,9 +298,15 @@ class BokuSummary:
         pygame.draw.rect(
             self.display_surface, "black", (10, screen_height - 210, 200, 20), 0, 15
         )
-        blit_text("EXP", "white", (110, screen_height - 197), self.font_42, center=True)
-        blit_text("Exp.  Points", "black", (240, screen_height - 220), self.font_50)
-        blit_text("Next  Lv.", "black", (240, screen_height - 170), self.font_50)
+        render_utils.blit_text(
+            "EXP", "white", (110, screen_height - 197), self.font_42, center=True
+        )
+        render_utils.blit_text(
+            "Exp.  Points", "black", (240, screen_height - 220), self.font_50
+        )
+        render_utils.blit_text(
+            "Next  Lv.", "black", (240, screen_height - 170), self.font_50
+        )
         # valores exp
         pygame.draw.rect(
             self.display_surface,
@@ -311,14 +327,14 @@ class BokuSummary:
             0,
             10,
         )
-        blit_text(
+        render_utils.blit_text(
             f"{atual_boku.all_exp}",
             "black",
             (screen_width - 40, space_y + 20),
             self.font_42,
             right=True,
         )
-        blit_text(
+        render_utils.blit_text(
             f"{round(atual_boku.up_exp - atual_boku.atual_exp)}",
             "black",
             (screen_width - 40, space_y + 70),
@@ -348,7 +364,9 @@ class BokuSummary:
             0,
             10,
         )
-        blit_text("EXP", "yellow", (screen_width - 280, space_y + 105), self.font_25)
+        render_utils.blit_text(
+            "EXP", "yellow", (screen_width - 280, space_y + 105), self.font_25
+        )
         pygame.draw.rect(
             self.display_surface,
             "white",
@@ -396,16 +414,16 @@ class BokuSummary:
                     0,
                     10,
                 )
-                blit_text(
+                render_utils.blit_text(
                     f"{atual_bokumon.moves[i][0]}",
                     "black",
                     (screen_width / 2 + 130, space_y + 10),
                     self.font_50,
                 )
-                blit_text(
+                render_utils.blit_text(
                     f"PP", "black", (screen_width / 2 + 235, space_y + 53), self.font_42
                 )
-                blit_text(
+                render_utils.blit_text(
                     f"{atual_bokumon.moves_pp[i][0]}/{atual_bokumon.moves_pp[i][1]}",
                     "black",
                     (screen_width / 2 + 270, space_y + 50),
@@ -413,7 +431,7 @@ class BokuSummary:
                 )
             else:
                 if self.selected_move[0]:
-                    blit_text(
+                    render_utils.blit_text(
                         f"Cancel",
                         "black",
                         (screen_width / 2 + 130, space_y + 10),
@@ -453,7 +471,7 @@ class BokuSummary:
                 0,
                 15,
             )
-            blit_text(
+            render_utils.blit_text(
                 "POWER",
                 "white",
                 (80, screen_height / 2 + 112),
@@ -475,7 +493,7 @@ class BokuSummary:
                 0,
                 15,
             )
-            blit_text(
+            render_utils.blit_text(
                 "ACCURACY",
                 "white",
                 (80, screen_height / 2 + 162),
@@ -483,14 +501,14 @@ class BokuSummary:
                 center=True,
             )
             if self.selected_move[2][1] != 4:
-                blit_text(
+                render_utils.blit_text(
                     f"{atual_bokumon.moves[self.selected_move[2][1]][1]}",
                     "black",
                     (240, screen_height / 2 + 100),
                     self.font_42,
                     right=True,
                 )
-                blit_text(
+                render_utils.blit_text(
                     f"{atual_bokumon.moves[self.selected_move[2][1]][2]}",
                     "black",
                     (240, screen_height / 2 + 150),

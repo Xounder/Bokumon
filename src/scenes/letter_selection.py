@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from utils.support import blit_text, blit_text_shadow, load_font
+from utils import render_utils
 from utils.timer import Timer
 
 
@@ -19,11 +19,11 @@ class LetterSelection:
             ["U", "V", "W", "X", "Y", "Z", ",", ""],
         ]
 
-        self.font_20 = load_font("Pixeltype", 20)
-        self.font_25 = load_font("Pixeltype", 25)
-        self.font_35 = load_font("Pixeltype", 35)
-        self.font_42 = load_font("Pixeltype", 42)
-        self.font_50 = load_font("Pixeltype", 50)
+        self.font_20 = render_utils.load_font("Pixeltype", 20)
+        self.font_25 = render_utils.load_font("Pixeltype", 25)
+        self.font_35 = render_utils.load_font("Pixeltype", 35)
+        self.font_42 = render_utils.load_font("Pixeltype", 42)
+        self.font_50 = render_utils.load_font("Pixeltype", 50)
 
     def activate(self, name, first=False):
         if not first:
@@ -45,7 +45,7 @@ class LetterSelection:
             for j in range(7):
                 letter = self.letter_selection[i][j]
                 letter = letter if not self.letter_lower else letter.lower()
-                blit_text_shadow(
+                render_utils.blit_shadow_text(
                     letter,
                     "white",
                     (110 + space[1], screen_height / 2 - 50 + space[0]),
@@ -85,7 +85,9 @@ class LetterSelection:
         pygame.draw.rect(
             self.display_surface, "white", (110, 30, screen_width - 220, 130), 0, 15
         )
-        blit_text(f"{self.real_name}'s nickname?", "black", (250, 60), self.font_50)
+        render_utils.blit_text(
+            f"{self.real_name}'s nickname?", "black", (250, 60), self.font_50
+        )
         spaces = "_ _ _ _ _ _ _ _ _ _"
         count_space = spaces[
             (0 if len(self.name_choosed) == 0 else 1) : (
@@ -93,7 +95,9 @@ class LetterSelection:
             )
         ]
         word_modified = self.append_space(self.name_choosed)
-        blit_text(f"{word_modified}{count_space}", "black", (250, 120), self.font_50)
+        render_utils.blit_text(
+            f"{word_modified}{count_space}", "black", (250, 120), self.font_50
+        )
 
     def append_space(self, word):
         new_word = ""
@@ -155,7 +159,7 @@ class LetterSelection:
                 0,
                 10,
             )
-            blit_text(
+            render_utils.blit_text(
                 text_list[i],
                 "white",
                 (screen_width - 120, screen_height / 2 + 30 + space_y),

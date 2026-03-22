@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import *
-from utils.support import *
+from utils import render_utils
 from utils.timer import Timer
 from .bokumon_summary import BokuSummary
 
@@ -22,10 +22,10 @@ class ViewBokumon:
         self.bag_used = False
         self.set_view()
 
-        self.font_25 = load_font("Pixeltype", 25)
-        self.font_35 = load_font("Pixeltype", 35)
-        self.font_42 = load_font("Pixeltype", 42)
-        self.font_50 = load_font("Pixeltype", 50)
+        self.font_25 = render_utils.load_font("Pixeltype", 25)
+        self.font_35 = render_utils.load_font("Pixeltype", 35)
+        self.font_42 = render_utils.load_font("Pixeltype", 42)
+        self.font_50 = render_utils.load_font("Pixeltype", 50)
 
         # select_action
         self.text_select_action = [
@@ -37,8 +37,8 @@ class ViewBokumon:
         self.selected_action = [0, False, ""]
         # bokuball img
         self.boku_ball_img = [
-            load_asset_image("boku_ball", is_convert_alpha=True),
-            load_asset_image("boku_ball2", is_convert_alpha=True),
+            render_utils.load_asset_image("boku_ball", is_convert_alpha=True),
+            render_utils.load_asset_image("boku_ball2", is_convert_alpha=True),
         ]
 
     def set_view(self):
@@ -52,7 +52,7 @@ class ViewBokumon:
 
     def draw_boku_ball(self, rect_center, scale, num):
         self.boku_ball_rect = self.boku_ball_img[num].get_rect(center=(rect_center))
-        image_mod = scale_image(
+        image_mod = render_utils.scale_image(
             self.boku_ball_img[num],
             (
                 self.boku_ball_img[num].get_width() / scale,
@@ -166,13 +166,13 @@ class ViewBokumon:
         pygame.draw.rect(self.display_surface, "white", (20, 500, 500, 90))
         pygame.draw.rect(self.display_surface, "blue", (20, 500, 500, 90), 5)
         pygame.draw.rect(self.display_surface, "black", (20, 500, 500, 90), 3)
-        blit_text(text, "black", (50, 535), self.font_42)
+        render_utils.blit_text(text, "black", (50, 535), self.font_42)
         color = "black" if self.marked[0] == 6 or self.marked[1] == 6 else "white"
 
         pygame.draw.rect(self.display_surface, "purple", (610, 520, 150, 50), 0, 50)
         pygame.draw.rect(self.display_surface, color, (610, 520, 150, 50), 5, 50)
         pygame.draw.rect(self.display_surface, "black", (610, 520, 150, 50), 3, 50)
-        blit_text("Cancel", "black", (660, 535), self.font_42)
+        render_utils.blit_text("Cancel", "black", (660, 535), self.font_42)
         # bokuball cancel
         self.draw_boku_ball((620, 545), 1, 1 if self.marked[0] == 6 else 0)
         self.blit_select_action()
@@ -204,13 +204,15 @@ class ViewBokumon:
                     0,
                     5,
                 )
-                blit_text(
+                render_utils.blit_text(
                     f"{self.player.bokumons[0].atual_name} is already",
                     "black",
                     (40, tam[0] + 40),
                     self.font_50,
                 )
-                blit_text("in battle!", "black", (40, tam[0] + 80), self.font_50)
+                render_utils.blit_text(
+                    "in battle!", "black", (40, tam[0] + 80), self.font_50
+                )
 
         elif self.bag_values[3][0]:
             self.draw_potion_use()
@@ -239,21 +241,23 @@ class ViewBokumon:
             "green",
             (pos_rect[1][0], pos_rect[1][1], tam_life, tam[3]),
         )
-        blit_text_shadow("HP", "red", (pos_text[0][0], pos_text[0][1]), font=life_font)
-        blit_text_shadow(
+        render_utils.blit_shadow_text(
+            "HP", "red", (pos_text[0][0], pos_text[0][1]), font=life_font
+        )
+        render_utils.blit_shadow_text(
             f"{round(self.player.bokumons[num_boku].atual_life)}/{self.player.bokumons[num_boku].life}",
             "white",
             (pos_text[1][0], pos_text[1][1]),
             font=self.font_35,
             right=True,
         )
-        blit_text_shadow(
+        render_utils.blit_shadow_text(
             f"{self.player.bokumons[num_boku].atual_name}",
             "white",
             (pos_text[2][0], pos_text[2][1]),
             font=boku_info,
         )
-        blit_text_shadow(
+        render_utils.blit_shadow_text(
             f"Lv{self.player.bokumons[num_boku].level}",
             "white",
             (pos_text[3][0], pos_text[3][1]),
@@ -275,13 +279,13 @@ class ViewBokumon:
             0,
             5,
         )
-        blit_text(
+        render_utils.blit_text(
             f"{self.player.bokumons[0].atual_name} HP was restored",
             "black",
             (40, tam[0] + 40),
             self.font_50,
         )
-        blit_text(
+        render_utils.blit_text(
             f"by {self.bag_values[0][1]} point(s).",
             "black",
             (40, tam[0] + 80),
@@ -481,7 +485,7 @@ class ViewBokumon:
 
             space_y_sel = 40
             for i, sel in enumerate(self.text_select_action[self.list_selected]):
-                blit_text(
+                render_utils.blit_text(
                     f"{sel}",
                     "black",
                     (screen_width - 210, tam[0] + space_y_sel),

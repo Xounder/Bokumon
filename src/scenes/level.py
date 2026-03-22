@@ -1,5 +1,5 @@
 from settings.settings import *
-from utils.support import load_asset_image
+from utils import render_utils
 from maps.map import map_1
 from sprites import Player
 from .bag import Bag
@@ -18,31 +18,31 @@ class Level:
         self.map = map_1
         self.camera = [0, 0]
         self.map_tile_images = {
-            "G": load_asset_image(
+            "G": render_utils.load_asset_image(
                 "ground/grass/0",
                 is_convert=True,
                 is_scale=True,
                 scale=(TILE_SIZE, TILE_SIZE),
             ),
-            "T": load_asset_image(
+            "T": render_utils.load_asset_image(
                 "ground/sand/0",
                 is_convert=True,
                 is_scale=True,
                 scale=(TILE_SIZE, TILE_SIZE),
             ),
-            "H": load_asset_image(
+            "H": render_utils.load_asset_image(
                 "boku_center/heal_point",
                 is_convert=True,
                 is_scale=True,
                 scale=(TILE_SIZE, TILE_SIZE),
             ),
-            "P": load_asset_image(
+            "P": render_utils.load_asset_image(
                 "boku_center/pc",
                 is_convert=True,
                 is_scale=True,
                 scale=(TILE_SIZE, TILE_SIZE),
             ),
-            "S": load_asset_image(
+            "S": render_utils.load_asset_image(
                 "trader", is_convert=True, is_scale=True, scale=(TILE_SIZE, TILE_SIZE)
             ),
         }

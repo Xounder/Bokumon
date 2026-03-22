@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import *
-from utils.support import *
+from utils import save_system, render_utils
 from utils.timer import Timer
 from game_types import PlayerData
 
@@ -17,11 +17,11 @@ class MenuPlayer:
         self.timer = Timer(0.12)
         self.saved = False
 
-        self.font_20 = load_font("Pixeltype", 20)
-        self.font_25 = load_font("Pixeltype", 25)
-        self.font_35 = load_font("Pixeltype", 35)
-        self.font_42 = load_font("Pixeltype", 42)
-        self.font_50 = load_font("Pixeltype", 50)
+        self.font_20 = render_utils.load_font("Pixeltype", 20)
+        self.font_25 = render_utils.load_font("Pixeltype", 25)
+        self.font_35 = render_utils.load_font("Pixeltype", 35)
+        self.font_42 = render_utils.load_font("Pixeltype", 42)
+        self.font_50 = render_utils.load_font("Pixeltype", 50)
 
     def draw_overlay(self):
         pos = [screen_width - 200, 50]
@@ -46,7 +46,7 @@ class MenuPlayer:
         menu_list = ["Bokumon", "Bag", "Save", "Exit"]
         space_y = 40
         for i, name in enumerate(menu_list):
-            blit_text_shadow(
+            render_utils.blit_shadow_text(
                 name,
                 "black",
                 (pos[0] + 30, pos[1] + space_y),
@@ -58,7 +58,7 @@ class MenuPlayer:
                 space_y_desc = 0
                 if not self.saved:
                     for desc in menu_description[name]:
-                        blit_text_shadow(
+                        render_utils.blit_shadow_text(
                             desc,
                             "black",
                             (70, screen_height - 110 + space_y_desc),
@@ -68,7 +68,7 @@ class MenuPlayer:
                         space_y_desc += 35
                 else:
                     if self.selected == 2:
-                        blit_text_shadow(
+                        render_utils.blit_shadow_text(
                             "Game Saved!",
                             "black",
                             (70, screen_height - 110 + space_y_desc),
@@ -160,4 +160,4 @@ class MenuPlayer:
             "bag": self.bag.all_items,
         }
 
-        save_data(data)
+        save_system.save_data(data)

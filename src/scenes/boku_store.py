@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from utils.support import *
+from utils import render_utils
 from utils.timer import Timer
 
 
@@ -22,11 +22,11 @@ class BokuStore:
             [["Items", 1, 2], ["Hyper Potion", 200, 1]],
         ]
 
-        self.font_20 = load_font("Pixeltype", 20)
-        self.font_25 = load_font("Pixeltype", 25)
-        self.font_35 = load_font("Pixeltype", 35)
-        self.font_42 = load_font("Pixeltype", 42)
-        self.font_50 = load_font("Pixeltype", 50)
+        self.font_20 = render_utils.load_font("Pixeltype", 20)
+        self.font_25 = render_utils.load_font("Pixeltype", 25)
+        self.font_35 = render_utils.load_font("Pixeltype", 35)
+        self.font_42 = render_utils.load_font("Pixeltype", 42)
+        self.font_50 = render_utils.load_font("Pixeltype", 50)
 
     def set_store(self):
         self.close = False
@@ -67,7 +67,7 @@ class BokuStore:
         )
         space_y = 0
         for i, text in enumerate(list_choose):
-            blit_text(
+            render_utils.blit_text(
                 f"{text}",
                 "black",
                 [screen_width - 260, screen_height / 2 - 10 + space_y],
@@ -109,7 +109,7 @@ class BokuStore:
             0,
             5,
         )
-        blit_text(
+        render_utils.blit_text(
             f"{list_desc[self.selected_action[0]]}",
             "black",
             [50, screen_height - 90],
@@ -123,14 +123,14 @@ class BokuStore:
         pygame.draw.rect(self.display_surface, "black", [200, 20, 570, 450], 3, 10)
         pygame.draw.rect(self.display_surface, "white", [210, 30, 550, 430], 0, 10)
 
-        blit_text(
+        render_utils.blit_text(
             f"Your   T.P:    {self.player.tickets}", "black", [220, 40], self.font_25
         )
-        blit_text("Item", "black", [250, 80], self.font_50)
-        blit_text("Qnt.", "black", [480, 80], self.font_50)
-        blit_text("T.P", "black", [630, 80], self.font_50)
+        render_utils.blit_text("Item", "black", [250, 80], self.font_50)
+        render_utils.blit_text("Qnt.", "black", [480, 80], self.font_50)
+        render_utils.blit_text("T.P", "black", [630, 80], self.font_50)
 
-        blit_text(
+        render_utils.blit_text(
             "*Obtain T.P Evolving, Upping or Trading a Bokumon",
             "black",
             [220, screen_height - 155],
@@ -139,15 +139,17 @@ class BokuStore:
         space_y = 0
         for i, item in enumerate(self.items_disp):
             if self.limit_visu_items[0] <= i <= self.limit_visu_items[1]:
-                blit_text(f"{item[1][0]}", "black", [250, 130 + space_y], self.font_42)
-                blit_text(
+                render_utils.blit_text(
+                    f"{item[1][0]}", "black", [250, 130 + space_y], self.font_42
+                )
+                render_utils.blit_text(
                     f"{item[0][1]}",
                     "black",
                     [500, 140 + space_y],
                     self.font_42,
                     center=True,
                 )
-                blit_text(
+                render_utils.blit_text(
                     f"{item[0][2]}",
                     "black",
                     [650, 140 + space_y],
@@ -192,7 +194,7 @@ class BokuStore:
                 msg = f"Buy {self.selected_item[1][0]*sel_item[0][1]} {sel_item[1][0]} using {self.selected_item[1][0]*sel_item[0][2]} Ticket Points?"
             else:
                 msg = f"{sel_item[1][0]} is selected."
-            blit_text(msg, "black", [50, screen_height - 90], self.font_50)
+            render_utils.blit_text(msg, "black", [50, screen_height - 90], self.font_50)
 
         if self.selected_item[2]:
             pygame.draw.rect(
@@ -218,7 +220,7 @@ class BokuStore:
             )
             zeros_txt = "000"
             zeros_txt = zeros_txt[: 3 - len(str(self.selected_item[1][0]))]
-            blit_text(
+            render_utils.blit_text(
                 f"x{zeros_txt}{self.selected_item[1][0]}",
                 "black",
                 [screen_width - 165, screen_height - 180],
@@ -247,10 +249,10 @@ class BokuStore:
                 0,
                 5,
             )
-            blit_text(
+            render_utils.blit_text(
                 "Yes", "black", [screen_width - 100, screen_height - 280], self.font_35
             )
-            blit_text(
+            render_utils.blit_text(
                 "No", "black", [screen_width - 100, screen_height - 240], self.font_35
             )
             sel_y = screen_height - 275 if self.select_buy else screen_height - 235
@@ -288,17 +290,21 @@ class BokuStore:
             0,
             10,
         )
-        blit_text(
+        render_utils.blit_text(
             "TRADE BOKUMON", "black", [430, screen_height / 2 - 170], self.font_50
         )
-        blit_text(
+        render_utils.blit_text(
             f"Your T.P:    {self.player.tickets}",
             "black",
             [370, screen_height - 170],
             self.font_25,
         )
-        blit_text("=>", "black", [550, screen_height / 2 - 20], self.font_42)
-        blit_text("T.P", "black", [670, screen_height / 2 + 50], self.font_42)
+        render_utils.blit_text(
+            "=>", "black", [550, screen_height / 2 - 20], self.font_42
+        )
+        render_utils.blit_text(
+            "T.P", "black", [670, screen_height / 2 + 50], self.font_42
+        )
         pygame.draw.rect(
             self.display_surface,
             [60, 108, 112],
@@ -320,25 +326,25 @@ class BokuStore:
                 )
                 / sel_boku.level
             )
-            blit_text(
+            render_utils.blit_text(
                 f"{sel_boku.name}",
                 "black",
                 [380, screen_height / 2 - 110],
                 self.font_42,
             )
-            blit_text(
+            render_utils.blit_text(
                 f"/{sel_boku.name}",
                 "black",
                 [380, screen_height / 2 - 80],
                 self.font_42,
             )
-            blit_text(
+            render_utils.blit_text(
                 f"Lv{sel_boku.level}",
                 "black",
                 [410, screen_height / 2 + 50],
                 self.font_42,
             )
-            blit_text(
+            render_utils.blit_text(
                 f"{self.gain_tp}",
                 "black",
                 [690, screen_height / 2 - 10],
@@ -373,10 +379,10 @@ class BokuStore:
                 0,
                 5,
             )
-            blit_text(
+            render_utils.blit_text(
                 "Yes", "black", [screen_width - 100, screen_height - 190], self.font_35
             )
-            blit_text(
+            render_utils.blit_text(
                 "No", "black", [screen_width - 95, screen_height - 150], self.font_35
             )
             sel_y = screen_height - 185 if self.select_trade else screen_height - 145
@@ -409,7 +415,7 @@ class BokuStore:
                 0,
                 5,
             )
-            blit_text(
+            render_utils.blit_text(
                 f"Trade  {sel_boku.name}  Lv{sel_boku.level}  for  {self.gain_tp}  Ticket Points?",
                 "black",
                 [50, screen_height - 80],
@@ -438,18 +444,20 @@ class BokuStore:
                     0,
                     5,
                 )
-                blit_text(
+                render_utils.blit_text(
                     "Can't trade any more",
                     "black",
                     [380, screen_height - 75],
                     self.font_50,
                 )
             else:
-                blit_text(
+                render_utils.blit_text(
                     "Bokumon", "black", [380, screen_height / 2 - 90], self.font_42
                 )
-                blit_text("Lv", "black", [410, screen_height / 2 + 50], self.font_42)
-                blit_text(
+                render_utils.blit_text(
+                    "Lv", "black", [410, screen_height / 2 + 50], self.font_42
+                )
+                render_utils.blit_text(
                     "0",
                     "black",
                     [690, screen_height / 2 - 10],
@@ -505,7 +513,7 @@ class BokuStore:
         pygame.draw.rect(
             self.display_surface, [160, 208, 240], [195, 55 + space_y, 100, 40], 0, 5
         )
-        blit_text_shadow(
+        render_utils.blit_shadow_text(
             "CANCEL",
             "white",
             [

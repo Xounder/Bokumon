@@ -1,7 +1,7 @@
 import pygame
 from random import randint
 from settings.settings import screen_height, screen_width
-from utils.support import *
+from utils import render_utils
 from utils.timer import Timer
 
 
@@ -17,11 +17,11 @@ class BokuEvo:
         self.pressed_z = False
         self.pressed_x = False
 
-        self.background = load_asset_image(
+        self.background = render_utils.load_asset_image(
             "fight2", is_scale=True, scale=(screen_width, screen_height - 100)
         )
-        self.font_42 = load_font("Pixeltype", 42)
-        self.font_25 = load_font("Pixeltype", 25)
+        self.font_42 = render_utils.load_font("Pixeltype", 42)
+        self.font_25 = render_utils.load_font("Pixeltype", 25)
 
     def draw(self):
         self.display_surface.blit(self.background, (0, 0))
@@ -46,7 +46,7 @@ class BokuEvo:
                     [0, screen_height - 130, screen_width, 130],
                     3,
                 )
-                blit_text(
+                render_utils.blit_text(
                     f"{self.atual_bokumon.name} is evolving...",
                     "black",
                     [20, screen_height - 80],
@@ -88,7 +88,7 @@ class BokuEvo:
                     [0, screen_height - 130, screen_width, 130],
                     3,
                 )
-                blit_text(
+                render_utils.blit_text(
                     f"{self.atual_bokumon.previous_name} evolved to {self.atual_bokumon.name}",
                     "black",
                     [20, screen_height - 80],
@@ -110,7 +110,7 @@ class BokuEvo:
                 [0, screen_height - 130, screen_width, 130],
                 3,
             )
-            blit_text(
+            render_utils.blit_text(
                 f"{self.atual_bokumon.name} don't evolve",
                 "black",
                 [20, screen_height - 80],
@@ -197,14 +197,14 @@ class BokuEvo:
                 3,
             )
             for i in range(0, len(ups), 2):
-                blit_text_shadow(
+                render_utils.blit_shadow_text(
                     ups[i],
                     "black",
                     (screen_width / 2 + 149, screen_height / 2 - 180 + (20 * i)),
                     font=self.font_25,
                     back_color="white",
                 )
-                blit_text_shadow(
+                render_utils.blit_shadow_text(
                     ups[i + 1],
                     "black",
                     (screen_width / 2 + 278, screen_height / 2 - 180 + (20 * i)),

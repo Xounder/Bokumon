@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import *
-from utils.support import *
+from utils import render_utils
 from utils.timer import Timer
 
 
@@ -73,19 +73,23 @@ class Bag:
             "Hyper Potion": [["Use", "Toss", "Cancel"], ["Use", "Cancel"]],
         }
         self.items_image = {
-            "Boku Ball": load_asset_image("boku_ball", is_scale=True),
-            "Great Ball": load_asset_image("great_ball", is_scale=True),
-            "Ultra Ball": load_asset_image("ultra_ball", is_scale=True),
-            "Potion": load_asset_image("potion", is_scale=True),
-            "Super Potion": load_asset_image("super_potion", is_scale=True),
-            "Hyper Potion": load_asset_image("hyper_potion", is_scale=True),
+            "Boku Ball": render_utils.load_asset_image("boku_ball", is_scale=True),
+            "Great Ball": render_utils.load_asset_image("great_ball", is_scale=True),
+            "Ultra Ball": render_utils.load_asset_image("ultra_ball", is_scale=True),
+            "Potion": render_utils.load_asset_image("potion", is_scale=True),
+            "Super Potion": render_utils.load_asset_image(
+                "super_potion", is_scale=True
+            ),
+            "Hyper Potion": render_utils.load_asset_image(
+                "hyper_potion", is_scale=True
+            ),
         }
 
-        self.font_20 = load_font("Pixeltype", 20)
-        self.font_25 = load_font("Pixeltype", 25)
-        self.font_35 = load_font("Pixeltype", 35)
-        self.font_42 = load_font("Pixeltype", 42)
-        self.font_50 = load_font("Pixeltype", 50)
+        self.font_20 = render_utils.load_font("Pixeltype", 20)
+        self.font_25 = render_utils.load_font("Pixeltype", 25)
+        self.font_35 = render_utils.load_font("Pixeltype", 35)
+        self.font_42 = render_utils.load_font("Pixeltype", 42)
+        self.font_50 = render_utils.load_font("Pixeltype", 50)
 
     def set_bag(self):
         if not self.seted:
@@ -155,7 +159,7 @@ class Bag:
         # Nome seção
         pygame.draw.rect(self.display_surface, "black", (18, 17, 240, 106), 3, 5)
         pygame.draw.rect(self.display_surface, "orange", (20, 20, 250, 100), 0, 3)
-        blit_text_shadow(
+        render_utils.blit_shadow_text(
             f"{self.section}", "white", (140, 80), font=self.font_50, center=True
         )
         # parte de baixo
@@ -203,14 +207,14 @@ class Bag:
                 <= i
                 <= self.limit_visu_items[self.section][1]
             ):
-                blit_text_shadow(
+                render_utils.blit_shadow_text(
                     f"{item[0]}",
                     "black",
                     (330, 60 + space_y),
                     font=self.font_50,
                     back_color="gray",
                 )
-                blit_text_shadow(
+                render_utils.blit_shadow_text(
                     f"X   {item[2]}",
                     "black",
                     (650, 60 + space_y),
@@ -231,7 +235,7 @@ class Bag:
                         self.display_surface.blit(self.items_image[item[0]], item_rect)
                         # descrição
                         for desc in self.items_description[item[0]]:
-                            blit_text_shadow(
+                            render_utils.blit_shadow_text(
                                 desc,
                                 "white",
                                 (140, screen_height - 120 + space_y_desc),
@@ -245,13 +249,13 @@ class Bag:
                         self.display_surface.blit(self.items_image[item[0]], item_rect)
                         if not self.toss:
                             # aviso de seleção
-                            blit_text(
+                            render_utils.blit_text(
                                 f"{item[0]}  is",
                                 "black",
                                 (140 + 20, screen_height - 110),
                                 self.font_50,
                             )
-                            blit_text(
+                            render_utils.blit_text(
                                 "selected.",
                                 "black",
                                 (140 + 20, screen_height - 65),
@@ -293,7 +297,7 @@ class Bag:
                         else:
                             space_y_sel = 40
                             for j, sel in enumerate(self.selected_item):
-                                blit_text(
+                                render_utils.blit_text(
                                     f"{sel}",
                                     "black",
                                     (screen_width - 190, tam[0] + space_y_sel),
@@ -478,13 +482,13 @@ class Bag:
         item = self.all_items[self.section][self.marked[self.section][0]]
         if item[2] > 1:
             if not self.pressed_z[0]:
-                blit_text(
+                render_utils.blit_text(
                     f"Toss out how many",
                     "black",
                     (140 + 20, screen_height - 110),
                     self.font_50,
                 )
-                blit_text(
+                render_utils.blit_text(
                     f"{item[0]}(s)?",
                     "black",
                     (140 + 20, screen_height - 65),
@@ -492,7 +496,7 @@ class Bag:
                 )
                 zeros_txt = "000"
                 zeros_txt = zeros_txt[: 3 - len(str(self.selected_item[1][0]))]
-                blit_text(
+                render_utils.blit_text(
                     f"x{zeros_txt}{self.toss_values[0]}",
                     "black",
                     (screen_width - 150, screen_height - 80),
@@ -500,26 +504,26 @@ class Bag:
                 )
             else:
                 if not self.pressed_z[1]:
-                    blit_text(
+                    render_utils.blit_text(
                         f"Throw away {self.toss_values[0]} of",
                         "black",
                         (140 + 20, screen_height - 110),
                         self.font_50,
                     )
-                    blit_text(
+                    render_utils.blit_text(
                         "this item?",
                         "black",
                         (140 + 20, screen_height - 65),
                         self.font_50,
                     )
                     # botão de seleção
-                    blit_text(
+                    render_utils.blit_text(
                         "Yes",
                         "black",
                         (screen_width - 165, screen_height - 110),
                         self.font_50,
                     )
-                    blit_text(
+                    render_utils.blit_text(
                         "No",
                         "black",
                         (screen_width - 160, screen_height - 65),
@@ -544,13 +548,13 @@ class Bag:
                     self.reset_toss()
         else:
             if not self.pressed_z[0]:
-                blit_text(
+                render_utils.blit_text(
                     f"Throw away 1 of",
                     "black",
                     (140 + 20, screen_height - 110),
                     self.font_50,
                 )
-                blit_text(
+                render_utils.blit_text(
                     "this item?", "black", (140 + 20, screen_height - 65), self.font_50
                 )
             else:

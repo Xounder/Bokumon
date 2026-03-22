@@ -2,7 +2,7 @@ import pygame
 from random import randint
 from maps.map import map_1
 from settings.settings import *
-from utils.support import load_asset_image
+from utils import render_utils
 from utils.timer import Timer
 from game_types import PlayerData
 from .bokumon import BokuMon
@@ -49,7 +49,7 @@ class Player:
         for direction in self.frames:
             path = f"player/{direction}"
             for i in range(3):
-                image = load_asset_image(
+                image = render_utils.load_asset_image(
                     f"{path}/{i}",
                     is_convert_alpha=True,
                     is_scale=True,

@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from utils.support import *
+from utils import render_utils
 from utils.timer import Timer
 
 
@@ -23,11 +23,11 @@ class BokuStorage:
         self.show_party = False
         self.change_pos = False
 
-        self.font_20 = load_font("Pixeltype", 20)
-        self.font_25 = load_font("Pixeltype", 25)
-        self.font_35 = load_font("Pixeltype", 35)
-        self.font_42 = load_font("Pixeltype", 42)
-        self.font_50 = load_font("Pixeltype", 50)
+        self.font_20 = render_utils.load_font("Pixeltype", 20)
+        self.font_25 = render_utils.load_font("Pixeltype", 25)
+        self.font_35 = render_utils.load_font("Pixeltype", 35)
+        self.font_42 = render_utils.load_font("Pixeltype", 42)
+        self.font_50 = render_utils.load_font("Pixeltype", 50)
 
     def draw_player_bokumon(self):
         # bokumon data
@@ -61,7 +61,9 @@ class BokuStorage:
             5,
             10,
         )
-        blit_text_shadow("BKMN DATA", [248, 216, 144], [50, 35], self.font_42)
+        render_utils.blit_shadow_text(
+            "BKMN DATA", [248, 216, 144], [50, 35], self.font_42
+        )
 
         # image and status bokumon
         if self.deposit or (self.withdraw and self.select_boku_box[0] > 1):
@@ -76,11 +78,13 @@ class BokuStorage:
                     boku_sel = self.player.bokumons[self.select_player_boku[0]]
             if boku_sel:
                 boku_sel.draw_modified([115, 160], 1)
-                blit_text_shadow(
+                render_utils.blit_shadow_text(
                     f"{boku_sel.atual_name}", "white", [20, 320], self.font_50
                 )
-                blit_text_shadow(f"/{boku_sel.name}", "white", [20, 360], self.font_50)
-                blit_text_shadow(
+                render_utils.blit_shadow_text(
+                    f"/{boku_sel.name}", "white", [20, 360], self.font_50
+                )
+                render_utils.blit_shadow_text(
                     f"Lv{boku_sel.level}", "white", [50, 400], self.font_50
                 )
 
@@ -155,7 +159,7 @@ class BokuStorage:
                 0,
                 5,
             )
-            blit_text_shadow(
+            render_utils.blit_shadow_text(
                 "CANCEL",
                 "white",
                 [
@@ -206,7 +210,7 @@ class BokuStorage:
         pygame.draw.rect(
             self.display_surface, [158, 146, 178], [390, 40, 250, 50], 5, 10
         )
-        blit_text_shadow(
+        render_utils.blit_shadow_text(
             f"{self.section_num+1}",
             "white",
             [515, 65],
@@ -221,7 +225,7 @@ class BokuStorage:
             self.display_surface, [164, 156, 156], [240, -10, 195, 48], 0, 5
         )
         pygame.draw.rect(self.display_surface, [160, 232, 144], [248, 3, 180, 30], 0, 5)
-        blit_text_shadow(
+        render_utils.blit_shadow_text(
             f"PARTY BOKUMON", "white", [258, 8], self.font_35, back_color="black"
         )
         pygame.draw.rect(self.display_surface, [80, 96, 112], [240, -10, 195, 48], 3, 5)
@@ -242,7 +246,7 @@ class BokuStorage:
             3,
             10,
         )
-        blit_text_shadow(
+        render_utils.blit_shadow_text(
             f"CLOSE BOX",
             "white",
             [screen_width - 160, 8],
@@ -290,7 +294,7 @@ class BokuStorage:
         select_list = ["Withdraw Bokumon", "Deposit Bokumon", "See ya!"]
         space_y = 20
         for i, sel in enumerate(select_list):
-            blit_text(sel, "black", [50, space_y], self.font_42)
+            render_utils.blit_text(sel, "black", [50, space_y], self.font_42)
             if i == self.selected_action[0]:
                 pygame.draw.rect(
                     self.display_surface, "black", [35, space_y + 5, 10, 10], 0, 20
@@ -318,27 +322,27 @@ class BokuStorage:
         ]
 
         if len(self.player.bokumons) == 6 and self.selected_action[0] == 0:
-            blit_text(
+            render_utils.blit_text(
                 "Can't  take  any  more  Bokumon.",
                 "black",
                 [50, screen_height - 120],
                 self.font_42,
             )
         elif len(self.player.bokumons) == 1 and self.selected_action[0] == 1:
-            blit_text(
+            render_utils.blit_text(
                 "Can't  deposit  any  Bokumon.",
                 "black",
                 [50, screen_height - 120],
                 self.font_42,
             )
         else:
-            blit_text(
+            render_utils.blit_text(
                 selected_text[self.selected_action[0]][0],
                 "black",
                 [50, screen_height - 120],
                 self.font_50,
             )
-            blit_text(
+            render_utils.blit_text(
                 selected_text[self.selected_action[0]][1],
                 "black",
                 [50, screen_height - 70],
@@ -382,7 +386,7 @@ class BokuStorage:
         )
         space_y = 0
         for i, text in enumerate(list_choose[j]):
-            blit_text(
+            render_utils.blit_text(
                 f"{text}",
                 "black",
                 [screen_width - 260, screen_height / 2 - 10 + space_y],
@@ -424,7 +428,7 @@ class BokuStorage:
             and self.select_boku_action == 0
             and self.withdraw
         ):
-            blit_text_shadow(
+            render_utils.blit_shadow_text(
                 "Can't  take  any  more  Bokumon.",
                 "gray",
                 [screen_width - 530, screen_height - 90],
@@ -435,14 +439,14 @@ class BokuStorage:
             and self.select_boku_action == 0
             and self.deposit
         ):
-            blit_text_shadow(
+            render_utils.blit_shadow_text(
                 "Can't  deposit  any  Bokumon.",
                 "gray",
                 [screen_width - 530, screen_height - 90],
                 self.font_42,
             )
         else:
-            blit_text(
+            render_utils.blit_text(
                 f"{name}  is  selected.",
                 "black",
                 [screen_width - 530, screen_height - 90],

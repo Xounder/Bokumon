@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from utils.support import *
+from utils import save_system, render_utils
 from utils.timer import Timer
 from sprites import BokuMon
 
@@ -20,10 +20,10 @@ class Menu:
         self.msg = False
         self.select_new_game = False
 
-        self.font_25 = load_font("Pixeltype", 25)
-        self.font_35 = load_font("Pixeltype", 35)
-        self.font_42 = load_font("Pixeltype", 42)
-        self.font_50 = load_font("Pixeltype", 50)
+        self.font_25 = render_utils.load_font("Pixeltype", 25)
+        self.font_35 = render_utils.load_font("Pixeltype", 35)
+        self.font_42 = render_utils.load_font("Pixeltype", 42)
+        self.font_50 = render_utils.load_font("Pixeltype", 50)
 
         self.firts_bokumons = [
             BokuMon("Pan", self.display_surface),
@@ -61,7 +61,7 @@ class Menu:
         pygame.draw.rect(
             self.display_surface, "white", (120, 110, screen_width - 270, 80), 0, 5
         )
-        blit_text(
+        render_utils.blit_text(
             "Continue   Game", "black", [380, 155], font=self.font_50, center=True
         )
         pygame.draw.rect(
@@ -73,7 +73,9 @@ class Menu:
         pygame.draw.rect(
             self.display_surface, "white", (120, 310, screen_width - 270, 80), 0, 5
         )
-        blit_text("New   Game", "black", [380, 355], font=self.font_50, center=True)
+        render_utils.blit_text(
+            "New   Game", "black", [380, 355], font=self.font_50, center=True
+        )
         color = "red" if self.selected[1] else "black"
         pygame.draw.rect(
             self.display_surface,
@@ -116,8 +118,12 @@ class Menu:
             0,
             20,
         )
-        blit_text("Yes", "black", (pos[0][0] + 20, pos[0][1] - 10), font=self.font_50)
-        blit_text("No", "black", (pos[1][0] + 20, pos[1][1] - 10), font=self.font_50)
+        render_utils.blit_text(
+            "Yes", "black", (pos[0][0] + 20, pos[0][1] - 10), font=self.font_50
+        )
+        render_utils.blit_text(
+            "No", "black", (pos[1][0] + 20, pos[1][1] - 10), font=self.font_50
+        )
 
     def select_first_bokumon(self):
         pygame.draw.rect(
@@ -132,7 +138,7 @@ class Menu:
         space_x = 0
         for i, boku in enumerate(self.firts_bokumons):
             boku.draw_modified([130 + space_x, screen_height / 2 - 40], 0.7)
-            blit_text(
+            render_utils.blit_text(
                 f"{boku.name}",
                 "black",
                 (160 + space_x, screen_height - 200),
@@ -171,7 +177,9 @@ class Menu:
             0,
             5,
         )
-        blit_text(msg, "black", (80, screen_height - 80), font=self.font_50)
+        render_utils.blit_text(
+            msg, "black", (80, screen_height - 80), font=self.font_50
+        )
 
     def update(self):
         if self.timer.run:
@@ -221,7 +229,7 @@ class Menu:
                 else:
                     if not self.selected[1]:
                         self.selected[1] = True
-                        if self.selected[0] == 0 and not has_saved_game():
+                        if self.selected[0] == 0 and not save_system.has_saved_game():
                             self.selected[1] = False
                             self.msg = True
                     else:
@@ -253,7 +261,7 @@ class Menu:
         # TODO: verificar melhor forma de carregar os dados e modificar a forma de enviar os dados
         # TODO: Mudar esse método para outro local (analisar melhor local)
 
-        data = load_data()
+        data = save_system.load_data()
         player_data = dict(list(data.items())[:-1])
         bag_data = data["bag"]
 
