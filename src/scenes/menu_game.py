@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from ui import Renderer
+from ui import Renderer, FontSize
 from utils import save_system
 from utils.timer import Timer
 from sprites import BokuMon
@@ -20,11 +20,6 @@ class Menu:
         self.intro = True
         self.msg = False
         self.select_new_game = False
-
-        self.font_25 = self.renderer.load_font("Pixeltype", 25)
-        self.font_35 = self.renderer.load_font("Pixeltype", 35)
-        self.font_42 = self.renderer.load_font("Pixeltype", 42)
-        self.font_50 = self.renderer.load_font("Pixeltype", 50)
 
         self.firts_bokumons = [
             BokuMon("Pan", self.renderer),
@@ -55,13 +50,21 @@ class Menu:
         self.renderer.draw_rect("black", (110, 100, screen_width - 250, 100), 3, 5)
         self.renderer.draw_rect("white", (120, 110, screen_width - 270, 80), 0, 5)
         self.renderer.blit_text(
-            "Continue   Game", "black", [380, 155], font=self.font_50, center=True
+            "Continue   Game",
+            "black",
+            [380, 155],
+            size=FontSize.DOUBLE_EXTRA_LARGE,
+            center=True,
         )
         self.renderer.draw_rect("#00008B", (110, 300, screen_width - 250, 100), 0, 3)
         self.renderer.draw_rect("black", (110, 300, screen_width - 250, 100), 3, 5)
         self.renderer.draw_rect("white", (120, 310, screen_width - 270, 80), 0, 5)
         self.renderer.blit_text(
-            "New   Game", "black", [380, 355], font=self.font_50, center=True
+            "New   Game",
+            "black",
+            [380, 355],
+            size=FontSize.DOUBLE_EXTRA_LARGE,
+            center=True,
         )
         color = "red" if self.selected[1] else "black"
         self.renderer.draw_rect(
@@ -101,10 +104,16 @@ class Menu:
             20,
         )
         self.renderer.blit_text(
-            "Yes", "black", (pos[0][0] + 20, pos[0][1] - 10), font=self.font_50
+            "Yes",
+            "black",
+            (pos[0][0] + 20, pos[0][1] - 10),
+            size=FontSize.DOUBLE_EXTRA_LARGE,
         )
         self.renderer.blit_text(
-            "No", "black", (pos[1][0] + 20, pos[1][1] - 10), font=self.font_50
+            "No",
+            "black",
+            (pos[1][0] + 20, pos[1][1] - 10),
+            size=FontSize.DOUBLE_EXTRA_LARGE,
         )
 
     def select_first_bokumon(self):
@@ -121,7 +130,7 @@ class Menu:
                 f"{boku.name}",
                 "black",
                 (160 + space_x, screen_height - 200),
-                font=self.font_50,
+                size=FontSize.DOUBLE_EXTRA_LARGE,
                 center=True,
             )
             if self.boku_selected[0] == i:
@@ -153,7 +162,10 @@ class Menu:
             5,
         )
         self.renderer.blit_text(
-            msg, "black", (80, screen_height - 80), font=self.font_50
+            msg,
+            "black",
+            (80, screen_height - 80),
+            size=FontSize.DOUBLE_EXTRA_LARGE,
         )
 
     def update(self):

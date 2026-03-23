@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import *
-from ui import Renderer
+from ui import Renderer, FontSize
 from utils.timer import Timer
 
 
@@ -15,11 +15,6 @@ class BokuSummary:
         self.selected_move = [False, False, [0, 0]]
         self.boku_selected = None
         self.last_boku_pos = 0
-        # fonts
-        self.font_25 = self.renderer.load_font("Pixeltype", 25)
-        self.font_35 = self.renderer.load_font("Pixeltype", 35)
-        self.font_42 = self.renderer.load_font("Pixeltype", 42)
-        self.font_50 = self.renderer.load_font("Pixeltype", 50)
         # boku_ball
         self.boku_ball_img = {
             "Boku Ball": self.renderer.load_asset_image(
@@ -49,35 +44,29 @@ class BokuSummary:
 
     def draw(self):
         # parte de cima
+        self.renderer.draw_rect([72, 152, 112], (0, 0, screen_width, 50))
         self.renderer.draw_rect(
-             [72, 152, 112], (0, 0, screen_width, 50)
-        )
-        self.renderer.draw_rect(
-            
             [120, 216, 160],
             (-20, 0, screen_width / 2 + 50, 50),
             0,
             20,
         )
         move_x = screen_width / 2 if not self.section == 1 else screen_width / 2 + 50
-        self.renderer.draw_rect(
-             [248, 232, 152], (-20, 0, move_x, 50), 0, 20
-        )
-        self.renderer.draw_rect( "black", (-20, 0, move_x, 50), 3, 20)
-        self.renderer.draw_rect(
-             "black", (-20, 0, screen_width + 30, 50), 3
-        )
+        self.renderer.draw_rect([248, 232, 152], (-20, 0, move_x, 50), 0, 20)
+        self.renderer.draw_rect("black", (-20, 0, move_x, 50), 3, 20)
+        self.renderer.draw_rect("black", (-20, 0, screen_width + 30, 50), 3)
         section_text = "Bokumon  Skill" if self.section == 0 else "Know  Moves"
-        self.renderer.blit_text(section_text, "black", (10, 15), self.font_50)
+        self.renderer.blit_text(
+            section_text,
+            "black",
+            (10, 15),
+            size=FontSize.DOUBLE_EXTRA_LARGE,
+        )
         # dots
         color_1 = [192, 160, 96] if self.section == 0 else [248, 248, 248]
         color_2 = [192, 160, 96] if self.section == 1 else [248, 248, 248]
-        self.renderer.draw_rect(
-             color_1, (screen_width / 2 - 10, 12, 20, 25), 0, 30
-        )
-        self.renderer.draw_rect(
-             color_2, (screen_width / 2 - 60, 12, 20, 25), 0, 30
-        )
+        self.renderer.draw_rect(color_1, (screen_width / 2 - 10, 12, 20, 25), 0, 30)
+        self.renderer.draw_rect(color_2, (screen_width / 2 - 60, 12, 20, 25), 0, 30)
         # draw seção especifica
         if self.section == 0:
             self.draw_skill_move()
@@ -85,18 +74,15 @@ class BokuSummary:
             self.draw_know_move()
         # bokumon
         self.renderer.draw_rect(
-            
             [120, 128, 144],
             (0, 49, screen_width / 2, screen_height / 2),
         )
         self.renderer.draw_rect(
-            
             "black",
             (-20, 49, screen_width / 2 + 20, screen_height / 2),
             3,
         )
         self.renderer.draw_rect(
-            
             [192, 192, 192],
             (5, 100, screen_width / 2 - 15, screen_height / 2 - 60),
         )
@@ -104,13 +90,13 @@ class BokuSummary:
             f"Lv{self.boku_local[self.boku_selected].level}",
             "black",
             (10, 60),
-            self.font_50,
+            size=FontSize.DOUBLE_EXTRA_LARGE,
         )
         self.renderer.blit_text(
             f"{self.boku_local[self.boku_selected].name}",
             "black",
             (130, 60),
-            self.font_50,
+            size=FontSize.DOUBLE_EXTRA_LARGE,
         )
         self.boku_local[self.boku_selected].draw_modified((160, 200), 0.7)
         self.draw_boku_ball((screen_width / 2 - 40, screen_height / 2 + 30), 1.7)
@@ -191,17 +177,13 @@ class BokuSummary:
 
     def draw_skill_move(self):
         # bloco
-        self.renderer.draw_rect(
-             [160, 178, 196], (0, 50, screen_width, screen_height)
-        )
+        self.renderer.draw_rect([160, 178, 196], (0, 50, screen_width, screen_height))
         # details
         self.renderer.draw_rect(
-            
             [212, 228, 246],
             (0, 50, screen_width / 2 + 3, screen_height / 2 + 2),
         )
         self.renderer.draw_rect(
-            
             [212, 228, 246],
             (screen_width / 2 + 3, 50, screen_width / 2 + 3, 3),
         )
@@ -209,37 +191,33 @@ class BokuSummary:
         # life
         atual_boku = self.boku_local[self.boku_selected]
         self.renderer.draw_rect(
-            
             [232, 240, 248],
             (screen_width / 2 + 120, 60, 250, 40),
             0,
             10,
         )
-        self.renderer.draw_rect(
-             "black", (screen_width / 2 + 10, 70, 120, 20), 0, 15
-        )
+        self.renderer.draw_rect("black", (screen_width / 2 + 10, 70, 120, 20), 0, 15)
         self.renderer.blit_text(
-            "HP", "white", (screen_width / 2 + 70, 82), self.font_35, center=True
+            "HP", "white", (screen_width / 2 + 70, 82), size=FontSize.LARGE, center=True
         )
         self.renderer.blit_text(
             f"{atual_boku.atual_life}/{atual_boku.life}",
             "black",
             (screen_width - 40, 70),
-            self.font_50,
+            size=FontSize.DOUBLE_EXTRA_LARGE,
             right=True,
         )
         # rect life
-        self.renderer.draw_rect(
-             "black", (screen_width / 2 + 140, 100, 220, 20), 0, 5
+        self.renderer.draw_rect("black", (screen_width / 2 + 140, 100, 220, 20), 0, 5)
+        self.renderer.blit_text(
+            "HP",
+            "yellow",
+            (screen_width / 2 + 145, 102),
+            size=FontSize.LARGE,
         )
-        self.renderer.blit_text("HP", "yellow", (screen_width / 2 + 145, 102), self.font_35)
-        self.renderer.draw_rect(
-             "white", (screen_width / 2 + 175, 105, 178, 10)
-        )
+        self.renderer.draw_rect("white", (screen_width / 2 + 175, 105, 178, 10))
         x_life = 178 * atual_boku.atual_life / atual_boku.life
-        self.renderer.draw_rect(
-             "green", (screen_width / 2 + 175, 105, x_life, 10)
-        )
+        self.renderer.draw_rect("green", (screen_width / 2 + 175, 105, x_life, 10))
         # other stats
         space_y = 120
         name_list = ["ATTACK", "DEFENSE", "SPEED", "CRIT"]
@@ -251,14 +229,12 @@ class BokuSummary:
         ]
         for i in range(4):
             self.renderer.draw_rect(
-                
                 [232, 240, 248],
                 (screen_width - 130, space_y, 100, 40),
                 0,
                 10,
             )
             self.renderer.draw_rect(
-                
                 "black",
                 (screen_width / 2 + 10, space_y + 10, 120, 20),
                 0,
@@ -268,14 +244,14 @@ class BokuSummary:
                 name_list[i],
                 "white",
                 (screen_width / 2 + 70, space_y + 22),
-                self.font_35,
+                size=FontSize.LARGE,
                 center=True,
             )
             self.renderer.blit_text(
                 stats_list[i],
                 "black",
                 (screen_width - 40, space_y + 10),
-                self.font_42,
+                size=FontSize.EXTRA_LARGE,
                 right=True,
             )
             space_y += 60
@@ -283,45 +259,49 @@ class BokuSummary:
             "Chance",
             "white",
             (screen_width / 2 + 70, space_y - 23),
-            self.font_25,
+            size=FontSize.MEDIUM,
             center=True,
         )
         # parte de baixo
         # EXP
         self.renderer.draw_rect(
-            
             [200, 216, 232],
             (200, screen_height - 240, screen_width - 230, 100),
             0,
             10,
         )
-        self.renderer.draw_rect(
-             "black", (10, screen_height - 210, 200, 20), 0, 15
+        self.renderer.draw_rect("black", (10, screen_height - 210, 200, 20), 0, 15)
+        self.renderer.blit_text(
+            "EXP",
+            "white",
+            (110, screen_height - 197),
+            size=FontSize.EXTRA_LARGE,
+            center=True,
         )
         self.renderer.blit_text(
-            "EXP", "white", (110, screen_height - 197), self.font_42, center=True
+            "Exp.  Points",
+            "black",
+            (240, screen_height - 220),
+            size=FontSize.DOUBLE_EXTRA_LARGE,
         )
         self.renderer.blit_text(
-            "Exp.  Points", "black", (240, screen_height - 220), self.font_50
-        )
-        self.renderer.blit_text(
-            "Next  Lv.", "black", (240, screen_height - 170), self.font_50
+            "Next  Lv.",
+            "black",
+            (240, screen_height - 170),
+            size=FontSize.DOUBLE_EXTRA_LARGE,
         )
         # valores exp
         self.renderer.draw_rect(
-            
             [232, 240, 248],
             (screen_width - 260, space_y + 10, 230, 80),
         )
         self.renderer.draw_rect(
-            
             [232, 240, 248],
             (screen_width - 260, space_y, 230, 50),
             0,
             10,
         )
         self.renderer.draw_rect(
-            
             [232, 240, 248],
             (screen_width - 260, space_y + 50, 230, 50),
             0,
@@ -331,26 +311,24 @@ class BokuSummary:
             f"{atual_boku.all_exp}",
             "black",
             (screen_width - 40, space_y + 20),
-            self.font_42,
+            size=FontSize.EXTRA_LARGE,
             right=True,
         )
         self.renderer.blit_text(
             f"{round(atual_boku.up_exp - atual_boku.atual_exp)}",
             "black",
             (screen_width - 40, space_y + 70),
-            self.font_42,
+            size=FontSize.EXTRA_LARGE,
             right=True,
         )
         # divisoria
         self.renderer.draw_rect(
-            
             [232, 240, 248],
             (230, screen_height - 189, screen_width - 260, 3),
             0,
             10,
         )
         self.renderer.draw_rect(
-            
             [200, 216, 232],
             (screen_width - 260, screen_height - 189, 220, 3),
             0,
@@ -358,47 +336,42 @@ class BokuSummary:
         )
         # rect exp
         self.renderer.draw_rect(
-            
             "black",
             (screen_width - 290, space_y + 100, 255, 20),
             0,
             10,
         )
         self.renderer.blit_text(
-            "EXP", "yellow", (screen_width - 280, space_y + 105), self.font_25
+            "EXP",
+            "yellow",
+            (screen_width - 280, space_y + 105),
+            size=FontSize.MEDIUM,
         )
         self.renderer.draw_rect(
-            
             "white",
             (screen_width - 248, space_y + 103, 208, 14),
             0,
             20,
         )
         self.renderer.draw_rect(
-            
             [137, 141, 145],
             (screen_width - 240, space_y + 105, 195, 10),
         )
         x_exp = 195 * atual_boku.atual_exp / atual_boku.up_exp
-        self.renderer.draw_rect(
-             "blue", (screen_width - 240, space_y + 105, x_exp, 10)
-        )
+        self.renderer.draw_rect("blue", (screen_width - 240, space_y + 105, x_exp, 10))
 
     def draw_know_move(self):
         atual_bokumon = self.boku_local[self.boku_selected]
         # bloco
         self.renderer.draw_rect(
-            
             [160, 178, 196],
             (0, screen_height / 2 + 49, screen_width / 2, screen_height / 2),
         )
         self.renderer.draw_rect(
-            
             [150, 158, 174],
             (screen_width / 2 - 1, 49, screen_width / 2 + 1, screen_height - 49),
         )
         self.renderer.draw_rect(
-            
             "black",
             (screen_width / 2 - 1, 49, screen_width / 2 + 1, screen_height - 49),
             3,
@@ -408,7 +381,6 @@ class BokuSummary:
         for i in range(5):
             if i != 4:
                 self.renderer.draw_rect(
-                    
                     [240, 240, 248],
                     (screen_width / 2 + 20, space_y, screen_width / 2 - 35, 80),
                     0,
@@ -418,16 +390,19 @@ class BokuSummary:
                     f"{atual_bokumon.moves[i][0]}",
                     "black",
                     (screen_width / 2 + 130, space_y + 10),
-                    self.font_50,
+                    size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
                 self.renderer.blit_text(
-                    f"PP", "black", (screen_width / 2 + 235, space_y + 53), self.font_42
+                    f"PP",
+                    "black",
+                    (screen_width / 2 + 235, space_y + 53),
+                    size=FontSize.EXTRA_LARGE,
                 )
                 self.renderer.blit_text(
                     f"{atual_bokumon.moves_pp[i][0]}/{atual_bokumon.moves_pp[i][1]}",
                     "black",
                     (screen_width / 2 + 270, space_y + 50),
-                    self.font_50,
+                    size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
             else:
                 if self.selected_move[0]:
@@ -435,7 +410,7 @@ class BokuSummary:
                         f"Cancel",
                         "black",
                         (screen_width / 2 + 130, space_y + 10),
-                        self.font_50,
+                        size=FontSize.DOUBLE_EXTRA_LARGE,
                     )
 
             if (
@@ -447,7 +422,6 @@ class BokuSummary:
                     else "red"
                 )
                 self.renderer.draw_rect(
-                    
                     color,
                     (screen_width / 2 + 20, space_y, screen_width / 2 - 35, 80),
                     3,
@@ -458,14 +432,12 @@ class BokuSummary:
         if self.selected_move[0]:
             # especification move
             self.renderer.draw_rect(
-                
                 [232, 240, 248],
                 (160, screen_height / 2 + 90, 100, 40),
                 0,
                 10,
             )
             self.renderer.draw_rect(
-                
                 "black",
                 (20, screen_height / 2 + 100, 120, 20),
                 0,
@@ -475,19 +447,17 @@ class BokuSummary:
                 "POWER",
                 "white",
                 (80, screen_height / 2 + 112),
-                self.font_35,
+                size=FontSize.LARGE,
                 center=True,
             )
 
             self.renderer.draw_rect(
-                
                 [232, 240, 248],
                 (160, screen_height / 2 + 140, 100, 40),
                 0,
                 10,
             )
             self.renderer.draw_rect(
-                
                 "black",
                 (20, screen_height / 2 + 150, 120, 20),
                 0,
@@ -497,7 +467,7 @@ class BokuSummary:
                 "ACCURACY",
                 "white",
                 (80, screen_height / 2 + 162),
-                self.font_35,
+                size=FontSize.LARGE,
                 center=True,
             )
             if self.selected_move[2][1] != 4:
@@ -505,14 +475,14 @@ class BokuSummary:
                     f"{atual_bokumon.moves[self.selected_move[2][1]][1]}",
                     "black",
                     (240, screen_height / 2 + 100),
-                    self.font_42,
+                    size=FontSize.EXTRA_LARGE,
                     right=True,
                 )
                 self.renderer.blit_text(
                     f"{atual_bokumon.moves[self.selected_move[2][1]][2]}",
                     "black",
                     (240, screen_height / 2 + 150),
-                    self.font_42,
+                    size=FontSize.EXTRA_LARGE,
                     right=True,
                 )
 

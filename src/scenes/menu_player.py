@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import *
-from ui import Renderer
+from ui import Renderer, FontSize
 from utils import save_system
 from utils.timer import Timer
 from game_types import PlayerData
@@ -17,13 +17,6 @@ class MenuPlayer:
         self.close = False
         self.timer = Timer(0.12)
         self.saved = False
-
-        # TODO: refactor deixar como atributos no renderer
-        self.font_20 = self.renderer.load_font("Pixeltype", 20)
-        self.font_25 = self.renderer.load_font("Pixeltype", 25)
-        self.font_35 = self.renderer.load_font("Pixeltype", 35)
-        self.font_42 = self.renderer.load_font("Pixeltype", 42)
-        self.font_50 = self.renderer.load_font("Pixeltype", 50)
 
     def draw_overlay(self):
         pos = [screen_width - 200, 50]
@@ -46,7 +39,7 @@ class MenuPlayer:
                 name,
                 "black",
                 (pos[0] + 30, pos[1] + space_y),
-                self.font_42,
+                size=FontSize.EXTRA_LARGE,
                 back_color="white",
             )
             if self.selected == i:
@@ -58,7 +51,7 @@ class MenuPlayer:
                             desc,
                             "black",
                             (70, screen_height - 110 + space_y_desc),
-                            self.font_42,
+                            size=FontSize.EXTRA_LARGE,
                             back_color="white",
                         )
                         space_y_desc += 35
@@ -68,7 +61,7 @@ class MenuPlayer:
                             "Game Saved!",
                             "black",
                             (70, screen_height - 110 + space_y_desc),
-                            self.font_42,
+                            size=FontSize.EXTRA_LARGE,
                             back_color="white",
                         )
                     else:

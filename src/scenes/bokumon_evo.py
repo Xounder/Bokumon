@@ -1,7 +1,7 @@
 import pygame
 from random import randint
 from settings.settings import screen_height, screen_width
-from ui import Renderer
+from ui import Renderer, FontSize
 from utils.timer import Timer
 
 
@@ -20,8 +20,6 @@ class BokuEvo:
         self.background = self.renderer.load_asset_image(
             "fight2", is_scale=True, scale=(screen_width, screen_height - 100)
         )
-        self.font_42 = self.renderer.load_font("Pixeltype", 42)
-        self.font_25 = self.renderer.load_font("Pixeltype", 25)
 
     def draw(self):
         self.renderer.blit(self.background, (0, 0))
@@ -47,7 +45,7 @@ class BokuEvo:
                     f"{self.atual_bokumon.name} is evolving...",
                     "black",
                     [20, screen_height - 80],
-                    self.font_42,
+                    size=FontSize.EXTRA_LARGE,
                 )
                 if self.pressed_x:
                     self.cancel = True
@@ -87,7 +85,7 @@ class BokuEvo:
                     f"{self.atual_bokumon.previous_name} evolved to {self.atual_bokumon.name}",
                     "black",
                     [20, screen_height - 80],
-                    self.font_42,
+                    size=FontSize.EXTRA_LARGE,
                 )
 
                 self.up_info()
@@ -107,7 +105,7 @@ class BokuEvo:
                 f"{self.atual_bokumon.name} don't evolve",
                 "black",
                 [20, screen_height - 80],
-                self.font_42,
+                size=FontSize.EXTRA_LARGE,
             )
             if self.pressed_z:
                 self.active = False
@@ -192,14 +190,14 @@ class BokuEvo:
                     ups[i],
                     "black",
                     (screen_width / 2 + 149, screen_height / 2 - 180 + (20 * i)),
-                    font=self.font_25,
+                    size=FontSize.MEDIUM,
                     back_color="white",
                 )
                 self.renderer.blit_shadow_text(
                     ups[i + 1],
                     "black",
                     (screen_width / 2 + 278, screen_height / 2 - 180 + (20 * i)),
-                    font=self.font_25,
+                    size=FontSize.MEDIUM,
                     back_color="white",
                 )
 

@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import *
-from ui import Renderer
+from ui import Renderer, FontSize
 from utils.timer import Timer
 from .bokumon_summary import BokuSummary
 
@@ -21,11 +21,6 @@ class ViewBokumon:
         self.bag_values = [None, False, [], [False]]
         self.bag_used = False
         self.set_view()
-
-        self.font_25 = self.renderer.load_font("Pixeltype", 25)
-        self.font_35 = self.renderer.load_font("Pixeltype", 35)
-        self.font_42 = self.renderer.load_font("Pixeltype", 42)
-        self.font_50 = self.renderer.load_font("Pixeltype", 50)
 
         # select_action
         self.text_select_action = [
@@ -156,13 +151,13 @@ class ViewBokumon:
         self.renderer.draw_rect("white", (20, 500, 500, 90))
         self.renderer.draw_rect("blue", (20, 500, 500, 90), 5)
         self.renderer.draw_rect("black", (20, 500, 500, 90), 3)
-        self.renderer.blit_text(text, "black", (50, 535), self.font_42)
+        self.renderer.blit_text(text, "black", (50, 535), size=FontSize.EXTRA_LARGE)
         color = "black" if self.marked[0] == 6 or self.marked[1] == 6 else "white"
 
         self.renderer.draw_rect("purple", (610, 520, 150, 50), 0, 50)
         self.renderer.draw_rect(color, (610, 520, 150, 50), 5, 50)
         self.renderer.draw_rect("black", (610, 520, 150, 50), 3, 50)
-        self.renderer.blit_text("Cancel", "black", (660, 535), self.font_42)
+        self.renderer.blit_text("Cancel", "black", (660, 535), size=FontSize.EXTRA_LARGE)
         # bokuball cancel
         self.draw_boku_ball((620, 545), 1, 1 if self.marked[0] == 6 else 0)
         self.blit_select_action()
@@ -195,10 +190,10 @@ class ViewBokumon:
                     f"{self.player.bokumons[0].atual_name} is already",
                     "black",
                     (40, tam[0] + 40),
-                    self.font_50,
+                    size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
                 self.renderer.blit_text(
-                    "in battle!", "black", (40, tam[0] + 80), self.font_50
+                    "in battle!", "black", (40, tam[0] + 80), size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
 
         elif self.bag_values[3][0]:
@@ -208,8 +203,8 @@ class ViewBokumon:
                 self.deactive()
 
     def status_txt(self, num_boku, pos_rect, pos_text, tam=[140, 175, 20, 10]):
-        life_font = self.font_25 if tam[0] == 140 else self.font_35
-        boku_info = self.font_35 if tam[0] == 140 else self.font_42
+        life_font = FontSize.MEDIUM if tam[0] == 140 else FontSize.LARGE
+        boku_info = FontSize.LARGE if tam[0] == 140 else FontSize.EXTRA_LARGE
 
         tam_life = (
             tam[0]
@@ -227,26 +222,26 @@ class ViewBokumon:
             (pos_rect[1][0], pos_rect[1][1], tam_life, tam[3]),
         )
         self.renderer.blit_shadow_text(
-            "HP", "red", (pos_text[0][0], pos_text[0][1]), font=life_font
+            "HP", "red", (pos_text[0][0], pos_text[0][1]), size=life_font
         )
         self.renderer.blit_shadow_text(
             f"{round(self.player.bokumons[num_boku].atual_life)}/{self.player.bokumons[num_boku].life}",
             "white",
             (pos_text[1][0], pos_text[1][1]),
-            font=self.font_35,
+            size=FontSize.LARGE,
             right=True,
         )
         self.renderer.blit_shadow_text(
             f"{self.player.bokumons[num_boku].atual_name}",
             "white",
             (pos_text[2][0], pos_text[2][1]),
-            font=boku_info,
+            size=boku_info,
         )
         self.renderer.blit_shadow_text(
             f"Lv{self.player.bokumons[num_boku].level}",
             "white",
             (pos_text[3][0], pos_text[3][1]),
-            font=boku_info,
+            size=boku_info,
         )
 
     def draw_potion_use(self):
@@ -263,13 +258,13 @@ class ViewBokumon:
             f"{self.player.bokumons[0].atual_name} HP was restored",
             "black",
             (40, tam[0] + 40),
-            self.font_50,
+            size=FontSize.DOUBLE_EXTRA_LARGE,
         )
         self.renderer.blit_text(
             f"by {self.bag_values[0][1]} point(s).",
             "black",
             (40, tam[0] + 80),
-            self.font_50,
+            size=FontSize.DOUBLE_EXTRA_LARGE,
         )
 
     def input(self):
@@ -466,7 +461,7 @@ class ViewBokumon:
                     f"{sel}",
                     "black",
                     (screen_width - 210, tam[0] + space_y_sel),
-                    self.font_50,
+                    size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
                 if self.selected_action[0] == i:
                     # botão de seleção

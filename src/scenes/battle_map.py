@@ -3,7 +3,7 @@ from random import randint
 from settings.settings import *
 from settings.bokumons_settings import bokumons_spawn_selector
 from utils.timer import Timer
-from ui import Renderer
+from ui import Renderer, FontSize
 from sprites import BokuMon
 from .battle_control import BattleControl
 from .letter_selection import LetterSelection
@@ -61,12 +61,6 @@ class BattleMap:
         self.background = self.renderer.load_asset_image(
             "fight2", is_scale=True, scale=(screen_width, screen_height - 100)
         )
-        # fonts
-        self.font_20 = self.renderer.load_font("Pixeltype", 20)
-        self.font_25 = self.renderer.load_font("Pixeltype", 25)
-        self.font_35 = self.renderer.load_font("Pixeltype", 35)
-        self.font_42 = self.renderer.load_font("Pixeltype", 42)
-        self.font_50 = self.renderer.load_font("Pixeltype", 50)
 
     def create_wild_bokumon(self, renderer: Renderer, player_bokumon):
         boku_name = bokumons_spawn_selector(player_bokumon.level)
@@ -189,50 +183,50 @@ class BattleMap:
                 # caso esteja na aba fight
                 continue
             self.renderer.blit_shadow_text(
-                text, "white", overlay_battle_pos[i], font=self.font_50
+                text, "white", overlay_battle_pos[i], size=FontSize.DOUBLE_EXTRA_LARGE
             )
 
         # printa na tela os moves do bokumon com suas informações
         if self.status == "FIGHT":
             for i, move in enumerate(self.bokumon_moves):
                 self.renderer.blit_shadow_text(
-                    move[0], "white", bokumon_moves_pos[i], self.font_42
+                    move[0], "white", bokumon_moves_pos[i], size=FontSize.EXTRA_LARGE
                 )
                 self.renderer.blit_shadow_text(
                     "PP",
                     "white",
                     [bokumon_moves_pos[i][0] - 10, bokumon_moves_pos[i][1] + 25],
-                    font=self.font_20,
+                    size=FontSize.SMALL,
                 )
                 self.renderer.blit_shadow_text(
                     f"{self.bokumon_pp[i][0]}/{self.bokumon_pp[i][1]}",
                     "white",
                     [bokumon_moves_pos[i][0] + 5, bokumon_moves_pos[i][1] + 25],
-                    font=self.font_25,
+                    size=FontSize.MEDIUM,
                 )
                 self.renderer.blit_shadow_text(
                     "PW",
                     "white",
                     [bokumon_moves_pos[i][0] + 60, bokumon_moves_pos[i][1] + 25],
-                    font=self.font_20,
+                    size=FontSize.SMALL,
                 )
                 self.renderer.blit_shadow_text(
                     f"{self.bokumon_moves[i][1]}",
                     "white",
                     [bokumon_moves_pos[i][0] + 78, bokumon_moves_pos[i][1] + 25],
-                    font=self.font_25,
+                    size=FontSize.MEDIUM,
                 )
                 self.renderer.blit_shadow_text(
                     "ACC",
                     "white",
                     [bokumon_moves_pos[i][0] + 103, bokumon_moves_pos[i][1] + 25],
-                    font=self.font_20,
+                    size=FontSize.SMALL,
                 )
                 self.renderer.blit_shadow_text(
                     f"{self.bokumon_moves[i][2]}",
                     "white",
                     [bokumon_moves_pos[i][0] + 126, bokumon_moves_pos[i][1] + 25],
-                    font=self.font_25,
+                    size=FontSize.MEDIUM,
                 )
             # botão de seleção
             button_pos = select_move_button_pos[self.select_move[0]][
@@ -306,7 +300,7 @@ class BattleMap:
                         f"Wild {self.wild_bokumon.name.capitalize()} appeared!",
                         "white",
                         bokumon_moves_pos[0],
-                        self.font_42,
+                        size=FontSize.EXTRA_LARGE,
                     )
                 else:
                     if not self.msg_timer.run:
@@ -324,7 +318,7 @@ class BattleMap:
                         f"Go {self.player_bokumon.atual_name}!",
                         "white",
                         bokumon_moves_pos[0],
-                        self.font_42,
+                        FontSize.EXTRA_LARGE,
                     )
 
                 if self.show_msg and not self.msg_timer.run:
@@ -392,7 +386,7 @@ class BattleMap:
             "EXP",
             "white",
             (screen_width / 2 + 70, screen_height - screen_height / 4.5 - 15),
-            font=self.font_25,
+            size=FontSize.MEDIUM,
         )
         # life bar
         self.renderer.draw_rect(
@@ -414,7 +408,7 @@ class BattleMap:
             "HP",
             "red",
             (screen_width / 2 + 125, screen_height - screen_height / 2 + 85),
-            font=self.font_35,
+            size=FontSize.LARGE,
         )
 
         # wild bokumon info
@@ -423,12 +417,12 @@ class BattleMap:
         # life bar
         self.renderer.draw_rect("black", (90, 100, 220, 26), 0, 5)
         self.renderer.draw_rect("green", (125, 105, self.tam_wild_life, 16))
-        self.renderer.blit_shadow_text("HP", "red", (95, 105), font=self.font_35)
+        self.renderer.blit_shadow_text("HP", "red", (95, 105), size=FontSize.LARGE)
 
         # info wild and player bokumon
         for i, text in enumerate(self.overlay_bokumon):
             self.renderer.blit_shadow_text(
-                text, "white", overlay_bokumon_pos[i], self.font_42
+                text, "white", overlay_bokumon_pos[i], size=FontSize.EXTRA_LARGE
             )
 
     def draw(self):
@@ -618,13 +612,13 @@ class BattleMap:
                     f"{self.player_bokumon.atual_name} used ",
                     "white",
                     bokumon_moves_pos[0],
-                    self.font_42,
+                    size=FontSize.EXTRA_LARGE,
                 )
                 self.renderer.blit_shadow_text(
                     f"{self.selected_move[0]}!",
                     "white",
                     bokumon_moves_pos[2],
-                    self.font_42,
+                    size=FontSize.EXTRA_LARGE,
                 )
                 # redução da vida do wild
                 self.set_overlay_text(player=False)
@@ -633,7 +627,7 @@ class BattleMap:
                     f"{self.player_bokumon.atual_name} missed!",
                     "white",
                     bokumon_moves_pos[0],
-                    self.font_42,
+                    size=FontSize.EXTRA_LARGE,
                 )
 
             if not self.msg_timer.run and self.life_decrease_wild < 1:
@@ -650,13 +644,13 @@ class BattleMap:
                     f"Wild {self.wild_bokumon.name.capitalize()} used ",
                     "white",
                     bokumon_moves_pos[0],
-                    self.font_42,
+                    size=FontSize.EXTRA_LARGE,
                 )
                 self.renderer.blit_shadow_text(
                     f"{self.battle_control.wild_selected_move[0]}!",
                     "white",
                     bokumon_moves_pos[2],
-                    self.font_42,
+                    size=FontSize.EXTRA_LARGE,
                 )
                 # redução da vida do player
                 self.set_overlay_text()
@@ -665,7 +659,7 @@ class BattleMap:
                     f"Wild {self.wild_bokumon.name.capitalize()} missed!",
                     "white",
                     bokumon_moves_pos[0],
-                    self.font_42,
+                    size=FontSize.EXTRA_LARGE,
                 )
 
             if not self.msg_timer.run and self.life_decrease_player < 1:
@@ -690,7 +684,10 @@ class BattleMap:
     def critical_message(self, i):
         if self.battle_control.critical[i]:
             self.renderer.blit_shadow_text(
-                "A critical hit!", "white", bokumon_moves_pos[0], self.font_42
+                "A critical hit!",
+                "white",
+                bokumon_moves_pos[0],
+                size=FontSize.EXTRA_LARGE,
             )
             if not self.msg_timer.run:
                 self.battle_control.critical[i] = False
@@ -753,18 +750,27 @@ class BattleMap:
     def run_message(self, run):
         if run:
             self.renderer.blit_shadow_text(
-                "Got away safely!", "white", bokumon_moves_pos[0], self.font_42
+                "Got away safely!",
+                "white",
+                bokumon_moves_pos[0],
+                size=FontSize.EXTRA_LARGE,
             )
         else:
             self.renderer.blit_shadow_text(
-                "Can't escape!", "white", bokumon_moves_pos[0], self.font_42
+                "Can't escape!",
+                "white",
+                bokumon_moves_pos[0],
+                size=FontSize.EXTRA_LARGE,
             )
 
     def catch_message(self, catch):
         if catch:
             if self.other_msg_timer.run and not self.run_once_catch[0]:
                 self.renderer.blit_shadow_text(
-                    "3...2...1!", "white", bokumon_moves_pos[0], self.font_42
+                    "3...2...1!",
+                    "white",
+                    bokumon_moves_pos[0],
+                    size=FontSize.EXTRA_LARGE,
                 )
                 self.draw_boku_ball(boku_pos[0], player_boku_ball=False)
                 self.msg_timer.active()
@@ -774,7 +780,7 @@ class BattleMap:
                         f"Gotcha {self.wild_bokumon.name.capitalize()} was caught!",
                         "white",
                         bokumon_moves_pos[0],
-                        self.font_42,
+                        size=FontSize.EXTRA_LARGE,
                     )
                     self.draw_boku_ball(boku_pos[0], player_boku_ball=False)
                     self.wild_bokumon.ball = self.bag.used_item[0]
@@ -794,7 +800,7 @@ class BattleMap:
                             "Change name of bokumon?",
                             "white",
                             bokumon_moves_pos[0],
-                            self.font_42,
+                            size=FontSize.EXTRA_LARGE,
                         )
                         self.blit_select_cont_fight()
 
@@ -811,7 +817,10 @@ class BattleMap:
                     "3..." if self.battle_control.ball_shake_times == 1 else "3...2..."
                 )
                 self.renderer.blit_shadow_text(
-                    txt, "white", bokumon_moves_pos[0], self.font_42
+                    txt,
+                    "white",
+                    bokumon_moves_pos[0],
+                    size=FontSize.EXTRA_LARGE,
                 )
                 self.msg_timer.active()
                 self.show_boku[0] = False
@@ -821,7 +830,7 @@ class BattleMap:
                     f"Aww! {self.wild_bokumon.name.capitalize()} was not caught!",
                     "white",
                     bokumon_moves_pos[0],
-                    self.font_42,
+                    size=FontSize.EXTRA_LARGE,
                 )
                 self.show_boku[0] = True
                 if self.pressed_z:
@@ -839,22 +848,31 @@ class BattleMap:
                     f"{self.player_bokumon.atual_name} ",
                     "white",
                     bokumon_moves_pos[0],
-                    self.font_42,
+                    size=FontSize.EXTRA_LARGE,
                 )
                 self.renderer.blit_shadow_text(
-                    "fainted!", "white", bokumon_moves_pos[2], self.font_42
+                    "fainted!",
+                    "white",
+                    bokumon_moves_pos[2],
+                    size=FontSize.EXTRA_LARGE,
                 )
             else:
                 self.run_once_end_timer[1] = True
                 if not self.player.bokumon_alive():
                     self.renderer.blit_shadow_text(
-                        "You've Lost", "white", bokumon_moves_pos[0], self.font_42
+                        "You've Lost",
+                        "white",
+                        bokumon_moves_pos[0],
+                        size=FontSize.EXTRA_LARGE,
                     )
                     if self.pressed_z:
                         self.change_map()
                 else:
                     self.renderer.blit_shadow_text(
-                        "Use next bokumon?", "white", bokumon_moves_pos[0], self.font_42
+                        "Use next bokumon?",
+                        "white",
+                        bokumon_moves_pos[0],
+                        size=FontSize.EXTRA_LARGE,
                     )
                     self.blit_select_cont_fight()
 
@@ -876,10 +894,13 @@ class BattleMap:
                     f"Wild {self.wild_bokumon.name.capitalize()} ",
                     "white",
                     bokumon_moves_pos[0],
-                    self.font_42,
+                    size=FontSize.EXTRA_LARGE,
                 )
                 self.renderer.blit_shadow_text(
-                    "fainted!", "white", bokumon_moves_pos[2], self.font_42
+                    "fainted!",
+                    "white",
+                    bokumon_moves_pos[2],
+                    size=FontSize.EXTRA_LARGE,
                 )
             else:
                 self.run_once_end_timer[1] = True
@@ -955,14 +976,14 @@ class BattleMap:
                     ups[i],
                     "black",
                     (screen_width / 2 + 149, screen_height / 2 - 180 + (20 * i)),
-                    font=self.font_25,
+                    size=FontSize.MEDIUM,
                     back_color="white",
                 )
                 self.renderer.blit_shadow_text(
                     ups[i + 1],
                     "black",
                     (screen_width / 2 + 278, screen_height / 2 - 180 + (20 * i)),
-                    font=self.font_25,
+                    size=FontSize.MEDIUM,
                     back_color="white",
                 )
 
@@ -982,13 +1003,13 @@ class BattleMap:
             f"{self.player.bokumons[boku].atual_name} gained ",
             "white",
             bokumon_moves_pos[0],
-            self.font_42,
+            size=FontSize.EXTRA_LARGE,
         )
         self.renderer.blit_shadow_text(
             f"{round(self.exp_points)} Exp.Points!",
             "white",
             bokumon_moves_pos[2],
-            self.font_42,
+            size=FontSize.EXTRA_LARGE,
         )
         if self.gain_exp > 0 and not self.up_bokumon:
             self.gain_exp -= 0.5
@@ -1046,11 +1067,11 @@ class BattleMap:
             "Yes",
             "white",
             [screen_width - 85, screen_height - screen_height / 4.5 + 30],
-            font=self.font_50,
+            size=FontSize.DOUBLE_EXTRA_LARGE,
         )
         self.renderer.blit_shadow_text(
             "No",
             "white",
             [screen_width - 85, screen_height - screen_height / 4.5 + 80],
-            font=self.font_50,
+            size=FontSize.DOUBLE_EXTRA_LARGE,
         )

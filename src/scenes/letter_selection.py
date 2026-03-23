@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from ui import Renderer
+from ui import Renderer, FontSize
 from utils.timer import Timer
 
 
@@ -18,12 +18,6 @@ class LetterSelection:
             ["O", "P", "Q", "R", "S", "T", ".", "OK"],
             ["U", "V", "W", "X", "Y", "Z", ",", ""],
         ]
-
-        self.font_20 = self.renderer.load_font("Pixeltype", 20)
-        self.font_25 = self.renderer.load_font("Pixeltype", 25)
-        self.font_35 = self.renderer.load_font("Pixeltype", 35)
-        self.font_42 = self.renderer.load_font("Pixeltype", 42)
-        self.font_50 = self.renderer.load_font("Pixeltype", 50)
 
     def activate(self, name, first=False):
         if not first:
@@ -49,7 +43,7 @@ class LetterSelection:
                     letter,
                     "white",
                     (110 + space[1], screen_height / 2 - 50 + space[0]),
-                    self.font_50,
+                    size=FontSize.DOUBLE_EXTRA_LARGE,
                     center=True,
                 )
                 if self.selected_button[0] == i and self.selected_button[1] == j:
@@ -79,7 +73,10 @@ class LetterSelection:
         )
         self.renderer.draw_rect("white", (110, 30, screen_width - 220, 130), 0, 15)
         self.renderer.blit_text(
-            f"{self.real_name}'s nickname?", "black", (250, 60), self.font_50
+            f"{self.real_name}'s nickname?",
+            "black",
+            (250, 60),
+            size=FontSize.DOUBLE_EXTRA_LARGE,
         )
         spaces = "_ _ _ _ _ _ _ _ _ _"
         count_space = spaces[
@@ -89,7 +86,10 @@ class LetterSelection:
         ]
         word_modified = self.append_space(self.name_choosed)
         self.renderer.blit_text(
-            f"{word_modified}{count_space}", "black", (250, 120), self.font_50
+            f"{word_modified}{count_space}",
+            "black",
+            (250, 120),
+            size=FontSize.DOUBLE_EXTRA_LARGE,
         )
 
     def append_space(self, word):
@@ -149,7 +149,7 @@ class LetterSelection:
                 text_list[i],
                 "white",
                 (screen_width - 120, screen_height / 2 + 30 + space_y),
-                self.font_50,
+                size=FontSize.DOUBLE_EXTRA_LARGE,
                 center=True,
             )
             space_y += 120

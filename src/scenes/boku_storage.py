@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from ui import Renderer
+from ui import Renderer, FontSize
 from utils.timer import Timer
 
 
@@ -22,12 +22,6 @@ class BokuStorage:
         self.select_boku_action = 0
         self.show_party = False
         self.change_pos = False
-
-        self.font_20 = self.renderer.load_font("Pixeltype", 20)
-        self.font_25 = self.renderer.load_font("Pixeltype", 25)
-        self.font_35 = self.renderer.load_font("Pixeltype", 35)
-        self.font_42 = self.renderer.load_font("Pixeltype", 42)
-        self.font_50 = self.renderer.load_font("Pixeltype", 50)
 
     def draw_player_bokumon(self):
         # bokumon data
@@ -53,7 +47,10 @@ class BokuStorage:
             10,
         )
         self.renderer.blit_shadow_text(
-            "BKMN DATA", [248, 216, 144], [50, 35], self.font_42
+            "BKMN DATA",
+            [248, 216, 144],
+            [50, 35],
+            size=FontSize.EXTRA_LARGE,
         )
 
         # image and status bokumon
@@ -70,13 +67,22 @@ class BokuStorage:
             if boku_sel:
                 boku_sel.draw_modified([115, 160], 1)
                 self.renderer.blit_shadow_text(
-                    f"{boku_sel.atual_name}", "white", [20, 320], self.font_50
+                    f"{boku_sel.atual_name}",
+                    "white",
+                    [20, 320],
+                    size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
                 self.renderer.blit_shadow_text(
-                    f"/{boku_sel.name}", "white", [20, 360], self.font_50
+                    f"/{boku_sel.name}",
+                    "white",
+                    [20, 360],
+                    size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
                 self.renderer.blit_shadow_text(
-                    f"Lv{boku_sel.level}", "white", [50, 400], self.font_50
+                    f"Lv{boku_sel.level}",
+                    "white",
+                    [50, 400],
+                    size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
 
         if self.deposit or self.show_party:
@@ -144,7 +150,7 @@ class BokuStorage:
                     428,
                     65 + space_y,
                 ],
-                self.font_35,
+                size=FontSize.LARGE,
                 back_color="black",
             )
             if self.select_player_boku[0] == 6:
@@ -179,7 +185,7 @@ class BokuStorage:
             f"{self.section_num+1}",
             "white",
             [515, 65],
-            self.font_35,
+            size=FontSize.LARGE,
             back_color="black",
             center=True,
         )
@@ -189,7 +195,7 @@ class BokuStorage:
         self.renderer.draw_rect([164, 156, 156], [240, -10, 195, 48], 0, 5)
         self.renderer.draw_rect([160, 232, 144], [248, 3, 180, 30], 0, 5)
         self.renderer.blit_shadow_text(
-            f"PARTY BOKUMON", "white", [258, 8], self.font_35, back_color="black"
+            f"PARTY BOKUMON", "white", [258, 8], size=FontSize.LARGE, back_color="black"
         )
         self.renderer.draw_rect([80, 96, 112], [240, -10, 195, 48], 3, 5)
         if self.select_boku_box[0] == 0 and self.select_boku_box[1] == 0:
@@ -211,7 +217,7 @@ class BokuStorage:
             f"CLOSE BOX",
             "white",
             [screen_width - 160, 8],
-            self.font_35,
+            size=FontSize.LARGE,
             back_color="black",
         )
         if self.select_boku_box[0] == 0 and self.select_boku_box[1] == 1:
@@ -252,7 +258,12 @@ class BokuStorage:
         select_list = ["Withdraw Bokumon", "Deposit Bokumon", "See ya!"]
         space_y = 20
         for i, sel in enumerate(select_list):
-            self.renderer.blit_text(sel, "black", [50, space_y], self.font_42)
+            self.renderer.blit_text(
+                sel,
+                "black",
+                [50, space_y],
+                size=FontSize.EXTRA_LARGE,
+            )
             if i == self.selected_action[0]:
                 self.renderer.draw_rect("black", [35, space_y + 5, 10, 10], 0, 20)
             space_y += 40
@@ -280,27 +291,27 @@ class BokuStorage:
                 "Can't  take  any  more  Bokumon.",
                 "black",
                 [50, screen_height - 120],
-                self.font_42,
+                size=FontSize.EXTRA_LARGE,
             )
         elif len(self.player.bokumons) == 1 and self.selected_action[0] == 1:
             self.renderer.blit_text(
                 "Can't  deposit  any  Bokumon.",
                 "black",
                 [50, screen_height - 120],
-                self.font_42,
+                size=FontSize.EXTRA_LARGE,
             )
         else:
             self.renderer.blit_text(
                 selected_text[self.selected_action[0]][0],
                 "black",
                 [50, screen_height - 120],
-                self.font_50,
+                size=FontSize.DOUBLE_EXTRA_LARGE,
             )
             self.renderer.blit_text(
                 selected_text[self.selected_action[0]][1],
                 "black",
                 [50, screen_height - 70],
-                self.font_50,
+                size=FontSize.DOUBLE_EXTRA_LARGE,
             )
 
     def draw_boku_action(self):
@@ -341,7 +352,7 @@ class BokuStorage:
                 f"{text}",
                 "black",
                 [screen_width - 260, screen_height / 2 - 10 + space_y],
-                self.font_50,
+                size=FontSize.DOUBLE_EXTRA_LARGE,
             )
             if self.select_boku_action == i:
                 self.renderer.draw_rect(
@@ -379,7 +390,7 @@ class BokuStorage:
                 "Can't  take  any  more  Bokumon.",
                 "gray",
                 [screen_width - 530, screen_height - 90],
-                self.font_42,
+                size=FontSize.EXTRA_LARGE,
             )
         elif (
             len(self.player.bokumons) == 1
@@ -390,14 +401,14 @@ class BokuStorage:
                 "Can't  deposit  any  Bokumon.",
                 "gray",
                 [screen_width - 530, screen_height - 90],
-                self.font_42,
+                size=FontSize.EXTRA_LARGE,
             )
         else:
             self.renderer.blit_text(
                 f"{name}  is  selected.",
                 "black",
                 [screen_width - 530, screen_height - 90],
-                self.font_50,
+                size=FontSize.DOUBLE_EXTRA_LARGE,
             )
 
     def draw(self):

@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import *
-from ui import Renderer
+from ui import Renderer, FontSize
 from utils.timer import Timer
 
 
@@ -77,15 +77,13 @@ class Bag:
             "Great Ball": self.renderer.load_asset_image("great_ball", is_scale=True),
             "Ultra Ball": self.renderer.load_asset_image("ultra_ball", is_scale=True),
             "Potion": self.renderer.load_asset_image("potion", is_scale=True),
-            "Super Potion": self.renderer.load_asset_image("super_potion", is_scale=True),
-            "Hyper Potion": self.renderer.load_asset_image("hyper_potion", is_scale=True),
+            "Super Potion": self.renderer.load_asset_image(
+                "super_potion", is_scale=True
+            ),
+            "Hyper Potion": self.renderer.load_asset_image(
+                "hyper_potion", is_scale=True
+            ),
         }
-
-        self.font_20 = self.renderer.load_font("Pixeltype", 20)
-        self.font_25 = self.renderer.load_font("Pixeltype", 25)
-        self.font_35 = self.renderer.load_font("Pixeltype", 35)
-        self.font_42 = self.renderer.load_font("Pixeltype", 42)
-        self.font_50 = self.renderer.load_font("Pixeltype", 50)
 
     def set_bag(self):
         if not self.seted:
@@ -150,7 +148,11 @@ class Bag:
         self.renderer.draw_rect("black", (18, 17, 240, 106), 3, 5)
         self.renderer.draw_rect("orange", (20, 20, 250, 100), 0, 3)
         self.renderer.blit_shadow_text(
-            f"{self.section}", "white", (140, 80), font=self.font_50, center=True
+            f"{self.section}",
+            "white",
+            (140, 80),
+            size=FontSize.DOUBLE_EXTRA_LARGE,
+            center=True,
         )
         # parte de baixo
         self.renderer.draw_rect(
@@ -193,14 +195,14 @@ class Bag:
                     f"{item[0]}",
                     "black",
                     (330, 60 + space_y),
-                    font=self.font_50,
+                    size=FontSize.DOUBLE_EXTRA_LARGE,
                     back_color="gray",
                 )
                 self.renderer.blit_shadow_text(
                     f"X   {item[2]}",
                     "black",
                     (650, 60 + space_y),
-                    font=self.font_50,
+                    size=FontSize.DOUBLE_EXTRA_LARGE,
                     back_color="gray",
                 )
                 if self.marked[self.section][0] == i:
@@ -219,7 +221,7 @@ class Bag:
                                 desc,
                                 "white",
                                 (140, screen_height - 120 + space_y_desc),
-                                self.font_50,
+                                size=FontSize.DOUBLE_EXTRA_LARGE,
                             )
                             space_y_desc += 40
                     else:
@@ -233,13 +235,13 @@ class Bag:
                                 f"{item[0]}  is",
                                 "black",
                                 (140 + 20, screen_height - 110),
-                                self.font_50,
+                                size=FontSize.DOUBLE_EXTRA_LARGE,
                             )
                             self.renderer.blit_text(
                                 "selected.",
                                 "black",
                                 (140 + 20, screen_height - 65),
-                                self.font_50,
+                                size=FontSize.DOUBLE_EXTRA_LARGE,
                             )
                         # pega o item respectivo e ve se está em batalha ou não
                         self.selected_item = (
@@ -278,7 +280,7 @@ class Bag:
                                     f"{sel}",
                                     "black",
                                     (screen_width - 190, tam[0] + space_y_sel),
-                                    self.font_50,
+                                    size=FontSize.DOUBLE_EXTRA_LARGE,
                                 )
                                 if self.marked[self.section][1] == j:
                                     # botão de seleção
@@ -462,13 +464,13 @@ class Bag:
                     f"Toss out how many",
                     "black",
                     (140 + 20, screen_height - 110),
-                    self.font_50,
+                    size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
                 self.renderer.blit_text(
                     f"{item[0]}(s)?",
                     "black",
                     (140 + 20, screen_height - 65),
-                    self.font_50,
+                    size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
                 zeros_txt = "000"
                 zeros_txt = zeros_txt[: 3 - len(str(self.selected_item[1][0]))]
@@ -476,7 +478,7 @@ class Bag:
                     f"x{zeros_txt}{self.toss_values[0]}",
                     "black",
                     (screen_width - 150, screen_height - 80),
-                    self.font_42,
+                    size=FontSize.EXTRA_LARGE,
                 )
             else:
                 if not self.pressed_z[1]:
@@ -484,26 +486,26 @@ class Bag:
                         f"Throw away {self.toss_values[0]} of",
                         "black",
                         (140 + 20, screen_height - 110),
-                        self.font_50,
+                        size=FontSize.DOUBLE_EXTRA_LARGE,
                     )
                     self.renderer.blit_text(
                         "this item?",
                         "black",
                         (140 + 20, screen_height - 65),
-                        self.font_50,
+                        size=FontSize.DOUBLE_EXTRA_LARGE,
                     )
                     # botão de seleção
                     self.renderer.blit_text(
                         "Yes",
                         "black",
                         (screen_width - 165, screen_height - 110),
-                        self.font_50,
+                        size=FontSize.DOUBLE_EXTRA_LARGE,
                     )
                     self.renderer.blit_text(
                         "No",
                         "black",
                         (screen_width - 160, screen_height - 65),
-                        self.font_50,
+                        size=FontSize.DOUBLE_EXTRA_LARGE,
                     )
 
                     pos = (
@@ -527,10 +529,13 @@ class Bag:
                     f"Throw away 1 of",
                     "black",
                     (140 + 20, screen_height - 110),
-                    self.font_50,
+                    size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
                 self.renderer.blit_text(
-                    "this item?", "black", (140 + 20, screen_height - 65), self.font_50
+                    "this item?",
+                    "black",
+                    (140 + 20, screen_height - 65),
+                    size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
             else:
                 if self.toss_values[1]:
