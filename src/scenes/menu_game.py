@@ -1,13 +1,14 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from utils import save_system, render_utils
+from ui import Renderer
+from utils import save_system
 from utils.timer import Timer
 from sprites import BokuMon
 
 
 class Menu:
-    def __init__(self, screen, player, bag):
-        self.display_surface = screen
+    def __init__(self, renderer: Renderer, player, bag):
+        self.renderer = renderer
         self.player = player
         self.bag = bag
         self.timer = Timer(0.12)
@@ -20,15 +21,15 @@ class Menu:
         self.msg = False
         self.select_new_game = False
 
-        self.font_25 = render_utils.load_font("Pixeltype", 25)
-        self.font_35 = render_utils.load_font("Pixeltype", 35)
-        self.font_42 = render_utils.load_font("Pixeltype", 42)
-        self.font_50 = render_utils.load_font("Pixeltype", 50)
+        self.font_25 = self.renderer.load_font("Pixeltype", 25)
+        self.font_35 = self.renderer.load_font("Pixeltype", 35)
+        self.font_42 = self.renderer.load_font("Pixeltype", 42)
+        self.font_50 = self.renderer.load_font("Pixeltype", 50)
 
         self.firts_bokumons = [
-            BokuMon("Pan", self.display_surface),
-            BokuMon("Parrot", self.display_surface),
-            BokuMon("Monk", self.display_surface),
+            BokuMon("Pan", self.renderer),
+            BokuMon("Parrot", self.renderer),
+            BokuMon("Monk", self.renderer),
         ]
 
     def draw(self):
@@ -48,37 +49,22 @@ class Menu:
                 self.blit_msg("Don't  have  any  saved  game.")
 
     def draw_overlay(self):
-        render_utils.draw_rect(
-            self.display_surface, "#00009F", (0, 0, screen_width, screen_height)
-        )
+        self.renderer.draw_rect("#00009F", (0, 0, screen_width, screen_height))
         pos = [[240, 145], [280, 345]]
-        render_utils.draw_rect(
-            self.display_surface, "#00008B", (110, 100, screen_width - 250, 100), 0, 3
-        )
-        render_utils.draw_rect(
-            self.display_surface, "black", (110, 100, screen_width - 250, 100), 3, 5
-        )
-        render_utils.draw_rect(
-            self.display_surface, "white", (120, 110, screen_width - 270, 80), 0, 5
-        )
-        render_utils.blit_text(
+        self.renderer.draw_rect("#00008B", (110, 100, screen_width - 250, 100), 0, 3)
+        self.renderer.draw_rect("black", (110, 100, screen_width - 250, 100), 3, 5)
+        self.renderer.draw_rect("white", (120, 110, screen_width - 270, 80), 0, 5)
+        self.renderer.blit_text(
             "Continue   Game", "black", [380, 155], font=self.font_50, center=True
         )
-        render_utils.draw_rect(
-            self.display_surface, "#00008B", (110, 300, screen_width - 250, 100), 0, 3
-        )
-        render_utils.draw_rect(
-            self.display_surface, "black", (110, 300, screen_width - 250, 100), 3, 5
-        )
-        render_utils.draw_rect(
-            self.display_surface, "white", (120, 310, screen_width - 270, 80), 0, 5
-        )
-        render_utils.blit_text(
+        self.renderer.draw_rect("#00008B", (110, 300, screen_width - 250, 100), 0, 3)
+        self.renderer.draw_rect("black", (110, 300, screen_width - 250, 100), 3, 5)
+        self.renderer.draw_rect("white", (120, 310, screen_width - 270, 80), 0, 5)
+        self.renderer.blit_text(
             "New   Game", "black", [380, 355], font=self.font_50, center=True
         )
         color = "red" if self.selected[1] else "black"
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             color,
             (pos[self.selected[0]][0], pos[self.selected[0]][1], 10, 10),
             0,
@@ -86,22 +72,19 @@ class Menu:
         )
 
     def blit_select_continue(self, pos_rect, selected_button):
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             "#00008B",
             (pos_rect[0], pos_rect[1], 120, screen_height / 4.5),
             0,
             3,
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             "black",
             (pos_rect[0], pos_rect[1], 120, screen_height / 4.5),
             3,
             5,
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             "white",
             (pos_rect[0] + 10, pos_rect[1] + 10, 100, screen_height / 4.5 - 20),
             0,
@@ -111,26 +94,22 @@ class Menu:
             [pos_rect[0] + 20, pos_rect[1] + 40],
             [pos_rect[0] + 20, pos_rect[1] + 90],
         ]
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             "black",
             (pos[selected_button][0], pos[selected_button][1], 10, 10),
             0,
             20,
         )
-        render_utils.blit_text(
+        self.renderer.blit_text(
             "Yes", "black", (pos[0][0] + 20, pos[0][1] - 10), font=self.font_50
         )
-        render_utils.blit_text(
+        self.renderer.blit_text(
             "No", "black", (pos[1][0] + 20, pos[1][1] - 10), font=self.font_50
         )
 
     def select_first_bokumon(self):
-        render_utils.draw_rect(
-            self.display_surface, "#00899F", (0, 0, screen_width, screen_height)
-        )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect("#00899F", (0, 0, screen_width, screen_height))
+        self.renderer.draw_rect(
             "#19A99F",
             (60, screen_height / 2 - 100, screen_width - 100, 160),
         )
@@ -138,7 +117,7 @@ class Menu:
         space_x = 0
         for i, boku in enumerate(self.firts_bokumons):
             boku.draw_modified([130 + space_x, screen_height / 2 - 40], 0.7)
-            render_utils.blit_text(
+            self.renderer.blit_text(
                 f"{boku.name}",
                 "black",
                 (160 + space_x, screen_height - 200),
@@ -146,8 +125,7 @@ class Menu:
                 center=True,
             )
             if self.boku_selected[0] == i:
-                render_utils.draw_rect(
-                    self.display_surface,
+                self.renderer.draw_rect(
                     "red",
                     (75 + space_x, screen_height / 2 - 95, 150, 150),
                     3,
@@ -156,28 +134,25 @@ class Menu:
             space_x += 250
 
     def blit_msg(self, msg):
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             "#00008B",
             (20, screen_height - 120, screen_width - 50, 100),
             0,
             3,
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             "black",
             (20, screen_height - 120, screen_width - 50, 100),
             3,
             5,
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             "white",
             (30, screen_height - 110, screen_width - 70, 80),
             0,
             5,
         )
-        render_utils.blit_text(
+        self.renderer.blit_text(
             msg, "black", (80, screen_height - 80), font=self.font_50
         )
 

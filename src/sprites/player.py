@@ -2,15 +2,15 @@ import pygame
 from random import randint
 from maps.map import map_1
 from settings.settings import *
-from utils import render_utils
+from ui import Renderer
 from utils.timer import Timer
 from game_types import PlayerData
 from .bokumon import BokuMon
 
 
 class Player:
-    def __init__(self, screen, camera):
-        self.display_surface = screen
+    def __init__(self, renderer: Renderer, camera):
+        self.renderer = renderer
         self.import_assets()
         self.name = "gold"
         self.frame_index = 0
@@ -34,7 +34,7 @@ class Player:
             )
         )
         # player bokumon
-        self.bokumons: list[BokuMon] = [BokuMon("Pan", self.display_surface)]
+        self.bokumons: list[BokuMon] = [BokuMon("Pan", self.renderer)]
         self.atual_bokumon: BokuMon = self.bokumons[0]
         self.bokumons_battle = [0, 1, 2, 3, 4, 5]
         self.bokumon_part_battle = []
@@ -49,7 +49,7 @@ class Player:
         for direction in self.frames:
             path = f"player/{direction}"
             for i in range(3):
-                image = render_utils.load_asset_image(
+                image = self.renderer.load_asset_image(
                     f"{path}/{i}",
                     is_convert_alpha=True,
                     is_scale=True,
@@ -164,7 +164,7 @@ class Player:
         self.input()
 
     def draw(self):
-        self.display_surface.blit(self.image, self.rect)
+        self.renderer.blit(self.image, self.rect)
 
     def bokumon_alive(self):
         for i, bokumon in enumerate(self.bokumons):

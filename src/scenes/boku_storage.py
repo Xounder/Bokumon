@@ -1,12 +1,12 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from utils import render_utils
+from ui import Renderer
 from utils.timer import Timer
 
 
 class BokuStorage:
-    def __init__(self, screen, player, boku_summary):
-        self.display_surface = screen
+    def __init__(self, renderer: Renderer, player, boku_summary):
+        self.renderer = renderer
         self.player = player
         self.boku_summary = boku_summary
         self.timer = Timer(0.12)
@@ -23,45 +23,36 @@ class BokuStorage:
         self.show_party = False
         self.change_pos = False
 
-        self.font_20 = render_utils.load_font("Pixeltype", 20)
-        self.font_25 = render_utils.load_font("Pixeltype", 25)
-        self.font_35 = render_utils.load_font("Pixeltype", 35)
-        self.font_42 = render_utils.load_font("Pixeltype", 42)
-        self.font_50 = render_utils.load_font("Pixeltype", 50)
+        self.font_20 = self.renderer.load_font("Pixeltype", 20)
+        self.font_25 = self.renderer.load_font("Pixeltype", 25)
+        self.font_35 = self.renderer.load_font("Pixeltype", 35)
+        self.font_42 = self.renderer.load_font("Pixeltype", 42)
+        self.font_50 = self.renderer.load_font("Pixeltype", 50)
 
     def draw_player_bokumon(self):
         # bokumon data
-        render_utils.draw_rect(
-            self.display_surface, [144, 144, 168], [-10, 5, 250, screen_height - 20]
-        )
-        render_utils.draw_rect(
-            self.display_surface, [248, 224, 208], [-10, 5, 250, screen_height - 20], 5
-        )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect([144, 144, 168], [-10, 5, 250, screen_height - 20])
+        self.renderer.draw_rect([248, 224, 208], [-10, 5, 250, screen_height - 20], 5)
+        self.renderer.draw_rect(
             [112, 112, 120],
             [-5, 10, 240, screen_height / 2 - 20],
             0,
             5,
         )
-        render_utils.draw_rect(
-            self.display_surface, [80, 80, 88], [-10, 8, 245, screen_height - 26], 3, 5
-        )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect([80, 80, 88], [-10, 8, 245, screen_height - 26], 3, 5)
+        self.renderer.draw_rect(
             [184, 212, 244],
             [15, 60, 200, screen_height / 2 - 90],
             0,
             10,
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             [96, 96, 104],
             [15, 60, 200, screen_height / 2 - 90],
             5,
             10,
         )
-        render_utils.blit_shadow_text(
+        self.renderer.blit_shadow_text(
             "BKMN DATA", [248, 216, 144], [50, 35], self.font_42
         )
 
@@ -78,88 +69,75 @@ class BokuStorage:
                     boku_sel = self.player.bokumons[self.select_player_boku[0]]
             if boku_sel:
                 boku_sel.draw_modified([115, 160], 1)
-                render_utils.blit_shadow_text(
+                self.renderer.blit_shadow_text(
                     f"{boku_sel.atual_name}", "white", [20, 320], self.font_50
                 )
-                render_utils.blit_shadow_text(
+                self.renderer.blit_shadow_text(
                     f"/{boku_sel.name}", "white", [20, 360], self.font_50
                 )
-                render_utils.blit_shadow_text(
+                self.renderer.blit_shadow_text(
                     f"Lv{boku_sel.level}", "white", [50, 400], self.font_50
                 )
 
         if self.deposit or self.show_party:
             # bokumon_player_section
-            render_utils.draw_rect(
-                self.display_surface, [56, 136, 136], [240, 0, 300, screen_height - 20]
-            )
-            render_utils.draw_rect(
-                self.display_surface,
+            self.renderer.draw_rect([56, 136, 136], [240, 0, 300, screen_height - 20])
+            self.renderer.draw_rect(
                 [128, 168, 176],
                 [240, 0, 300, screen_height - 20],
                 10,
             )
-            render_utils.draw_rect(
-                self.display_surface,
+            self.renderer.draw_rect(
                 [80, 96, 112],
                 [240, 0, 300, screen_height - 20],
                 3,
             )
-            render_utils.draw_rect(
-                self.display_surface,
+            self.renderer.draw_rect(
                 [40, 104, 96],
                 [250, 10, 280, screen_height - 40],
                 5,
             )
             # bokumon's space
-            render_utils.draw_rect(
-                self.display_surface,
+            self.renderer.draw_rect(
                 [60, 108, 112],
                 [260, screen_height / 2 - 70, 110, 80],
                 5,
             )
-            render_utils.draw_rect(
-                self.display_surface,
+            self.renderer.draw_rect(
                 [0, 120, 248],
                 [265, screen_height / 2 - 65, 100, 70],
             )
             self.player.bokumons[0].draw_modified([330, screen_height / 2 - 15], 1.5)
             if self.select_player_boku[0] == 0:
-                render_utils.draw_rect(
-                    self.display_surface,
+                self.renderer.draw_rect(
                     "red",
                     [260, screen_height / 2 - 70, 110, 80],
                     5,
                 )
             space_y = 20
             for i in range(5):
-                render_utils.draw_rect(
-                    self.display_surface,
+                self.renderer.draw_rect(
                     [60, 108, 112],
                     [400, 20 + space_y, 110, 80],
                     5,
                 )
                 if i + 1 <= len(self.player.bokumons) - 1:
-                    render_utils.draw_rect(
-                        self.display_surface,
+                    self.renderer.draw_rect(
                         [0, 120, 248],
                         [405, 25 + space_y, 100, 70],
                     )
                     self.player.bokumons[i + 1].draw_modified([470, space_y + 75], 1.5)
                     if self.select_player_boku[0] == i + 1:
-                        render_utils.draw_rect(
-                            self.display_surface, "red", [400, 20 + space_y, 110, 80], 5
-                        )
+                        self.renderer.draw_rect("red", [400, 20 + space_y, 110, 80], 5)
                 space_y += 90
 
-            render_utils.draw_rect(
-                self.display_surface,
+            self.renderer.draw_rect(
                 [160, 208, 240],
                 [415, 55 + space_y, 100, 40],
                 0,
                 5,
             )
-            render_utils.blit_shadow_text(
+            self.renderer.blit_shadow_text(
                 "CANCEL",
                 "white",
                 [
@@ -170,47 +148,34 @@ class BokuStorage:
                 back_color="black",
             )
             if self.select_player_boku[0] == 6:
-                render_utils.draw_rect(
-                    self.display_surface, "red", [415, 55 + space_y, 100, 40], 3, 5
-                )
+                self.renderer.draw_rect("red", [415, 55 + space_y, 100, 40], 3, 5)
 
     def draw_poke_space(self):
-        render_utils.draw_rect(
-            self.display_surface, [248, 228, 216], [0, 0, screen_width, screen_height]
-        )
+        self.renderer.draw_rect([248, 228, 216], [0, 0, screen_width, screen_height])
         # bokumon_space
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             [184, 184, 184],
             [240, 100, 550, screen_height - 120],
             0,
             10,
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             [224, 224, 224],
             [244, 104, 541, screen_height - 129],
             5,
             10,
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             [144, 128, 176],
             [240, 100, 550, screen_height - 120],
             5,
             10,
         )
         # section_num
-        render_utils.draw_rect(
-            self.display_surface, [144, 136, 224], [390, 40, 250, 50], 0, 10
-        )
-        render_utils.draw_rect(
-            self.display_surface, [248, 248, 248], [395, 45, 240, 40], 3, 10
-        )
-        render_utils.draw_rect(
-            self.display_surface, [158, 146, 178], [390, 40, 250, 50], 5, 10
-        )
-        render_utils.blit_shadow_text(
+        self.renderer.draw_rect([144, 136, 224], [390, 40, 250, 50], 0, 10)
+        self.renderer.draw_rect([248, 248, 248], [395, 45, 240, 40], 3, 10)
+        self.renderer.draw_rect([158, 146, 178], [390, 40, 250, 50], 5, 10)
+        self.renderer.blit_shadow_text(
             f"{self.section_num+1}",
             "white",
             [515, 65],
@@ -219,42 +184,30 @@ class BokuStorage:
             center=True,
         )
         if self.select_boku_box[0] == 1:
-            render_utils.draw_rect(
-                self.display_surface, "red", [395, 45, 240, 40], 3, 10
-            )
+            self.renderer.draw_rect("red", [395, 45, 240, 40], 3, 10)
         # party bokumon
-        render_utils.draw_rect(
-            self.display_surface, [164, 156, 156], [240, -10, 195, 48], 0, 5
-        )
-        render_utils.draw_rect(
-            self.display_surface, [160, 232, 144], [248, 3, 180, 30], 0, 5
-        )
-        render_utils.blit_shadow_text(
+        self.renderer.draw_rect([164, 156, 156], [240, -10, 195, 48], 0, 5)
+        self.renderer.draw_rect([160, 232, 144], [248, 3, 180, 30], 0, 5)
+        self.renderer.blit_shadow_text(
             f"PARTY BOKUMON", "white", [258, 8], self.font_35, back_color="black"
         )
-        render_utils.draw_rect(
-            self.display_surface, [80, 96, 112], [240, -10, 195, 48], 3, 5
-        )
+        self.renderer.draw_rect([80, 96, 112], [240, -10, 195, 48], 3, 5)
         if self.select_boku_box[0] == 0 and self.select_boku_box[1] == 0:
-            render_utils.draw_rect(
-                self.display_surface, "red", [240, -10, 195, 48], 3, 5
-            )
+            self.renderer.draw_rect("red", [240, -10, 195, 48], 3, 5)
         # close box
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             [160, 200, 240],
             [screen_width - 200, 3, 195, 30],
             0,
             10,
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             [112, 112, 120],
             [screen_width - 200, 3, 195, 30],
             3,
             10,
         )
-        render_utils.blit_shadow_text(
+        self.renderer.blit_shadow_text(
             f"CLOSE BOX",
             "white",
             [screen_width - 160, 8],
@@ -262,9 +215,7 @@ class BokuStorage:
             back_color="black",
         )
         if self.select_boku_box[0] == 0 and self.select_boku_box[1] == 1:
-            render_utils.draw_rect(
-                self.display_surface, "red", [screen_width - 200, 3, 195, 30], 3, 10
-            )
+            self.renderer.draw_rect("red", [screen_width - 200, 3, 195, 30], 3, 10)
 
         space = [310, 170]
         limit = [self.section_num * 30, (self.section_num + 1) * 30]
@@ -278,8 +229,7 @@ class BokuStorage:
                     and cont_mat[1] == self.select_boku_box[1]
                     and cont_mat[0] == self.select_boku_box[0] - 2
                 ):
-                    render_utils.draw_rect(
-                        self.display_surface,
+                    self.renderer.draw_rect(
                         "red",
                         [space[0] - 50, space[1] - 50, 70, 70],
                         3,
@@ -297,29 +247,23 @@ class BokuStorage:
 
     def draw_selection_pc(self):
         # parte de cima
-        render_utils.draw_rect(self.display_surface, "white", [20, 0, 300, 150], 0, 5)
-        render_utils.draw_rect(
-            self.display_surface, [112, 104, 128], [20, 0, 300, 150], 5, 5
-        )
+        self.renderer.draw_rect("white", [20, 0, 300, 150], 0, 5)
+        self.renderer.draw_rect([112, 104, 128], [20, 0, 300, 150], 5, 5)
         select_list = ["Withdraw Bokumon", "Deposit Bokumon", "See ya!"]
         space_y = 20
         for i, sel in enumerate(select_list):
-            render_utils.blit_text(sel, "black", [50, space_y], self.font_42)
+            self.renderer.blit_text(sel, "black", [50, space_y], self.font_42)
             if i == self.selected_action[0]:
-                render_utils.draw_rect(
-                    self.display_surface, "black", [35, space_y + 5, 10, 10], 0, 20
-                )
+                self.renderer.draw_rect("black", [35, space_y + 5, 10, 10], 0, 20)
             space_y += 40
         # parte de baixo
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             "white",
             [20, screen_height - 150, screen_width - 40, 140],
             0,
             20,
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             [160, 208, 224],
             [20, screen_height - 150, screen_width - 40, 140],
             5,
@@ -332,27 +276,27 @@ class BokuStorage:
         ]
 
         if len(self.player.bokumons) == 6 and self.selected_action[0] == 0:
-            render_utils.blit_text(
+            self.renderer.blit_text(
                 "Can't  take  any  more  Bokumon.",
                 "black",
                 [50, screen_height - 120],
                 self.font_42,
             )
         elif len(self.player.bokumons) == 1 and self.selected_action[0] == 1:
-            render_utils.blit_text(
+            self.renderer.blit_text(
                 "Can't  deposit  any  Bokumon.",
                 "black",
                 [50, screen_height - 120],
                 self.font_42,
             )
         else:
-            render_utils.blit_text(
+            self.renderer.blit_text(
                 selected_text[self.selected_action[0]][0],
                 "black",
                 [50, screen_height - 120],
                 self.font_50,
             )
-            render_utils.blit_text(
+            self.renderer.blit_text(
                 selected_text[self.selected_action[0]][1],
                 "black",
                 [50, screen_height - 70],
@@ -373,22 +317,19 @@ class BokuStorage:
             )
             name = self.player.bokumon_storage[tam].atual_name
             j = 1
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             [112, 104, 128],
             [screen_width - 300, screen_height / 2 - 40, 280, 200],
             0,
             10,
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             "black",
             [screen_width - 300, screen_height / 2 - 40, 280, 200],
             3,
             10,
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             "white",
             [screen_width - 290, screen_height / 2 - 30, 260, 180],
             0,
@@ -396,15 +337,14 @@ class BokuStorage:
         )
         space_y = 0
         for i, text in enumerate(list_choose[j]):
-            render_utils.blit_text(
+            self.renderer.blit_text(
                 f"{text}",
                 "black",
                 [screen_width - 260, screen_height / 2 - 10 + space_y],
                 self.font_50,
             )
             if self.select_boku_action == i:
-                render_utils.draw_rect(
-                    self.display_surface,
+                self.renderer.draw_rect(
                     "black",
                     [screen_width - 275, screen_height / 2 - 5 + space_y, 10, 10],
                     0,
@@ -412,22 +352,19 @@ class BokuStorage:
                 )
             space_y += 50
 
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             [96, 112, 120],
             [screen_width - 560, screen_height - 120, 540, 100],
             0,
             5,
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             "black",
             [screen_width - 560, screen_height - 120, 540, 100],
             3,
             5,
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             "white",
             [screen_width - 550, screen_height - 110, 520, 80],
             0,
@@ -438,7 +375,7 @@ class BokuStorage:
             and self.select_boku_action == 0
             and self.withdraw
         ):
-            render_utils.blit_shadow_text(
+            self.renderer.blit_shadow_text(
                 "Can't  take  any  more  Bokumon.",
                 "gray",
                 [screen_width - 530, screen_height - 90],
@@ -449,14 +386,14 @@ class BokuStorage:
             and self.select_boku_action == 0
             and self.deposit
         ):
-            render_utils.blit_shadow_text(
+            self.renderer.blit_shadow_text(
                 "Can't  deposit  any  Bokumon.",
                 "gray",
                 [screen_width - 530, screen_height - 90],
                 self.font_42,
             )
         else:
-            render_utils.blit_text(
+            self.renderer.blit_text(
                 f"{name}  is  selected.",
                 "black",
                 [screen_width - 530, screen_height - 90],

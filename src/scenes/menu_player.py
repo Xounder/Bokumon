@@ -1,13 +1,14 @@
 import pygame
 from settings.settings import *
-from utils import save_system, render_utils
+from ui import Renderer
+from utils import save_system
 from utils.timer import Timer
 from game_types import PlayerData
 
 
 class MenuPlayer:
-    def __init__(self, screen, player, view_bokumon, bag):
-        self.display_surface = screen
+    def __init__(self, renderer: Renderer, player, view_bokumon, bag):
+        self.renderer = renderer
         self.player = player
         self.view_bokumon = view_bokumon
         self.bag = bag
@@ -17,28 +18,23 @@ class MenuPlayer:
         self.timer = Timer(0.12)
         self.saved = False
 
-        self.font_20 = render_utils.load_font("Pixeltype", 20)
-        self.font_25 = render_utils.load_font("Pixeltype", 25)
-        self.font_35 = render_utils.load_font("Pixeltype", 35)
-        self.font_42 = render_utils.load_font("Pixeltype", 42)
-        self.font_50 = render_utils.load_font("Pixeltype", 50)
+        # TODO: refactor deixar como atributos no renderer
+        self.font_20 = self.renderer.load_font("Pixeltype", 20)
+        self.font_25 = self.renderer.load_font("Pixeltype", 25)
+        self.font_35 = self.renderer.load_font("Pixeltype", 35)
+        self.font_42 = self.renderer.load_font("Pixeltype", 42)
+        self.font_50 = self.renderer.load_font("Pixeltype", 50)
 
     def draw_overlay(self):
         pos = [screen_width - 200, 50]
-        render_utils.draw_rect(
-            self.display_surface, "gray", (pos[0], pos[1], 190, screen_height - 200)
-        )
-        render_utils.draw_rect(
-            self.display_surface, "black", (pos[0], pos[1], 190, screen_height - 200), 4
-        )
+        self.renderer.draw_rect("gray", (pos[0], pos[1], 190, screen_height - 200))
+        self.renderer.draw_rect("black", (pos[0], pos[1], 190, screen_height - 200), 4)
 
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             "gray",
             (50, screen_height - 130, screen_width - 220, 120),
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             "black",
             (50, screen_height - 130, screen_width - 220, 120),
             4,
@@ -46,7 +42,7 @@ class MenuPlayer:
         menu_list = ["Bokumon", "Bag", "Save", "Exit"]
         space_y = 40
         for i, name in enumerate(menu_list):
-            render_utils.blit_shadow_text(
+            self.renderer.blit_shadow_text(
                 name,
                 "black",
                 (pos[0] + 30, pos[1] + space_y),
@@ -58,7 +54,7 @@ class MenuPlayer:
                 space_y_desc = 0
                 if not self.saved:
                     for desc in menu_description[name]:
-                        render_utils.blit_shadow_text(
+                        self.renderer.blit_shadow_text(
                             desc,
                             "black",
                             (70, screen_height - 110 + space_y_desc),
@@ -68,7 +64,7 @@ class MenuPlayer:
                         space_y_desc += 35
                 else:
                     if self.selected == 2:
-                        render_utils.blit_shadow_text(
+                        self.renderer.blit_shadow_text(
                             "Game Saved!",
                             "black",
                             (70, screen_height - 110 + space_y_desc),
@@ -77,8 +73,7 @@ class MenuPlayer:
                         )
                     else:
                         self.saved = False
-                render_utils.draw_rect(
-                    self.display_surface,
+                self.renderer.draw_rect(
                     "black",
                     (pos[0] + 10, pos[1] + space_y + 5, 10, 10),
                     4,

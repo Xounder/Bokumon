@@ -1,15 +1,15 @@
 import pygame
 from settings.settings import *
-from utils import render_utils
+from ui import Renderer
 from utils.timer import Timer
 from .bokumon_summary import BokuSummary
 
 
 class ViewBokumon:
-    def __init__(self, screen, player):
-        self.display_surface = screen
+    def __init__(self, renderer: Renderer, player):
+        self.renderer = renderer
         self.player = player
-        self.bokumon_summary = BokuSummary(self.display_surface, self.player)
+        self.bokumon_summary = BokuSummary(self.renderer, self.player)
         self.timer = Timer(0.12)
         self.msg_timer = Timer(1)
         self.active = False
@@ -22,10 +22,10 @@ class ViewBokumon:
         self.bag_used = False
         self.set_view()
 
-        self.font_25 = render_utils.load_font("Pixeltype", 25)
-        self.font_35 = render_utils.load_font("Pixeltype", 35)
-        self.font_42 = render_utils.load_font("Pixeltype", 42)
-        self.font_50 = render_utils.load_font("Pixeltype", 50)
+        self.font_25 = self.renderer.load_font("Pixeltype", 25)
+        self.font_35 = self.renderer.load_font("Pixeltype", 35)
+        self.font_42 = self.renderer.load_font("Pixeltype", 42)
+        self.font_50 = self.renderer.load_font("Pixeltype", 50)
 
         # select_action
         self.text_select_action = [
@@ -37,8 +37,8 @@ class ViewBokumon:
         self.selected_action = [0, False, ""]
         # bokuball img
         self.boku_ball_img = [
-            render_utils.load_asset_image("boku_ball", is_convert_alpha=True),
-            render_utils.load_asset_image("boku_ball2", is_convert_alpha=True),
+            self.renderer.load_asset_image("boku_ball", is_convert_alpha=True),
+            self.renderer.load_asset_image("boku_ball2", is_convert_alpha=True),
         ]
 
     def set_view(self):
@@ -52,14 +52,14 @@ class ViewBokumon:
 
     def draw_boku_ball(self, rect_center, scale, num):
         self.boku_ball_rect = self.boku_ball_img[num].get_rect(center=(rect_center))
-        image_mod = render_utils.scale_image(
+        image_mod = self.renderer.scale_image(
             self.boku_ball_img[num],
             (
                 self.boku_ball_img[num].get_width() / scale,
                 self.boku_ball_img[num].get_height() / scale,
             ),
         )
-        self.display_surface.blit(image_mod, self.boku_ball_rect)
+        self.renderer.blit(image_mod, self.boku_ball_rect)
 
     def draw(self):
         if self.bokumon_summary.active:
@@ -80,10 +80,8 @@ class ViewBokumon:
     def draw_overlay(self):
         space_y = 90
         prev_y = 20
-        render_utils.draw_rect(
-            self.display_surface, "green", (0, 0, screen_width, screen_height)
-        )
-        render_utils.draw_rect(self.display_surface, "brown", (20, 100, 300, 200), 0, 5)
+        self.renderer.draw_rect("green", (0, 0, screen_width, screen_height))
+        self.renderer.draw_rect("brown", (20, 100, 300, 200), 0, 5)
         if self.marked[0] == 0 or self.marked[1] == 0:
             if (self.selected or self.fainted or self.player.battle) and self.marked[
                 0
@@ -94,8 +92,8 @@ class ViewBokumon:
         else:
             color = "white"
         # first bokumon
-        render_utils.draw_rect(self.display_surface, color, (20, 100, 300, 200), 7, 5)
-        render_utils.draw_rect(self.display_surface, "black", (20, 100, 300, 200), 3, 5)
+        self.renderer.draw_rect(color, (20, 100, 300, 200), 7, 5)
+        self.renderer.draw_rect("black", (20, 100, 300, 200), 3, 5)
         self.status_txt(
             0,
             [[45, 240], [80, 245]],
@@ -111,9 +109,7 @@ class ViewBokumon:
         self.player.bokumons[0].draw_modified((60, 125), 1.3)
         for i in range(1, 6):
             if i <= self.boku_limit:
-                render_utils.draw_rect(
-                    self.display_surface, "brown", (370, prev_y, 400, space_y), 0, 5
-                )
+                self.renderer.draw_rect("brown", (370, prev_y, 400, space_y), 0, 5)
                 if self.marked[0] == i or self.marked[1] == i:
                     if (
                         self.selected or self.fainted or self.player.battle
@@ -123,12 +119,8 @@ class ViewBokumon:
                         color = "black"
                 else:
                     color = "white"
-                render_utils.draw_rect(
-                    self.display_surface, color, (370, prev_y, 400, space_y), 7, 5
-                )
-                render_utils.draw_rect(
-                    self.display_surface, "black", (370, prev_y, 400, space_y), 3, 5
-                )
+                self.renderer.draw_rect(color, (370, prev_y, 400, space_y), 7, 5)
+                self.renderer.draw_rect("black", (370, prev_y, 400, space_y), 3, 5)
 
                 life_y = prev_y - 20
                 self.status_txt(
@@ -149,9 +141,7 @@ class ViewBokumon:
                 self.draw_boku_ball((355, prev_y + 30), 0.7, num)
                 self.player.bokumons[i].draw_modified((375, prev_y + 60), 1.3)
             else:
-                render_utils.draw_rect(
-                    self.display_surface, "brown", (370, prev_y, 400, space_y), 5, 5
-                )
+                self.renderer.draw_rect("brown", (370, prev_y, 400, space_y), 5, 5)
             prev_y += space_y + 5
 
         # comentario
@@ -163,20 +153,16 @@ class ViewBokumon:
                 text = "Move to where?"
             else:
                 text = "Do  what  if  this  Bokumon?"
-        render_utils.draw_rect(self.display_surface, "white", (20, 500, 500, 90))
-        render_utils.draw_rect(self.display_surface, "blue", (20, 500, 500, 90), 5)
-        render_utils.draw_rect(self.display_surface, "black", (20, 500, 500, 90), 3)
-        render_utils.blit_text(text, "black", (50, 535), self.font_42)
+        self.renderer.draw_rect("white", (20, 500, 500, 90))
+        self.renderer.draw_rect("blue", (20, 500, 500, 90), 5)
+        self.renderer.draw_rect("black", (20, 500, 500, 90), 3)
+        self.renderer.blit_text(text, "black", (50, 535), self.font_42)
         color = "black" if self.marked[0] == 6 or self.marked[1] == 6 else "white"
 
-        render_utils.draw_rect(
-            self.display_surface, "purple", (610, 520, 150, 50), 0, 50
-        )
-        render_utils.draw_rect(self.display_surface, color, (610, 520, 150, 50), 5, 50)
-        render_utils.draw_rect(
-            self.display_surface, "black", (610, 520, 150, 50), 3, 50
-        )
-        render_utils.blit_text("Cancel", "black", (660, 535), self.font_42)
+        self.renderer.draw_rect("purple", (610, 520, 150, 50), 0, 50)
+        self.renderer.draw_rect(color, (610, 520, 150, 50), 5, 50)
+        self.renderer.draw_rect("black", (610, 520, 150, 50), 3, 50)
+        self.renderer.blit_text("Cancel", "black", (660, 535), self.font_42)
         # bokuball cancel
         self.draw_boku_ball((620, 545), 1, 1 if self.marked[0] == 6 else 0)
         self.blit_select_action()
@@ -187,34 +173,31 @@ class ViewBokumon:
         ):
             if self.marked[0] == 0:
                 tam = [(screen_height - 160), 150]
-                render_utils.draw_rect(
-                    self.display_surface,
+                self.renderer.draw_rect(
                     "#00008B",
                     (0, tam[0], screen_width, tam[1]),
                     0,
                     3,
                 )
-                render_utils.draw_rect(
-                    self.display_surface,
+                self.renderer.draw_rect(
                     "black",
                     (0, tam[0], screen_width, tam[1]),
                     3,
                     5,
                 )
-                render_utils.draw_rect(
-                    self.display_surface,
+                self.renderer.draw_rect(
                     "white",
                     (10, tam[0] + 10, screen_width - 20, tam[1] - 20),
                     0,
                     5,
                 )
-                render_utils.blit_text(
+                self.renderer.blit_text(
                     f"{self.player.bokumons[0].atual_name} is already",
                     "black",
                     (40, tam[0] + 40),
                     self.font_50,
                 )
-                render_utils.blit_text(
+                self.renderer.blit_text(
                     "in battle!", "black", (40, tam[0] + 80), self.font_50
                 )
 
@@ -233,35 +216,33 @@ class ViewBokumon:
             * self.player.bokumons[num_boku].atual_life
             / self.player.bokumons[num_boku].life
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             "black",
             (pos_rect[0][0], pos_rect[0][1], tam[1], tam[2]),
             0,
             5,
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             "green",
             (pos_rect[1][0], pos_rect[1][1], tam_life, tam[3]),
         )
-        render_utils.blit_shadow_text(
+        self.renderer.blit_shadow_text(
             "HP", "red", (pos_text[0][0], pos_text[0][1]), font=life_font
         )
-        render_utils.blit_shadow_text(
+        self.renderer.blit_shadow_text(
             f"{round(self.player.bokumons[num_boku].atual_life)}/{self.player.bokumons[num_boku].life}",
             "white",
             (pos_text[1][0], pos_text[1][1]),
             font=self.font_35,
             right=True,
         )
-        render_utils.blit_shadow_text(
+        self.renderer.blit_shadow_text(
             f"{self.player.bokumons[num_boku].atual_name}",
             "white",
             (pos_text[2][0], pos_text[2][1]),
             font=boku_info,
         )
-        render_utils.blit_shadow_text(
+        self.renderer.blit_shadow_text(
             f"Lv{self.player.bokumons[num_boku].level}",
             "white",
             (pos_text[3][0], pos_text[3][1]),
@@ -270,26 +251,21 @@ class ViewBokumon:
 
     def draw_potion_use(self):
         tam = [(screen_height - 160), 150]
-        render_utils.draw_rect(
-            self.display_surface, "#00008B", (0, tam[0], screen_width, tam[1]), 0, 3
-        )
-        render_utils.draw_rect(
-            self.display_surface, "black", (0, tam[0], screen_width, tam[1]), 3, 5
-        )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect("#00008B", (0, tam[0], screen_width, tam[1]), 0, 3)
+        self.renderer.draw_rect("black", (0, tam[0], screen_width, tam[1]), 3, 5)
+        self.renderer.draw_rect(
             "white",
             (10, tam[0] + 10, screen_width - 20, tam[1] - 20),
             0,
             5,
         )
-        render_utils.blit_text(
+        self.renderer.blit_text(
             f"{self.player.bokumons[0].atual_name} HP was restored",
             "black",
             (40, tam[0] + 40),
             self.font_50,
         )
-        render_utils.blit_text(
+        self.renderer.blit_text(
             f"by {self.bag_values[0][1]} point(s).",
             "black",
             (40, tam[0] + 80),
@@ -460,22 +436,19 @@ class ViewBokumon:
             qnt_sel = len(self.text_select_action) - 2
             tam = [(screen_height - 160) - qnt_sel * 40, 150 + qnt_sel * 40]
             # caixa de seleção do item
-            render_utils.draw_rect(
-                self.display_surface,
+            self.renderer.draw_rect(
                 "#00008B",
                 (screen_width - 250, tam[0], 220, tam[1]),
                 0,
                 3,
             )
-            render_utils.draw_rect(
-                self.display_surface,
+            self.renderer.draw_rect(
                 "black",
                 (screen_width - 250, tam[0], 220, tam[1]),
                 3,
                 5,
             )
-            render_utils.draw_rect(
-                self.display_surface,
+            self.renderer.draw_rect(
                 "white",
                 (screen_width - 240, tam[0] + 10, 200, tam[1] - 20),
                 0,
@@ -489,7 +462,7 @@ class ViewBokumon:
 
             space_y_sel = 40
             for i, sel in enumerate(self.text_select_action[self.list_selected]):
-                render_utils.blit_text(
+                self.renderer.blit_text(
                     f"{sel}",
                     "black",
                     (screen_width - 210, tam[0] + space_y_sel),
@@ -497,8 +470,7 @@ class ViewBokumon:
                 )
                 if self.selected_action[0] == i:
                     # botão de seleção
-                    render_utils.draw_rect(
-                        self.display_surface,
+                    self.renderer.draw_rect(
                         "black",
                         (screen_width - 230, tam[0] + space_y_sel + 5, 10, 10),
                     )

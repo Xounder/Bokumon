@@ -3,22 +3,16 @@ from typing import Self
 from random import randint
 from settings.settings import *
 from settings.bokumons_settings import *
-from utils import render_utils
+from ui import Renderer
 from game_types import BokumonData
 
 
 class BokuMon:
-    def __init__(self, name, screen=None, wild=False, level=5):
-        self.display_surface = screen
+    def __init__(self, name, renderer: Renderer = None, wild=False, level=5):
+        self.renderer = renderer
 
-        # TODO: remover posteriormente
-        if not self.display_surface:
-            self.display_surface = pygame.display.get_surface()
-
-        img_surf = render_utils.load_asset_image(
-            f"bokumon/{name}", is_convert_alpha=True
-        )
-        self.image = render_utils.scale_image(img_surf, (TILE_SIZE * 3, TILE_SIZE * 3))
+        img_surf = self.renderer.load_asset_image(f"bokumon/{name}", is_convert_alpha=True)
+        self.image = self.renderer.scale_image(img_surf, (TILE_SIZE * 3, TILE_SIZE * 3))
         self.rect = self.image.get_rect(center=(boku_pos[0] if wild else boku_pos[1]))
 
         # atributes
@@ -163,10 +157,10 @@ class BokuMon:
     def evolve(self):
         self.previous_name = self.name
         self.name = self.evo_step[0]
-        self.image = img_surf = render_utils.load_asset_image(
+        self.image = img_surf = self.renderer.load_asset_image(
             f"bokumon/{self.name}", is_convert_alpha=True
         )
-        self.image = render_utils.scale_image(img_surf, (TILE_SIZE * 3, TILE_SIZE * 3))
+        self.image = self.renderer.scale_image(img_surf, (TILE_SIZE * 3, TILE_SIZE * 3))
         self.evo_step = bokumons_evo_steps[self.name]  ###
         if self.evolved[0][1]:
             self.evolved[0][1] = True
@@ -188,15 +182,15 @@ class BokuMon:
 
     def draw(self, rect_center):
         self.rect.center = rect_center
-        self.display_surface.blit(self.image, self.rect)
+        self.renderer.blit(self.image, self.rect)
 
     def draw_modified(self, rect_center, scale):
         self.rect.center = rect_center
-        image_mod = render_utils.scale_image(
+        image_mod = self.renderer.scale_image(
             self.image,
             (self.image.get_width() / scale, self.image.get_height() / scale),
         )
-        self.display_surface.blit(image_mod, self.rect)
+        self.renderer.blit(image_mod, self.rect)
 
     def update(self):
         pass

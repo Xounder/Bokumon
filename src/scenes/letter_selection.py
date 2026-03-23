@@ -1,12 +1,12 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from utils import render_utils
+from ui import Renderer
 from utils.timer import Timer
 
 
 class LetterSelection:
-    def __init__(self, screen):
-        self.display_surface = screen
+    def __init__(self, renderer: Renderer):
+        self.renderer = renderer
         self.timer = Timer(0.12)
 
         self.active = False
@@ -19,11 +19,11 @@ class LetterSelection:
             ["U", "V", "W", "X", "Y", "Z", ",", ""],
         ]
 
-        self.font_20 = render_utils.load_font("Pixeltype", 20)
-        self.font_25 = render_utils.load_font("Pixeltype", 25)
-        self.font_35 = render_utils.load_font("Pixeltype", 35)
-        self.font_42 = render_utils.load_font("Pixeltype", 42)
-        self.font_50 = render_utils.load_font("Pixeltype", 50)
+        self.font_20 = self.renderer.load_font("Pixeltype", 20)
+        self.font_25 = self.renderer.load_font("Pixeltype", 25)
+        self.font_35 = self.renderer.load_font("Pixeltype", 35)
+        self.font_42 = self.renderer.load_font("Pixeltype", 42)
+        self.font_50 = self.renderer.load_font("Pixeltype", 50)
 
     def activate(self, name, first=False):
         if not first:
@@ -45,7 +45,7 @@ class LetterSelection:
             for j in range(7):
                 letter = self.letter_selection[i][j]
                 letter = letter if not self.letter_lower else letter.lower()
-                render_utils.blit_shadow_text(
+                self.renderer.blit_shadow_text(
                     letter,
                     "white",
                     (110 + space[1], screen_height / 2 - 50 + space[0]),
@@ -53,8 +53,7 @@ class LetterSelection:
                     center=True,
                 )
                 if self.selected_button[0] == i and self.selected_button[1] == j:
-                    render_utils.draw_rect(
-                        self.display_surface,
+                    self.renderer.draw_rect(
                         "red",
                         (90 + space[1], screen_height / 2 - 75 + space[0], 40, 40),
                         3,
@@ -65,27 +64,21 @@ class LetterSelection:
             space[0] += 90
 
     def draw_ballon_text(self):
-        render_utils.draw_rect(
-            self.display_surface, [224, 216, 88], (0, 0, screen_width, screen_height)
-        )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect([224, 216, 88], (0, 0, screen_width, screen_height))
+        self.renderer.draw_rect(
             [192, 184, 176],
             (100, 20, screen_width - 200, 150),
             0,
             15,
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             [140, 140, 136],
             (100, 20, screen_width - 200, 150),
             3,
             15,
         )
-        render_utils.draw_rect(
-            self.display_surface, "white", (110, 30, screen_width - 220, 130), 0, 15
-        )
-        render_utils.blit_text(
+        self.renderer.draw_rect("white", (110, 30, screen_width - 220, 130), 0, 15)
+        self.renderer.blit_text(
             f"{self.real_name}'s nickname?", "black", (250, 60), self.font_50
         )
         spaces = "_ _ _ _ _ _ _ _ _ _"
@@ -95,7 +88,7 @@ class LetterSelection:
             )
         ]
         word_modified = self.append_space(self.name_choosed)
-        render_utils.blit_text(
+        self.renderer.blit_text(
             f"{word_modified}{count_space}", "black", (250, 120), self.font_50
         )
 
@@ -107,24 +100,20 @@ class LetterSelection:
         return new_word
 
     def draw_buttons(self):
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             [152, 200, 224],
             (60, screen_height / 2 - 100, screen_width - 250, screen_height / 2 + 70),
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             [96, 136, 160],
             (60, screen_height / 2 - 100, screen_width - 250, screen_height / 2 + 70),
             3,
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             [120, 168, 192],
             (70, screen_height / 2 - 90, screen_width - 270, screen_height / 2 + 50),
         )
-        render_utils.draw_rect(
-            self.display_surface,
+        self.renderer.draw_rect(
             [72, 112, 136],
             (70, screen_height / 2 - 90, screen_width - 270, screen_height / 2 + 50),
             3,
@@ -138,28 +127,25 @@ class LetterSelection:
                 if self.selected_button[0] == i and self.selected_button[1] == 7
                 else "black"
             )
-            render_utils.draw_rect(
-                self.display_surface,
+            self.renderer.draw_rect(
                 "white",
                 (screen_width - 185, screen_height / 2 + space_y, 130, 50),
                 0,
                 15,
             )
-            render_utils.draw_rect(
-                self.display_surface,
+            self.renderer.draw_rect(
                 color_sel,
                 (screen_width - 185, screen_height / 2 + space_y, 130, 50),
                 3,
                 15,
             )
-            render_utils.draw_rect(
-                self.display_surface,
+            self.renderer.draw_rect(
                 color,
                 (screen_width - 180, screen_height / 2 + 5 + space_y, 120, 40),
                 0,
                 10,
             )
-            render_utils.blit_text(
+            self.renderer.blit_text(
                 text_list[i],
                 "white",
                 (screen_width - 120, screen_height / 2 + 30 + space_y),

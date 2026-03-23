@@ -1,14 +1,15 @@
 import pygame, sys
 from settings.settings import *
 from scenes import Level
-
+from ui import Renderer
 
 class Game:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((screen_width, screen_height))
         self.clock = pygame.time.Clock()
-        self.level = Level(self.screen)
+        self.renderer = Renderer(self.screen)
+        self.level = Level(self.renderer)
 
     def run(self):
         while True:

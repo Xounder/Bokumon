@@ -1,13 +1,13 @@
 import pygame
 from random import randint
 from settings.settings import screen_height, screen_width
-from utils import render_utils
+from ui import Renderer
 from utils.timer import Timer
 
 
 class BokuEvo:
-    def __init__(self, screen, player):
-        self.display_surface = screen
+    def __init__(self, renderer: Renderer, player):
+        self.renderer = renderer
         self.player = player
         self.atual_bokumon = self.player.atual_bokumon
         self.timer = Timer(0.12)
@@ -17,36 +17,33 @@ class BokuEvo:
         self.pressed_z = False
         self.pressed_x = False
 
-        self.background = render_utils.load_asset_image(
+        self.background = self.renderer.load_asset_image(
             "fight2", is_scale=True, scale=(screen_width, screen_height - 100)
         )
-        self.font_42 = render_utils.load_font("Pixeltype", 42)
-        self.font_25 = render_utils.load_font("Pixeltype", 25)
+        self.font_42 = self.renderer.load_font("Pixeltype", 42)
+        self.font_25 = self.renderer.load_font("Pixeltype", 25)
 
     def draw(self):
-        self.display_surface.blit(self.background, (0, 0))
+        self.renderer.blit(self.background, (0, 0))
         if not self.cancel:
             if self.show_msg and self.msg_timer.run:
                 self.atual_bokumon.draw((screen_width / 2, screen_height / 2))
                 for gas in self.list_gas:
-                    render_utils.draw_circle(
-                        self.display_surface,
+                    self.renderer.draw_circle(
                         "gray",
                         (gas[0] + randint(-50, 50), gas[1] + randint(-50, 50)),
                         10,
                     )
-                render_utils.draw_rect(
-                    self.display_surface,
+                self.renderer.draw_rect(
                     "white",
                     [0, screen_height - 130, screen_width, 130],
                 )
-                render_utils.draw_rect(
-                    self.display_surface,
+                self.renderer.draw_rect(
                     "black",
                     [0, screen_height - 130, screen_width, 130],
                     3,
                 )
-                render_utils.blit_text(
+                self.renderer.blit_text(
                     f"{self.atual_bokumon.name} is evolving...",
                     "black",
                     [20, screen_height - 80],
@@ -77,18 +74,16 @@ class BokuEvo:
                     self.msg_timer.active()
 
                 self.atual_bokumon.draw((screen_width / 2, screen_height / 2))
-                render_utils.draw_rect(
-                    self.display_surface,
+                self.renderer.draw_rect(
                     "white",
                     [0, screen_height - 130, screen_width, 130],
                 )
-                render_utils.draw_rect(
-                    self.display_surface,
+                self.renderer.draw_rect(
                     "black",
                     [0, screen_height - 130, screen_width, 130],
                     3,
                 )
-                render_utils.blit_text(
+                self.renderer.blit_text(
                     f"{self.atual_bokumon.previous_name} evolved to {self.atual_bokumon.name}",
                     "black",
                     [20, screen_height - 80],
@@ -99,18 +94,16 @@ class BokuEvo:
 
         else:
             self.atual_bokumon.draw((screen_width / 2, screen_height / 2))
-            render_utils.draw_rect(
-                self.display_surface,
+            self.renderer.draw_rect(
                 "white",
                 [0, screen_height - 130, screen_width, 130],
             )
-            render_utils.draw_rect(
-                self.display_surface,
+            self.renderer.draw_rect(
                 "black",
                 [0, screen_height - 130, screen_width, 130],
                 3,
             )
-            render_utils.blit_text(
+            self.renderer.blit_text(
                 f"{self.atual_bokumon.name} don't evolve",
                 "black",
                 [20, screen_height - 80],
@@ -185,26 +178,24 @@ class BokuEvo:
                     f"{self.player.atual_bokumon.critical_chance}",
                 ]
 
-            render_utils.draw_rect(
-                self.display_surface,
+            self.renderer.draw_rect(
                 "gray",
                 (screen_width / 2 + 120, screen_height / 2 - 200, 220, 220),
             )
-            render_utils.draw_rect(
-                self.display_surface,
+            self.renderer.draw_rect(
                 "black",
                 (screen_width / 2 + 120, screen_height / 2 - 200, 220, 220),
                 3,
             )
             for i in range(0, len(ups), 2):
-                render_utils.blit_shadow_text(
+                self.renderer.blit_shadow_text(
                     ups[i],
                     "black",
                     (screen_width / 2 + 149, screen_height / 2 - 180 + (20 * i)),
                     font=self.font_25,
                     back_color="white",
                 )
-                render_utils.blit_shadow_text(
+                self.renderer.blit_shadow_text(
                     ups[i + 1],
                     "black",
                     (screen_width / 2 + 278, screen_height / 2 - 180 + (20 * i)),

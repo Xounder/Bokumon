@@ -1,6 +1,6 @@
 from settings.settings import *
-from utils import render_utils
 from maps.map import map_1
+from ui import Renderer
 from sprites import Player
 from .bag import Bag
 from .boku_storage import BokuStorage
@@ -13,58 +13,58 @@ from .menu_game import Menu
 
 
 class Level:
-    def __init__(self, screen):
-        self.display_surface = screen
+    def __init__(self, renderer: Renderer):
+        self.renderer = renderer
         self.map = map_1
         self.camera = [0, 0]
         self.map_tile_images = {
-            "G": render_utils.load_asset_image(
+            "G": self.renderer.load_asset_image(
                 "ground/grass/0",
                 is_convert=True,
                 is_scale=True,
                 scale=(TILE_SIZE, TILE_SIZE),
             ),
-            "T": render_utils.load_asset_image(
+            "T": self.renderer.load_asset_image(
                 "ground/sand/0",
                 is_convert=True,
                 is_scale=True,
                 scale=(TILE_SIZE, TILE_SIZE),
             ),
-            "H": render_utils.load_asset_image(
+            "H": self.renderer.load_asset_image(
                 "boku_center/heal_point",
                 is_convert=True,
                 is_scale=True,
                 scale=(TILE_SIZE, TILE_SIZE),
             ),
-            "P": render_utils.load_asset_image(
+            "P": self.renderer.load_asset_image(
                 "boku_center/pc",
                 is_convert=True,
                 is_scale=True,
                 scale=(TILE_SIZE, TILE_SIZE),
             ),
-            "S": render_utils.load_asset_image(
+            "S": self.renderer.load_asset_image(
                 "trader", is_convert=True, is_scale=True, scale=(TILE_SIZE, TILE_SIZE)
             ),
         }
-        self.player = Player(screen, self.camera)
-        self.view_bokumon = ViewBokumon(screen, self.player)
-        self.bag = Bag(self.display_surface, self.view_bokumon)
+        self.player = Player(self.renderer, self.camera)
+        self.view_bokumon = ViewBokumon(self.renderer, self.player)
+        self.bag = Bag(self.renderer, self.view_bokumon)
         self.battle_map = BattleMap(
-            self.display_surface, self.player, self.view_bokumon, self.bag
+            self.renderer, self.player, self.view_bokumon, self.bag
         )
         self.menu_player = MenuPlayer(
-            self.display_surface, self.player, self.view_bokumon, self.bag
+            self.renderer, self.player, self.view_bokumon, self.bag
         )
         # evolução
-        self.boku_evo = BokuEvo(self.display_surface, self.player)
+        self.boku_evo = BokuEvo(self.renderer, self.player)
         # boku_storage
         self.boku_storage = BokuStorage(
-            self.display_surface, self.player, self.view_bokumon.bokumon_summary
+            self.renderer, self.player, self.view_bokumon.bokumon_summary
         )
         # boku_store
-        self.boku_store = BokuStore(self.display_surface, self.player, self.bag)
+        self.boku_store = BokuStore(self.renderer, self.player, self.bag)
         # retirar
-        self.menu_game = Menu(self.display_surface, self.player, self.bag)
+        self.menu_game = Menu(self.renderer, self.player, self.bag)
         self.change_map = False
 
     def draw_map(self):
@@ -73,7 +73,7 @@ class Level:
             for col, tile in enumerate(line_map):
                 x_map = col * TILE_SIZE - self.camera[0]
                 y_map = line * TILE_SIZE - self.camera[1]
-                self.display_surface.blit(self.map_tile_images[tile], (x_map, y_map))
+                self.renderer.blit(self.map_tile_images[tile], (x_map, y_map))
 
     def update(self):
         if self.menu_game.intro:
@@ -112,7 +112,7 @@ class Level:
                             self.player.status = self.player.previous_status
 
                 elif self.change_map:
-                    self.battle_map.set_battle(self.display_surface, self.player)
+                    self.battle_map.set_battle(self.renderer, self.player)
                     self.battle_map.update()
 
                 if self.player.atual_bokumon.evolved[0][0]:
