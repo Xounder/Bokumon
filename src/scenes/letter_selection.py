@@ -58,15 +58,15 @@ class LetterSelection:
             space[0] += 90
 
     def draw_ballon_text(self):
-        self.renderer.draw_rect([224, 216, 88], (0, 0, screen_width, screen_height))
+        self.renderer.draw_rect('#E0D858', (0, 0, screen_width, screen_height))
         self.renderer.draw_rect(
-            [192, 184, 176],
+            '#C0B8B0',
             (100, 20, screen_width - 200, 150),
             0,
             15,
         )
         self.renderer.draw_rect(
-            [140, 140, 136],
+            '#8C8C88',
             (100, 20, screen_width - 200, 150),
             3,
             15,
@@ -101,27 +101,27 @@ class LetterSelection:
 
     def draw_buttons(self):
         self.renderer.draw_rect(
-            [152, 200, 224],
+            '#98C8E0',
             (60, screen_height / 2 - 100, screen_width - 250, screen_height / 2 + 70),
         )
         self.renderer.draw_rect(
-            [96, 136, 160],
+            '#6088A0',
             (60, screen_height / 2 - 100, screen_width - 250, screen_height / 2 + 70),
             3,
         )
         self.renderer.draw_rect(
-            [120, 168, 192],
+            '#78A8C0',
             (70, screen_height / 2 - 90, screen_width - 270, screen_height / 2 + 50),
         )
         self.renderer.draw_rect(
-            [72, 112, 136],
+            '#487088',
             (70, screen_height / 2 - 90, screen_width - 270, screen_height / 2 + 50),
             3,
         )
         space_y = -50
         text_list = ["lower", "BACK", "OK"]
         for i in range(3):
-            color = [208, 152, 112] if i == 0 else [224, 216, 88]
+            color = '#D09870' if i == 0 else '#E0D858'
             color_sel = (
                 "red"
                 if self.selected_button[0] == i and self.selected_button[1] == 7

@@ -22,7 +22,7 @@ class Renderer:
             size: self._load_font("Pixeltype", self._get_font_pixels(size))
             for size in FontSize
         }
-    
+
     def _load_font(
         self, font_name: str, font_size: int, extension: str = "ttf"
     ) -> pygame.font.Font:
@@ -57,9 +57,7 @@ class Renderer:
 
     def draw_rect(
         self,
-        color: (
-            str | tuple[int, int, int]
-        ),  # TODO: remover tuple dos arquivos, preferir str
+        color: str | tuple[int, int, int],
         rect: tuple[int, int, int, int],
         width: int = 0,
         border_radius: int = -1,

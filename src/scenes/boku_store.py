@@ -39,7 +39,7 @@ class BokuStore:
     def draw_select_action(self):
         list_choose = ["Buy", "Trade", "See ya!"]
         self.renderer.draw_rect(
-            [112, 104, 128],
+            '#706880',
             [screen_width - 300, screen_height / 2 - 40, 280, 200],
             0,
             10,
@@ -79,7 +79,7 @@ class BokuStore:
             "See   you  later!",
         ]
         self.renderer.draw_rect(
-            [96, 112, 120],
+            '#607078',
             [20, screen_height - 120, screen_width - 40, 100],
             0,
             5,
@@ -104,7 +104,7 @@ class BokuStore:
         )
 
     def draw_buy_items(self):
-        self.renderer.draw_rect([112, 104, 128], [200, 20, 570, 450], 0, 10)
+        self.renderer.draw_rect('#706880', [200, 20, 570, 450], 0, 10)
         self.renderer.draw_rect("black", [200, 20, 570, 450], 3, 10)
         self.renderer.draw_rect("white", [210, 30, 550, 430], 0, 10)
 
@@ -171,7 +171,7 @@ class BokuStore:
 
         if self.selected_item[2] or self.cant_buy:
             self.renderer.draw_rect(
-                [96, 112, 120],
+                '#607078',
                 [20, screen_height - 120, screen_width - 50, 100],
                 0,
                 5,
@@ -204,7 +204,7 @@ class BokuStore:
 
         if self.selected_item[2]:
             self.renderer.draw_rect(
-                [96, 112, 120],
+                '#607078',
                 [screen_width - 230, screen_height - 220, 200, 100],
                 0,
                 5,
@@ -232,7 +232,7 @@ class BokuStore:
 
         if self.selected_item[1][1]:
             self.renderer.draw_rect(
-                [96, 112, 120],
+                '#607078',
                 [screen_width - 130, screen_height - 300, 100, 100],
                 0,
                 5,
@@ -275,7 +275,7 @@ class BokuStore:
 
     def draw_merc_trade(self):
         self.renderer.draw_rect(
-            [56, 136, 136],
+            '#388888',
             [350, screen_height / 2 - 200, 420, screen_height / 2 + 60],
             0,
             10,
@@ -317,7 +317,7 @@ class BokuStore:
             size=FontSize.EXTRA_LARGE,
         )
         self.renderer.draw_rect(
-            [60, 108, 112],
+            '#3C6C70',
             [380, screen_height / 2 - 50, 110, 80],
             5,
         )
@@ -362,13 +362,13 @@ class BokuStore:
                 center=True,
             )
             self.renderer.draw_rect(
-                [0, 120, 248],
+                '#0078F8',
                 [385, screen_height / 2 - 45, 100, 70],
             )
             sel_boku.draw_modified([450, screen_height / 2 + 5], 1.5)
             # choose
             self.renderer.draw_rect(
-                [56, 136, 136],
+                '#388888',
                 [screen_width - 130, screen_height - 210, 100, 100],
                 0,
                 5,
@@ -406,7 +406,7 @@ class BokuStore:
             )
             # text
             self.renderer.draw_rect(
-                [96, 112, 120],
+                '#607078',
                 [20, screen_height - 110, screen_width - 50, 100],
                 0,
                 5,
@@ -432,7 +432,7 @@ class BokuStore:
         else:
             if self.cant_trade:
                 self.renderer.draw_rect(
-                    [96, 112, 120],
+                    '#607078',
                     [350, screen_height - 110, 420, 100],
                     0,
                     5,
@@ -478,31 +478,31 @@ class BokuStore:
 
     def draw_player_trade(self):
         # bokumon_player_section
-        self.renderer.draw_rect([56, 136, 136], [20, 10, 300, screen_height - 20])
-        self.renderer.draw_rect([128, 168, 176], [20, 10, 300, screen_height - 20], 10)
-        self.renderer.draw_rect([80, 96, 112], [20, 10, 300, screen_height - 20], 3)
-        self.renderer.draw_rect([40, 104, 96], [30, 20, 280, screen_height - 40], 5)
+        self.renderer.draw_rect('#388888', [20, 10, 300, screen_height - 20])
+        self.renderer.draw_rect('#80A8B0', [20, 10, 300, screen_height - 20], 10)
+        self.renderer.draw_rect('#506070', [20, 10, 300, screen_height - 20], 3)
+        self.renderer.draw_rect('#286860', [30, 20, 280, screen_height - 40], 5)
         # bokumon's space
         self.renderer.draw_rect(
-            [60, 108, 112],
+            '#3C6C70',
             [40, screen_height / 2 - 70, 110, 80],
             5,
         )
-        self.renderer.draw_rect([0, 120, 248], [45, screen_height / 2 - 65, 100, 70])
+        self.renderer.draw_rect('#0078F8', [45, screen_height / 2 - 65, 100, 70])
         self.player.bokumons[0].draw_modified([110, screen_height / 2 - 15], 1.5)
         if self.select_player_boku[0] == 0:
             self.renderer.draw_rect("red", [40, screen_height / 2 - 70, 110, 80], 5)
         space_y = 20
         for i in range(5):
-            self.renderer.draw_rect([60, 108, 112], [180, 20 + space_y, 110, 80], 5)
+            self.renderer.draw_rect('#3C6C70', [180, 20 + space_y, 110, 80], 5)
             if i + 1 <= len(self.player.bokumons) - 1:
-                self.renderer.draw_rect([0, 120, 248], [185, 25 + space_y, 100, 70])
+                self.renderer.draw_rect('#0078F8', [185, 25 + space_y, 100, 70])
                 self.player.bokumons[i + 1].draw_modified([250, space_y + 75], 1.5)
                 if self.select_player_boku[0] == i + 1:
                     self.renderer.draw_rect("red", [180, 20 + space_y, 110, 80], 5)
             space_y += 90
 
-        self.renderer.draw_rect([160, 208, 240], [195, 55 + space_y, 100, 40], 0, 5)
+        self.renderer.draw_rect('#A0D0F0', [195, 55 + space_y, 100, 40], 0, 5)
         self.renderer.blit_shadow_text(
             "CANCEL",
             "white",

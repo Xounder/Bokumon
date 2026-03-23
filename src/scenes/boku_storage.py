@@ -25,23 +25,23 @@ class BokuStorage:
 
     def draw_player_bokumon(self):
         # bokumon data
-        self.renderer.draw_rect([144, 144, 168], [-10, 5, 250, screen_height - 20])
-        self.renderer.draw_rect([248, 224, 208], [-10, 5, 250, screen_height - 20], 5)
+        self.renderer.draw_rect('#9090A8', [-10, 5, 250, screen_height - 20])
+        self.renderer.draw_rect('#F8E0D0', [-10, 5, 250, screen_height - 20], 5)
         self.renderer.draw_rect(
-            [112, 112, 120],
+            '#707078',
             [-5, 10, 240, screen_height / 2 - 20],
             0,
             5,
         )
-        self.renderer.draw_rect([80, 80, 88], [-10, 8, 245, screen_height - 26], 3, 5)
+        self.renderer.draw_rect('#505058', [-10, 8, 245, screen_height - 26], 3, 5)
         self.renderer.draw_rect(
-            [184, 212, 244],
+            '#B8D4F4',
             [15, 60, 200, screen_height / 2 - 90],
             0,
             10,
         )
         self.renderer.draw_rect(
-            [96, 96, 104],
+            '#606068',
             [15, 60, 200, screen_height / 2 - 90],
             5,
             10,
@@ -87,30 +87,30 @@ class BokuStorage:
 
         if self.deposit or self.show_party:
             # bokumon_player_section
-            self.renderer.draw_rect([56, 136, 136], [240, 0, 300, screen_height - 20])
+            self.renderer.draw_rect('#388888', [240, 0, 300, screen_height - 20])
             self.renderer.draw_rect(
-                [128, 168, 176],
+                '#80A8B0',
                 [240, 0, 300, screen_height - 20],
                 10,
             )
             self.renderer.draw_rect(
-                [80, 96, 112],
+                '#506070',
                 [240, 0, 300, screen_height - 20],
                 3,
             )
             self.renderer.draw_rect(
-                [40, 104, 96],
+                '#286860',
                 [250, 10, 280, screen_height - 40],
                 5,
             )
             # bokumon's space
             self.renderer.draw_rect(
-                [60, 108, 112],
+                '#3C6C70',
                 [260, screen_height / 2 - 70, 110, 80],
                 5,
             )
             self.renderer.draw_rect(
-                [0, 120, 248],
+                '#0078F8',
                 [265, screen_height / 2 - 65, 100, 70],
             )
             self.player.bokumons[0].draw_modified([330, screen_height / 2 - 15], 1.5)
@@ -123,13 +123,13 @@ class BokuStorage:
             space_y = 20
             for i in range(5):
                 self.renderer.draw_rect(
-                    [60, 108, 112],
+                    '#3C6C70',
                     [400, 20 + space_y, 110, 80],
                     5,
                 )
                 if i + 1 <= len(self.player.bokumons) - 1:
                     self.renderer.draw_rect(
-                        [0, 120, 248],
+                        '#0078F8',
                         [405, 25 + space_y, 100, 70],
                     )
                     self.player.bokumons[i + 1].draw_modified([470, space_y + 75], 1.5)
@@ -138,7 +138,7 @@ class BokuStorage:
                 space_y += 90
 
             self.renderer.draw_rect(
-                [160, 208, 240],
+                '#A0D0F0',
                 [415, 55 + space_y, 100, 40],
                 0,
                 5,
@@ -157,30 +157,30 @@ class BokuStorage:
                 self.renderer.draw_rect("red", [415, 55 + space_y, 100, 40], 3, 5)
 
     def draw_poke_space(self):
-        self.renderer.draw_rect([248, 228, 216], [0, 0, screen_width, screen_height])
+        self.renderer.draw_rect('#F8E4D8', [0, 0, screen_width, screen_height])
         # bokumon_space
         self.renderer.draw_rect(
-            [184, 184, 184],
+            '#B8B8B8',
             [240, 100, 550, screen_height - 120],
             0,
             10,
         )
         self.renderer.draw_rect(
-            [224, 224, 224],
+            '#E0E0E0',
             [244, 104, 541, screen_height - 129],
             5,
             10,
         )
         self.renderer.draw_rect(
-            [144, 128, 176],
+            '#9080B0',
             [240, 100, 550, screen_height - 120],
             5,
             10,
         )
         # section_num
-        self.renderer.draw_rect([144, 136, 224], [390, 40, 250, 50], 0, 10)
-        self.renderer.draw_rect([248, 248, 248], [395, 45, 240, 40], 3, 10)
-        self.renderer.draw_rect([158, 146, 178], [390, 40, 250, 50], 5, 10)
+        self.renderer.draw_rect('#9088E0', [390, 40, 250, 50], 0, 10)
+        self.renderer.draw_rect('#F8F8F8', [395, 45, 240, 40], 3, 10)
+        self.renderer.draw_rect('#9E92B2', [390, 40, 250, 50], 5, 10)
         self.renderer.blit_shadow_text(
             f"{self.section_num+1}",
             "white",
@@ -192,23 +192,23 @@ class BokuStorage:
         if self.select_boku_box[0] == 1:
             self.renderer.draw_rect("red", [395, 45, 240, 40], 3, 10)
         # party bokumon
-        self.renderer.draw_rect([164, 156, 156], [240, -10, 195, 48], 0, 5)
-        self.renderer.draw_rect([160, 232, 144], [248, 3, 180, 30], 0, 5)
+        self.renderer.draw_rect('#A49C9C', [240, -10, 195, 48], 0, 5)
+        self.renderer.draw_rect('#A0E890', [248, 3, 180, 30], 0, 5)
         self.renderer.blit_shadow_text(
             f"PARTY BOKUMON", "white", [258, 8], size=FontSize.LARGE, back_color="black"
         )
-        self.renderer.draw_rect([80, 96, 112], [240, -10, 195, 48], 3, 5)
+        self.renderer.draw_rect('#506070', [240, -10, 195, 48], 3, 5)
         if self.select_boku_box[0] == 0 and self.select_boku_box[1] == 0:
             self.renderer.draw_rect("red", [240, -10, 195, 48], 3, 5)
         # close box
         self.renderer.draw_rect(
-            [160, 200, 240],
+            '#A0C8F0',
             [screen_width - 200, 3, 195, 30],
             0,
             10,
         )
         self.renderer.draw_rect(
-            [112, 112, 120],
+            '#707078',
             [screen_width - 200, 3, 195, 30],
             3,
             10,
@@ -254,7 +254,7 @@ class BokuStorage:
     def draw_selection_pc(self):
         # parte de cima
         self.renderer.draw_rect("white", [20, 0, 300, 150], 0, 5)
-        self.renderer.draw_rect([112, 104, 128], [20, 0, 300, 150], 5, 5)
+        self.renderer.draw_rect('#706880', [20, 0, 300, 150], 5, 5)
         select_list = ["Withdraw Bokumon", "Deposit Bokumon", "See ya!"]
         space_y = 20
         for i, sel in enumerate(select_list):
@@ -275,7 +275,7 @@ class BokuStorage:
             20,
         )
         self.renderer.draw_rect(
-            [160, 208, 224],
+            '#A0D0E0',
             [20, screen_height - 150, screen_width - 40, 140],
             5,
             20,
@@ -329,7 +329,7 @@ class BokuStorage:
             name = self.player.bokumon_storage[tam].atual_name
             j = 1
         self.renderer.draw_rect(
-            [112, 104, 128],
+            '#706880',
             [screen_width - 300, screen_height / 2 - 40, 280, 200],
             0,
             10,
@@ -364,7 +364,7 @@ class BokuStorage:
             space_y += 50
 
         self.renderer.draw_rect(
-            [96, 112, 120],
+            '#607078',
             [screen_width - 560, screen_height - 120, 540, 100],
             0,
             5,
