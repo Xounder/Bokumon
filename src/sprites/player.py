@@ -251,7 +251,7 @@ class Player:
         self.tickets = data["tickets"]
 
         for bokumon_data in data["bokumons"]:
-            self.bokumons.append(BokuMon.from_dict(bokumon_data))
+            self.bokumons.append(BokuMon.from_dict(bokumon_data, self.renderer))
 
         for bokumon_data in data["bokumons"]:
-            self.bokumon_storage.append(BokuMon.from_dict(bokumon_data))
+            self.bokumon_storage.append(BokuMon.from_dict(bokumon_data, self.renderer))

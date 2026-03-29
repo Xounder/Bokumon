@@ -8,10 +8,11 @@ from game_types import BokumonData
 
 
 class BokuMon:
-    def __init__(self, name, renderer: Renderer = None, wild=False, level=5):
+    def __init__(self, name, renderer: Renderer, wild=False, level=5):
         self.renderer = renderer
-
-        img_surf = self.renderer.load_asset_image(f"bokumon/{name}", is_convert_alpha=True)
+        img_surf = self.renderer.load_asset_image(
+            f"bokumon/{name}", is_convert_alpha=True
+        )
         self.image = self.renderer.scale_image(img_surf, (TILE_SIZE * 3, TILE_SIZE * 3))
         self.rect = self.image.get_rect(center=(boku_pos[0] if wild else boku_pos[1]))
 
@@ -100,8 +101,8 @@ class BokuMon:
         }
 
     @classmethod
-    def from_dict(cls, data: BokumonData) -> Self:
-        player = cls(name=data["name"], level=data["level"])
+    def from_dict(cls, data: BokumonData, renderer: Renderer) -> Self:
+        player = cls(name=data["name"], renderer=renderer, level=data["level"])
         player.apply_state(data)
         return player
 
