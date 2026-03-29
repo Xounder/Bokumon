@@ -41,7 +41,7 @@ class BokuEvo:
                     [0, screen_height - 130, screen_width, 130],
                     3,
                 )
-                self.renderer.blit_text(
+                self.renderer.draw_text(
                     f"{self.atual_bokumon.name} is evolving...",
                     "black",
                     [20, screen_height - 80],
@@ -81,7 +81,7 @@ class BokuEvo:
                     [0, screen_height - 130, screen_width, 130],
                     3,
                 )
-                self.renderer.blit_text(
+                self.renderer.draw_text(
                     f"{self.atual_bokumon.previous_name} evolved to {self.atual_bokumon.name}",
                     "black",
                     [20, screen_height - 80],
@@ -101,7 +101,7 @@ class BokuEvo:
                 [0, screen_height - 130, screen_width, 130],
                 3,
             )
-            self.renderer.blit_text(
+            self.renderer.draw_text(
                 f"{self.atual_bokumon.name} don't evolve",
                 "black",
                 [20, screen_height - 80],
@@ -186,19 +186,21 @@ class BokuEvo:
                 3,
             )
             for i in range(0, len(ups), 2):
-                self.renderer.blit_shadow_text(
+                self.renderer.draw_text(
                     ups[i],
                     "black",
                     (screen_width / 2 + 149, screen_height / 2 - 180 + (20 * i)),
                     size=FontSize.MEDIUM,
-                    back_color="white",
+                    is_shadowed_text=True,
+                    shadow_color="white",
                 )
-                self.renderer.blit_shadow_text(
+                self.renderer.draw_text(
                     ups[i + 1],
                     "black",
                     (screen_width / 2 + 278, screen_height / 2 - 180 + (20 * i)),
                     size=FontSize.MEDIUM,
-                    back_color="white",
+                    is_shadowed_text=True,
+                    shadow_color="white",
                 )
 
             if not self.msg_timer.run and self.up_bokumon:

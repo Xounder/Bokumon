@@ -118,7 +118,7 @@ class Bag:
             self.view_bokumon.draw()
 
     def draw_overlay(self):
-        self.renderer.draw_rect('#655FFF', (0, 0, screen_width, screen_height))
+        self.renderer.draw_rect("#655FFF", (0, 0, screen_width, screen_height))
         # Items
         self.renderer.draw_rect(
             "orange",
@@ -147,12 +147,13 @@ class Bag:
         # Nome seção
         self.renderer.draw_rect("black", (18, 17, 240, 106), 3, 5)
         self.renderer.draw_rect("orange", (20, 20, 250, 100), 0, 3)
-        self.renderer.blit_shadow_text(
+        self.renderer.draw_text(
             f"{self.section}",
             "white",
             (140, 80),
             size=FontSize.DOUBLE_EXTRA_LARGE,
-            center=True,
+            is_center=True,
+            is_shadowed_text=True,
         )
         # parte de baixo
         self.renderer.draw_rect(
@@ -191,19 +192,21 @@ class Bag:
                 <= i
                 <= self.limit_visu_items[self.section][1]
             ):
-                self.renderer.blit_shadow_text(
+                self.renderer.draw_text(
                     f"{item[0]}",
                     "black",
                     (330, 60 + space_y),
                     size=FontSize.DOUBLE_EXTRA_LARGE,
-                    back_color="gray",
+                    is_shadowed_text=True,
+                    shadow_color="gray",
                 )
-                self.renderer.blit_shadow_text(
+                self.renderer.draw_text(
                     f"X   {item[2]}",
                     "black",
                     (650, 60 + space_y),
                     size=FontSize.DOUBLE_EXTRA_LARGE,
-                    back_color="gray",
+                    is_shadowed_text=True,
+                    shadow_color="gray",
                 )
                 if self.marked[self.section][0] == i:
                     # botão de seleção
@@ -217,11 +220,12 @@ class Bag:
                         self.renderer.blit(self.items_image[item[0]], item_rect)
                         # descrição
                         for desc in self.items_description[item[0]]:
-                            self.renderer.blit_shadow_text(
+                            self.renderer.draw_text(
                                 desc,
                                 "white",
                                 (140, screen_height - 120 + space_y_desc),
                                 size=FontSize.DOUBLE_EXTRA_LARGE,
+                                is_shadowed_text=True,
                             )
                             space_y_desc += 40
                     else:
@@ -231,13 +235,13 @@ class Bag:
                         self.renderer.blit(self.items_image[item[0]], item_rect)
                         if not self.toss:
                             # aviso de seleção
-                            self.renderer.blit_text(
+                            self.renderer.draw_text(
                                 f"{item[0]}  is",
                                 "black",
                                 (140 + 20, screen_height - 110),
                                 size=FontSize.DOUBLE_EXTRA_LARGE,
                             )
-                            self.renderer.blit_text(
+                            self.renderer.draw_text(
                                 "selected.",
                                 "black",
                                 (140 + 20, screen_height - 65),
@@ -276,7 +280,7 @@ class Bag:
                         else:
                             space_y_sel = 40
                             for j, sel in enumerate(self.selected_item):
-                                self.renderer.blit_text(
+                                self.renderer.draw_text(
                                     f"{sel}",
                                     "black",
                                     (screen_width - 190, tam[0] + space_y_sel),
@@ -460,13 +464,13 @@ class Bag:
         item = self.all_items[self.section][self.marked[self.section][0]]
         if item[2] > 1:
             if not self.pressed_z[0]:
-                self.renderer.blit_text(
+                self.renderer.draw_text(
                     f"Toss out how many",
                     "black",
                     (140 + 20, screen_height - 110),
                     size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
-                self.renderer.blit_text(
+                self.renderer.draw_text(
                     f"{item[0]}(s)?",
                     "black",
                     (140 + 20, screen_height - 65),
@@ -474,7 +478,7 @@ class Bag:
                 )
                 zeros_txt = "000"
                 zeros_txt = zeros_txt[: 3 - len(str(self.selected_item[1][0]))]
-                self.renderer.blit_text(
+                self.renderer.draw_text(
                     f"x{zeros_txt}{self.toss_values[0]}",
                     "black",
                     (screen_width - 150, screen_height - 80),
@@ -482,26 +486,26 @@ class Bag:
                 )
             else:
                 if not self.pressed_z[1]:
-                    self.renderer.blit_text(
+                    self.renderer.draw_text(
                         f"Throw away {self.toss_values[0]} of",
                         "black",
                         (140 + 20, screen_height - 110),
                         size=FontSize.DOUBLE_EXTRA_LARGE,
                     )
-                    self.renderer.blit_text(
+                    self.renderer.draw_text(
                         "this item?",
                         "black",
                         (140 + 20, screen_height - 65),
                         size=FontSize.DOUBLE_EXTRA_LARGE,
                     )
                     # botão de seleção
-                    self.renderer.blit_text(
+                    self.renderer.draw_text(
                         "Yes",
                         "black",
                         (screen_width - 165, screen_height - 110),
                         size=FontSize.DOUBLE_EXTRA_LARGE,
                     )
-                    self.renderer.blit_text(
+                    self.renderer.draw_text(
                         "No",
                         "black",
                         (screen_width - 160, screen_height - 65),
@@ -525,13 +529,13 @@ class Bag:
                     self.reset_toss()
         else:
             if not self.pressed_z[0]:
-                self.renderer.blit_text(
+                self.renderer.draw_text(
                     f"Throw away 1 of",
                     "black",
                     (140 + 20, screen_height - 110),
                     size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
-                self.renderer.blit_text(
+                self.renderer.draw_text(
                     "this item?",
                     "black",
                     (140 + 20, screen_height - 65),

@@ -39,12 +39,13 @@ class LetterSelection:
             for j in range(7):
                 letter = self.letter_selection[i][j]
                 letter = letter if not self.letter_lower else letter.lower()
-                self.renderer.blit_shadow_text(
+                self.renderer.draw_text(
                     letter,
                     "white",
                     (110 + space[1], screen_height / 2 - 50 + space[0]),
                     size=FontSize.DOUBLE_EXTRA_LARGE,
-                    center=True,
+                    is_center=True,
+                    is_shadowed_text=True,
                 )
                 if self.selected_button[0] == i and self.selected_button[1] == j:
                     self.renderer.draw_rect(
@@ -58,21 +59,21 @@ class LetterSelection:
             space[0] += 90
 
     def draw_ballon_text(self):
-        self.renderer.draw_rect('#E0D858', (0, 0, screen_width, screen_height))
+        self.renderer.draw_rect("#E0D858", (0, 0, screen_width, screen_height))
         self.renderer.draw_rect(
-            '#C0B8B0',
+            "#C0B8B0",
             (100, 20, screen_width - 200, 150),
             0,
             15,
         )
         self.renderer.draw_rect(
-            '#8C8C88',
+            "#8C8C88",
             (100, 20, screen_width - 200, 150),
             3,
             15,
         )
         self.renderer.draw_rect("white", (110, 30, screen_width - 220, 130), 0, 15)
-        self.renderer.blit_text(
+        self.renderer.draw_text(
             f"{self.real_name}'s nickname?",
             "black",
             (250, 60),
@@ -85,7 +86,7 @@ class LetterSelection:
             )
         ]
         word_modified = self.append_space(self.name_choosed)
-        self.renderer.blit_text(
+        self.renderer.draw_text(
             f"{word_modified}{count_space}",
             "black",
             (250, 120),
@@ -101,27 +102,27 @@ class LetterSelection:
 
     def draw_buttons(self):
         self.renderer.draw_rect(
-            '#98C8E0',
+            "#98C8E0",
             (60, screen_height / 2 - 100, screen_width - 250, screen_height / 2 + 70),
         )
         self.renderer.draw_rect(
-            '#6088A0',
+            "#6088A0",
             (60, screen_height / 2 - 100, screen_width - 250, screen_height / 2 + 70),
             3,
         )
         self.renderer.draw_rect(
-            '#78A8C0',
+            "#78A8C0",
             (70, screen_height / 2 - 90, screen_width - 270, screen_height / 2 + 50),
         )
         self.renderer.draw_rect(
-            '#487088',
+            "#487088",
             (70, screen_height / 2 - 90, screen_width - 270, screen_height / 2 + 50),
             3,
         )
         space_y = -50
         text_list = ["lower", "BACK", "OK"]
         for i in range(3):
-            color = '#D09870' if i == 0 else '#E0D858'
+            color = "#D09870" if i == 0 else "#E0D858"
             color_sel = (
                 "red"
                 if self.selected_button[0] == i and self.selected_button[1] == 7
@@ -145,12 +146,12 @@ class LetterSelection:
                 0,
                 10,
             )
-            self.renderer.blit_text(
+            self.renderer.draw_text(
                 text_list[i],
                 "white",
                 (screen_width - 120, screen_height / 2 + 30 + space_y),
                 size=FontSize.DOUBLE_EXTRA_LARGE,
-                center=True,
+                is_center=True,
             )
             space_y += 120
 

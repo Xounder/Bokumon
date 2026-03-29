@@ -104,45 +104,48 @@ class Renderer:
     def blit(self, image: pygame.Surface, rect: tuple[int, int]) -> None:
         self.display_surface.blit(image, rect)
 
-    def blit_text(
+    def draw_text(
         self,
         text: str,
         color: str,
         position: tuple,
         size: FontSize,
-        right: bool = False,
-        center: bool = False,
+        is_shadowed_text: bool = False,
+        shadow_color: str = "black",
+        is_right: bool = False,
+        is_center: bool = False,
+    ) -> None:
+        if is_shadowed_text:
+            TEXT_OFFSET = 2
+
+            self._blit_text(
+                text,
+                shadow_color,
+                (position[0] + TEXT_OFFSET, position[1] + TEXT_OFFSET),
+                size,
+                is_right,
+                is_center,
+            )
+
+        self._blit_text(text, color, position, size, is_right, is_center)
+
+    def _blit_text(
+        self,
+        text: str,
+        color: str,
+        position: tuple,
+        size: FontSize,
+        is_right: bool = False,
+        is_center: bool = False,
     ) -> None:
         font = self.fonts[size]
         overlay_text = font.render(text, False, color)
 
-        if right:
+        if is_right:
             overlay_text_rect = overlay_text.get_rect(topright=(position))
-        elif center:
+        elif is_center:
             overlay_text_rect = overlay_text.get_rect(center=(position))
         else:
             overlay_text_rect = overlay_text.get_rect(topleft=(position))
 
-        self.display_surface.blit(overlay_text, overlay_text_rect)
-
-    def blit_shadow_text(
-        self,
-        text: str,
-        color: str,
-        position: tuple,
-        size: FontSize,
-        back_color: str = "black",
-        right: bool = False,
-        center: bool = False,
-    ) -> None:
-        TEXT_OFFSET = 2
-
-        self.blit_text(
-            text,
-            back_color,
-            [position[0] + TEXT_OFFSET, position[1] + TEXT_OFFSET],
-            size,
-            right,
-            center,
-        )
-        self.blit_text(text, color, position, size, right, center)
+        self.blit(overlay_text, overlay_text_rect)

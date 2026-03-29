@@ -35,34 +35,37 @@ class MenuPlayer:
         menu_list = ["Bokumon", "Bag", "Save", "Exit"]
         space_y = 40
         for i, name in enumerate(menu_list):
-            self.renderer.blit_shadow_text(
+            self.renderer.draw_text(
                 name,
                 "black",
                 (pos[0] + 30, pos[1] + space_y),
                 size=FontSize.EXTRA_LARGE,
-                back_color="white",
+                is_shadowed_text=True,
+                shadow_color="white",
             )
             if self.selected == i:
                 # botão de seleção
                 space_y_desc = 0
                 if not self.saved:
                     for desc in menu_description[name]:
-                        self.renderer.blit_shadow_text(
+                        self.renderer.draw_text(
                             desc,
                             "black",
                             (70, screen_height - 110 + space_y_desc),
                             size=FontSize.EXTRA_LARGE,
-                            back_color="white",
+                            is_shadowed_text=True,
+                            shadow_color="white",
                         )
                         space_y_desc += 35
                 else:
                     if self.selected == 2:
-                        self.renderer.blit_shadow_text(
+                        self.renderer.draw_text(
                             "Game Saved!",
                             "black",
                             (70, screen_height - 110 + space_y_desc),
                             size=FontSize.EXTRA_LARGE,
-                            back_color="white",
+                            is_shadowed_text=True,
+                            shadow_color="white",
                         )
                     else:
                         self.saved = False

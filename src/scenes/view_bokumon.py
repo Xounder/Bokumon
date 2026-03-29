@@ -151,13 +151,15 @@ class ViewBokumon:
         self.renderer.draw_rect("white", (20, 500, 500, 90))
         self.renderer.draw_rect("blue", (20, 500, 500, 90), 5)
         self.renderer.draw_rect("black", (20, 500, 500, 90), 3)
-        self.renderer.blit_text(text, "black", (50, 535), size=FontSize.EXTRA_LARGE)
+        self.renderer.draw_text(text, "black", (50, 535), size=FontSize.EXTRA_LARGE)
         color = "black" if self.marked[0] == 6 or self.marked[1] == 6 else "white"
 
         self.renderer.draw_rect("purple", (610, 520, 150, 50), 0, 50)
         self.renderer.draw_rect(color, (610, 520, 150, 50), 5, 50)
         self.renderer.draw_rect("black", (610, 520, 150, 50), 3, 50)
-        self.renderer.blit_text("Cancel", "black", (660, 535), size=FontSize.EXTRA_LARGE)
+        self.renderer.draw_text(
+            "Cancel", "black", (660, 535), size=FontSize.EXTRA_LARGE
+        )
         # bokuball cancel
         self.draw_boku_ball((620, 545), 1, 1 if self.marked[0] == 6 else 0)
         self.blit_select_action()
@@ -186,14 +188,17 @@ class ViewBokumon:
                     0,
                     5,
                 )
-                self.renderer.blit_text(
+                self.renderer.draw_text(
                     f"{self.player.bokumons[0].atual_name} is already",
                     "black",
                     (40, tam[0] + 40),
                     size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
-                self.renderer.blit_text(
-                    "in battle!", "black", (40, tam[0] + 80), size=FontSize.DOUBLE_EXTRA_LARGE,
+                self.renderer.draw_text(
+                    "in battle!",
+                    "black",
+                    (40, tam[0] + 80),
+                    size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
 
         elif self.bag_values[3][0]:
@@ -221,27 +226,34 @@ class ViewBokumon:
             "green",
             (pos_rect[1][0], pos_rect[1][1], tam_life, tam[3]),
         )
-        self.renderer.blit_shadow_text(
-            "HP", "red", (pos_text[0][0], pos_text[0][1]), size=life_font
+        self.renderer.draw_text(
+            "HP",
+            "red",
+            (pos_text[0][0], pos_text[0][1]),
+            size=life_font,
+            is_shadowed_text=True,
         )
-        self.renderer.blit_shadow_text(
+        self.renderer.draw_text(
             f"{round(self.player.bokumons[num_boku].atual_life)}/{self.player.bokumons[num_boku].life}",
             "white",
             (pos_text[1][0], pos_text[1][1]),
             size=FontSize.LARGE,
-            right=True,
+            is_right=True,
+            is_shadowed_text=True,
         )
-        self.renderer.blit_shadow_text(
+        self.renderer.draw_text(
             f"{self.player.bokumons[num_boku].atual_name}",
             "white",
             (pos_text[2][0], pos_text[2][1]),
             size=boku_info,
+            is_shadowed_text=True,
         )
-        self.renderer.blit_shadow_text(
+        self.renderer.draw_text(
             f"Lv{self.player.bokumons[num_boku].level}",
             "white",
             (pos_text[3][0], pos_text[3][1]),
             size=boku_info,
+            is_shadowed_text=True,
         )
 
     def draw_potion_use(self):
@@ -254,13 +266,13 @@ class ViewBokumon:
             0,
             5,
         )
-        self.renderer.blit_text(
+        self.renderer.draw_text(
             f"{self.player.bokumons[0].atual_name} HP was restored",
             "black",
             (40, tam[0] + 40),
             size=FontSize.DOUBLE_EXTRA_LARGE,
         )
-        self.renderer.blit_text(
+        self.renderer.draw_text(
             f"by {self.bag_values[0][1]} point(s).",
             "black",
             (40, tam[0] + 80),
@@ -457,7 +469,7 @@ class ViewBokumon:
 
             space_y_sel = 40
             for i, sel in enumerate(self.text_select_action[self.list_selected]):
-                self.renderer.blit_text(
+                self.renderer.draw_text(
                     f"{sel}",
                     "black",
                     (screen_width - 210, tam[0] + space_y_sel),

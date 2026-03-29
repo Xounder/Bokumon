@@ -49,22 +49,22 @@ class Menu:
         self.renderer.draw_rect("#00008B", (110, 100, screen_width - 250, 100), 0, 3)
         self.renderer.draw_rect("black", (110, 100, screen_width - 250, 100), 3, 5)
         self.renderer.draw_rect("white", (120, 110, screen_width - 270, 80), 0, 5)
-        self.renderer.blit_text(
+        self.renderer.draw_text(
             "Continue   Game",
             "black",
             [380, 155],
             size=FontSize.DOUBLE_EXTRA_LARGE,
-            center=True,
+            is_center=True,
         )
         self.renderer.draw_rect("#00008B", (110, 300, screen_width - 250, 100), 0, 3)
         self.renderer.draw_rect("black", (110, 300, screen_width - 250, 100), 3, 5)
         self.renderer.draw_rect("white", (120, 310, screen_width - 270, 80), 0, 5)
-        self.renderer.blit_text(
+        self.renderer.draw_text(
             "New   Game",
             "black",
             [380, 355],
             size=FontSize.DOUBLE_EXTRA_LARGE,
-            center=True,
+            is_center=True,
         )
         color = "red" if self.selected[1] else "black"
         self.renderer.draw_rect(
@@ -103,13 +103,13 @@ class Menu:
             0,
             20,
         )
-        self.renderer.blit_text(
+        self.renderer.draw_text(
             "Yes",
             "black",
             (pos[0][0] + 20, pos[0][1] - 10),
             size=FontSize.DOUBLE_EXTRA_LARGE,
         )
-        self.renderer.blit_text(
+        self.renderer.draw_text(
             "No",
             "black",
             (pos[1][0] + 20, pos[1][1] - 10),
@@ -126,12 +126,12 @@ class Menu:
         space_x = 0
         for i, boku in enumerate(self.firts_bokumons):
             boku.draw_modified([130 + space_x, screen_height / 2 - 40], 0.7)
-            self.renderer.blit_text(
+            self.renderer.draw_text(
                 f"{boku.name}",
                 "black",
                 (160 + space_x, screen_height - 200),
                 size=FontSize.DOUBLE_EXTRA_LARGE,
-                center=True,
+                is_center=True,
             )
             if self.boku_selected[0] == i:
                 self.renderer.draw_rect(
@@ -161,7 +161,7 @@ class Menu:
             0,
             5,
         )
-        self.renderer.blit_text(
+        self.renderer.draw_text(
             msg,
             "black",
             (80, screen_height - 80),
