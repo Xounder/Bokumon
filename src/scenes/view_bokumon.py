@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import *
-from ui import Renderer, FontSize, TextComponent
+from ui import Renderer, FontSize, TextBoxComponent
 from utils.timer import Timer
 from .bokumon_summary import BokuSummary
 
@@ -8,7 +8,7 @@ from .bokumon_summary import BokuSummary
 class ViewBokumon:
     def __init__(self, renderer: Renderer, player):
         self.renderer = renderer
-        self.text_component = TextComponent(self.renderer)
+        self.text_box_component = TextBoxComponent(self.renderer)
         self.player = player
         self.bokumon_summary = BokuSummary(self.renderer, self.player)
         self.timer = Timer(0.12)
@@ -151,7 +151,7 @@ class ViewBokumon:
             else:
                 text = "Do  what  if  this  Bokumon?"
 
-        self.text_component.draw_text_box(
+        self.text_box_component.draw_text_box(
             text_list=[text],
             rect_color="blue",
             text_size=FontSize.EXTRA_LARGE,
@@ -271,7 +271,7 @@ class ViewBokumon:
             f"by {self.bag_values[0][1]} point(s).",
         ]
 
-        self.text_component.draw_text_box(
+        self.text_box_component.draw_text_box(
             text_list=text_list,
             rect_color="#00008B",
             text_size=FontSize.DOUBLE_EXTRA_LARGE,

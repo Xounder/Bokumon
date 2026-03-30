@@ -1,14 +1,14 @@
 import pygame
 from random import randint
 from settings.settings import screen_height, screen_width
-from ui import Renderer, FontSize, TextComponent
+from ui import Renderer, FontSize, TextBoxComponent
 from utils.timer import Timer
 
 
 class BokuEvo:
     def __init__(self, renderer: Renderer, player):
         self.renderer = renderer
-        self.text_component = TextComponent(self.renderer)
+        self.text_box_component = TextBoxComponent(self.renderer)
 
         self.player = player
         self.atual_bokumon = self.player.atual_bokumon
@@ -35,7 +35,7 @@ class BokuEvo:
                         10,
                     )
 
-                self.text_component.draw_text_box(
+                self.text_box_component.draw_text_box(
                     text_list=[f"{self.atual_bokumon.name} is evolving..."],
                     rect_color="white",
                     text_size=FontSize.EXTRA_LARGE,
@@ -70,7 +70,7 @@ class BokuEvo:
 
                 self.atual_bokumon.draw((screen_width / 2, screen_height / 2))
 
-                self.text_component.draw_text_box(
+                self.text_box_component.draw_text_box(
                     text_list=[
                         f"{self.atual_bokumon.previous_name} evolved to {self.atual_bokumon.name}"
                     ],
@@ -86,7 +86,7 @@ class BokuEvo:
         else:
             self.atual_bokumon.draw((screen_width / 2, screen_height / 2))
 
-            self.text_component.draw_text_box(
+            self.text_box_component.draw_text_box(
                 text_list=[f"{self.atual_bokumon.name} don't evolve"],
                 rect_color="white",
                 text_size=FontSize.EXTRA_LARGE,

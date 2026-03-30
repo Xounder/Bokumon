@@ -1,2 +1,2 @@
 from .renderer import Renderer, FontSize
-from .components import TextComponent
+from .components import TextBoxComponent

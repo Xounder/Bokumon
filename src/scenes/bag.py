@@ -1,13 +1,13 @@
 import pygame
 from settings.settings import *
-from ui import Renderer, FontSize, TextComponent
+from ui import Renderer, FontSize, TextBoxComponent
 from utils.timer import Timer
 
 
 class Bag:
     def __init__(self, renderer: Renderer, view_bokumon):
         self.renderer = renderer
-        self.text_component = TextComponent(self.renderer)
+        self.text_box_component = TextBoxComponent(self.renderer)
 
         self.view_bokumon = view_bokumon
         self.timer = Timer(0.12)
@@ -225,7 +225,7 @@ class Bag:
                         if not self.toss:
                             text_list = [f"{item[0]}  is", "selected."]
 
-                            self.text_component.draw_text_box(
+                            self.text_box_component.draw_text_box(
                                 text_list=text_list,
                                 rect_color="white",
                                 text_size=FontSize.DOUBLE_EXTRA_LARGE,

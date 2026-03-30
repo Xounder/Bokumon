@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import *
-from ui import Renderer, FontSize, TextComponent
+from ui import Renderer, FontSize, TextBoxComponent
 from utils import save_system
 from utils.timer import Timer
 from game_types import PlayerData
@@ -9,7 +9,7 @@ from game_types import PlayerData
 class MenuPlayer:
     def __init__(self, renderer: Renderer, player, view_bokumon, bag):
         self.renderer = renderer
-        self.text_component = TextComponent(self.renderer)
+        self.text_box_component = TextBoxComponent(self.renderer)
         self.player = player
         self.view_bokumon = view_bokumon
         self.bag = bag
@@ -53,7 +53,7 @@ class MenuPlayer:
                     else ["Game Saved!"]
                 )
 
-                self.text_component.draw_text_box(
+                self.text_box_component.draw_text_box(
                     text_list=text_list,
                     rect_color="gray",
                     text_size=FontSize.EXTRA_LARGE,

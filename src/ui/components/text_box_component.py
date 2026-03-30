@@ -2,7 +2,7 @@ from ui.renderer import Renderer
 from ui.renderer_types import FontSize
 
 
-class TextComponent:
+class TextBoxComponent:
     def __init__(self, renderer: Renderer):
         self.renderer = renderer
 

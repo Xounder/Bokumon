@@ -1,13 +1,13 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from ui import Renderer, FontSize, TextComponent
+from ui import Renderer, FontSize, TextBoxComponent
 from utils.timer import Timer
 
 
 class BokuStore:
     def __init__(self, renderer: Renderer, player, bag):
         self.renderer = renderer
-        self.text_component = TextComponent(self.renderer)
+        self.text_box_component = TextBoxComponent(self.renderer)
 
         self.player = player
         self.bag = bag
@@ -81,7 +81,7 @@ class BokuStore:
             "See   you  later!",
         ]
 
-        self.text_component.draw_text_box(
+        self.text_box_component.draw_text_box(
             text_list=[f"{list_desc[self.selected_action[0]]}"],
             rect_color="#607078",
             text_size=FontSize.DOUBLE_EXTRA_LARGE,
@@ -168,7 +168,7 @@ class BokuStore:
             else:
                 msg = f"{sel_item[1][0]} is selected."
 
-            self.text_component.draw_text_box(
+            self.text_box_component.draw_text_box(
                 text_list=[msg],
                 rect_color="#607078",
                 text_size=FontSize.DOUBLE_EXTRA_LARGE,
@@ -383,7 +383,7 @@ class BokuStore:
                 20,
             )
             # text
-            self.text_component.draw_text_box(
+            self.text_box_component.draw_text_box(
                 text_list=[
                     f"Trade  {sel_boku.name}  Lv{sel_boku.level}  for  {self.gain_tp}  Ticket Points?"
                 ],

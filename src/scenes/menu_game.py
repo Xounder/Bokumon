@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from ui import Renderer, FontSize, TextComponent
+from ui import Renderer, FontSize, TextBoxComponent
 from utils import save_system
 from utils.timer import Timer
 from sprites import BokuMon
@@ -9,7 +9,7 @@ from sprites import BokuMon
 class Menu:
     def __init__(self, renderer: Renderer, player, bag):
         self.renderer = renderer
-        self.text_component = TextComponent(self.renderer)
+        self.text_box_component = TextBoxComponent(self.renderer)
         self.player = player
         self.bag = bag
         self.timer = Timer(0.12)
@@ -42,7 +42,7 @@ class Menu:
                     (screen_width - 260, 180), self.selected_button
                 )
             elif self.msg:
-                self.text_component.draw_text_box(
+                self.text_box_component.draw_text_box(
                     text_list=["Don't  have  any  saved  game."],
                     rect_color="#00008B",
                     text_size=FontSize.DOUBLE_EXTRA_LARGE,
@@ -58,7 +58,7 @@ class Menu:
         self.renderer.draw_rect("#00009F", (0, 0, screen_width, screen_height))
         pos = [[240, 145], [280, 345]]
 
-        self.text_component.draw_text_box(
+        self.text_box_component.draw_text_box(
             text_list=["Continue   Game"],
             rect_color="#00008B",
             text_size=FontSize.DOUBLE_EXTRA_LARGE,
@@ -70,7 +70,7 @@ class Menu:
             is_center=True,
         )
 
-        self.text_component.draw_text_box(
+        self.text_box_component.draw_text_box(
             text_list=["New   Game"],
             rect_color="#00008B",
             text_size=FontSize.DOUBLE_EXTRA_LARGE,
@@ -141,7 +141,7 @@ class Menu:
             (60, screen_height / 2 - 100, screen_width - 100, 160),
         )
 
-        self.text_component.draw_text_box(
+        self.text_box_component.draw_text_box(
             text_list=["Select  your  first  Bokumon!"],
             rect_color="#00008B",
             text_size=FontSize.DOUBLE_EXTRA_LARGE,

@@ -1,1 +1,1 @@
-from .text_component import TextComponent
+from .text_box_component import TextBoxComponent

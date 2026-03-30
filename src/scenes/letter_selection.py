@@ -1,13 +1,13 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from ui import Renderer, FontSize, TextComponent
+from ui import Renderer, FontSize, TextBoxComponent
 from utils.timer import Timer
 
 
 class LetterSelection:
     def __init__(self, renderer: Renderer):
         self.renderer = renderer
-        self.text_component = TextComponent(self.renderer)
+        self.text_box_component = TextBoxComponent(self.renderer)
 
         self.timer = Timer(0.12)
 
@@ -131,7 +131,7 @@ class LetterSelection:
                 else "black"
             )
 
-            self.text_component.draw_text_box(
+            self.text_box_component.draw_text_box(
                 text_list=[text_list[i]],
                 rect_color="white",
                 text_size=FontSize.DOUBLE_EXTRA_LARGE,

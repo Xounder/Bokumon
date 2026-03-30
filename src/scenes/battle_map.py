@@ -182,7 +182,7 @@ class BattleMap:
             if self.status == "FIGHT" and i < 2:
                 # caso esteja na aba fight
                 continue
-            # TODO: modificar para usar o TextComponent quando estiver refatorando este arquivo
+            # TODO: modificar para usar o TextBoxComponent quando estiver refatorando este arquivo
             self.renderer.draw_text(
                 text,
                 "white",
