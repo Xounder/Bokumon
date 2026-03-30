@@ -36,7 +36,7 @@ class Renderer:
         is_convert: bool = False,
         is_convert_alpha: bool = False,
         is_scale: bool = False,
-        scale: tuple = (SPRITE_SIZE, SPRITE_SIZE),
+        scale: tuple[int, int] = (SPRITE_SIZE, SPRITE_SIZE),
     ) -> pygame.Surface:
         image_path = f"{ASSETS_PATH}/imgs/{image_name}.{extesion}"
         image = pygame.image.load(image_path)
@@ -58,7 +58,7 @@ class Renderer:
     def draw_rect(
         self,
         color: str | tuple[int, int, int],
-        rect: tuple[int, int, int, int],
+        rect: tuple[int, int, int, int],  # TODO: separar em rect_position e rect_size
         width: int = 0,
         border_radius: int = -1,
         border_top_left_radius: int = -1,
@@ -108,7 +108,7 @@ class Renderer:
         self,
         text: str,
         color: str,
-        position: tuple,
+        position: tuple[int, int],
         size: FontSize,
         is_shadowed_text: bool = False,
         shadow_color: str = "black",
@@ -133,19 +133,35 @@ class Renderer:
         self,
         text: str,
         color: str,
-        position: tuple,
+        position: tuple[int, int],
         size: FontSize,
-        is_right: bool = False,
-        is_center: bool = False,
+        is_right: bool,
+        is_center: bool,
     ) -> None:
         font = self.fonts[size]
         overlay_text = font.render(text, False, color)
+        rect_position = self._get_text_size_position(position, size)
 
         if is_right:
-            overlay_text_rect = overlay_text.get_rect(topright=(position))
+            overlay_text_rect = overlay_text.get_rect(midright=(rect_position))
         elif is_center:
-            overlay_text_rect = overlay_text.get_rect(center=(position))
+            overlay_text_rect = overlay_text.get_rect(center=(rect_position))
         else:
-            overlay_text_rect = overlay_text.get_rect(topleft=(position))
+            overlay_text_rect = overlay_text.get_rect(midleft=(rect_position))
 
         self.blit(overlay_text, overlay_text_rect)
+
+    def _get_text_size_position(
+        self, position: tuple[int, int], size: FontSize
+    ) -> tuple[int, int]:
+        match size:
+            case FontSize.SMALL:
+                return (position[0], position[1] + 1)
+            case FontSize.MEDIUM:
+                return (position[0], position[1] + 2)
+            case FontSize.LARGE:
+                return (position[0], position[1] + 3)
+            case FontSize.EXTRA_LARGE:
+                return (position[0], position[1] + 3)
+            case FontSize.DOUBLE_EXTRA_LARGE:
+                return (position[0], position[1] + 5)

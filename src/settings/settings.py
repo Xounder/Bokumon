@@ -11,20 +11,20 @@ SAVE_PATH = "saves/save.json"
 boku_pos = [[600, 200], [170, 400]]
 # posição dos textos da cena de batalha
 overlay_battle_pos = [
-    [20, 500],
-    [20, 540],
-    [screen_width / 2 + 50, 500],
-    [screen_width / 2 + 250, 500],
-    [screen_width / 2 + 50, 540],
-    [screen_width / 2 + 250, 540],
+    [20, 510],
+    [20, 550],
+    [screen_width / 2 + 50, 510],
+    [screen_width / 2 + 250, 510],
+    [screen_width / 2 + 50, 550],
+    [screen_width / 2 + 250, 550],
 ]
 
 overlay_bokumon_pos = [
-    [50, 65],
-    [250, 65],
-    [screen_width / 2 + 80, screen_height / 2 + 45],
-    [screen_width / 2 + 280, screen_height / 2 + 45],
-    [screen_width / 2 + 240, 410],
+    [50, 75],
+    [250, 75],
+    [screen_width / 2 + 80, screen_height / 2 + 55],
+    [screen_width / 2 + 280, screen_height / 2 + 55],
+    [screen_width / 2 + 240, 420],
 ]
 
 # posição dos nomes dos ataques

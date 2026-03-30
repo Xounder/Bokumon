@@ -182,6 +182,7 @@ class BattleMap:
             if self.status == "FIGHT" and i < 2:
                 # caso esteja na aba fight
                 continue
+            # TODO: modificar para usar o TextComponent quando estiver refatorando este arquivo
             self.renderer.draw_text(
                 text,
                 "white",
@@ -401,7 +402,7 @@ class BattleMap:
         self.renderer.draw_text(
             "EXP",
             "white",
-            (screen_width / 2 + 70, screen_height - screen_height / 4.5 - 15),
+            (screen_width / 2 + 70, screen_height - screen_height / 4.5 - 10),
             size=FontSize.MEDIUM,
             is_shadowed_text=True,
         )
@@ -424,7 +425,7 @@ class BattleMap:
         self.renderer.draw_text(
             "HP",
             "red",
-            (screen_width / 2 + 125, screen_height - screen_height / 2 + 85),
+            (screen_width / 2 + 125, screen_height - screen_height / 2 + 92),
             size=FontSize.LARGE,
             is_shadowed_text=True,
         )
@@ -436,7 +437,7 @@ class BattleMap:
         self.renderer.draw_rect("black", (90, 100, 220, 26), 0, 5)
         self.renderer.draw_rect("green", (125, 105, self.tam_wild_life, 16))
         self.renderer.draw_text(
-            "HP", "red", (95, 105), size=FontSize.LARGE, is_shadowed_text=True
+            "HP", "red", (95, 112), size=FontSize.LARGE, is_shadowed_text=True
         )
 
         # info wild and player bokumon

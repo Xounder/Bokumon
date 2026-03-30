@@ -1,12 +1,14 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from ui import Renderer, FontSize
+from ui import Renderer, FontSize, TextComponent
 from utils.timer import Timer
 
 
 class LetterSelection:
     def __init__(self, renderer: Renderer):
         self.renderer = renderer
+        self.text_component = TextComponent(self.renderer)
+
         self.timer = Timer(0.12)
 
         self.active = False
@@ -42,7 +44,7 @@ class LetterSelection:
                 self.renderer.draw_text(
                     letter,
                     "white",
-                    (110 + space[1], screen_height / 2 - 50 + space[0]),
+                    (110 + space[1], screen_height / 2 - 55 + space[0]),
                     size=FontSize.DOUBLE_EXTRA_LARGE,
                     is_center=True,
                     is_shadowed_text=True,
@@ -76,7 +78,7 @@ class LetterSelection:
         self.renderer.draw_text(
             f"{self.real_name}'s nickname?",
             "black",
-            (250, 60),
+            (250, 70),
             size=FontSize.DOUBLE_EXTRA_LARGE,
         )
         spaces = "_ _ _ _ _ _ _ _ _ _"
@@ -89,7 +91,7 @@ class LetterSelection:
         self.renderer.draw_text(
             f"{word_modified}{count_space}",
             "black",
-            (250, 120),
+            (250, 130),
             size=FontSize.DOUBLE_EXTRA_LARGE,
         )
 
@@ -128,31 +130,23 @@ class LetterSelection:
                 if self.selected_button[0] == i and self.selected_button[1] == 7
                 else "black"
             )
-            self.renderer.draw_rect(
-                "white",
-                (screen_width - 185, screen_height / 2 + space_y, 130, 50),
-                0,
-                15,
-            )
-            self.renderer.draw_rect(
-                color_sel,
-                (screen_width - 185, screen_height / 2 + space_y, 130, 50),
-                3,
-                15,
-            )
-            self.renderer.draw_rect(
-                color,
-                (screen_width - 180, screen_height / 2 + 5 + space_y, 120, 40),
-                0,
-                10,
-            )
-            self.renderer.draw_text(
-                text_list[i],
-                "white",
-                (screen_width - 120, screen_height / 2 + 30 + space_y),
-                size=FontSize.DOUBLE_EXTRA_LARGE,
+
+            self.text_component.draw_text_box(
+                text_list=[text_list[i]],
+                rect_color="white",
+                text_size=FontSize.DOUBLE_EXTRA_LARGE,
+                rect_position=(screen_width - 185, screen_height / 2 + space_y),
+                rect_size=(130, 50),
+                rect_radius=15,
+                border_color=color_sel,
+                border_radius=15,
+                has_inner_rect=True,
+                inner_rect_gap=5,
+                inner_rect_color=color,
+                inner_rect_radius=10,
                 is_center=True,
             )
+
             space_y += 120
 
     def update(self):

@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import *
-from ui import Renderer, FontSize
+from ui import Renderer, FontSize, TextComponent
 from utils.timer import Timer
 from .bokumon_summary import BokuSummary
 
@@ -8,6 +8,7 @@ from .bokumon_summary import BokuSummary
 class ViewBokumon:
     def __init__(self, renderer: Renderer, player):
         self.renderer = renderer
+        self.text_component = TextComponent(self.renderer)
         self.player = player
         self.bokumon_summary = BokuSummary(self.renderer, self.player)
         self.timer = Timer(0.12)
@@ -73,6 +74,7 @@ class ViewBokumon:
             self.set_view()
 
     def draw_overlay(self):
+        # TODO: adicionar TextInputComponent
         space_y = 90
         prev_y = 20
         self.renderer.draw_rect("green", (0, 0, screen_width, screen_height))
@@ -92,7 +94,7 @@ class ViewBokumon:
         self.status_txt(
             0,
             [[45, 240], [80, 245]],
-            [[50, 245], [290, 270], [125, 170], [160, 200]],
+            [[50, 252], [290, 277], [125, 177], [160, 207]],
             [215, 255, 26, 16],
         )
         # bokuball
@@ -122,10 +124,10 @@ class ViewBokumon:
                     i,
                     [[575, 45 + life_y], [605, 50 + life_y]],
                     [
-                        [580, 50 + life_y],
-                        [740, 68 + life_y],
-                        [430, 45 + life_y],
-                        [450, 75 + life_y],
+                        [580, 55 + life_y],
+                        [740, 75 + life_y],
+                        [430, 52 + life_y],
+                        [450, 82 + life_y],
                     ],
                 )
                 # bokuball
@@ -148,17 +150,24 @@ class ViewBokumon:
                 text = "Move to where?"
             else:
                 text = "Do  what  if  this  Bokumon?"
-        self.renderer.draw_rect("white", (20, 500, 500, 90))
-        self.renderer.draw_rect("blue", (20, 500, 500, 90), 5)
-        self.renderer.draw_rect("black", (20, 500, 500, 90), 3)
-        self.renderer.draw_text(text, "black", (50, 535), size=FontSize.EXTRA_LARGE)
-        color = "black" if self.marked[0] == 6 or self.marked[1] == 6 else "white"
 
+        self.text_component.draw_text_box(
+            text_list=[text],
+            rect_color="blue",
+            text_size=FontSize.EXTRA_LARGE,
+            rect_position=(20, 500),
+            rect_size=(500, 90),
+            has_inner_rect=True,
+            inner_rect_gap=5,
+            is_middle=True,
+        )
+
+        color = "black" if self.marked[0] == 6 or self.marked[1] == 6 else "white"
         self.renderer.draw_rect("purple", (610, 520, 150, 50), 0, 50)
         self.renderer.draw_rect(color, (610, 520, 150, 50), 5, 50)
         self.renderer.draw_rect("black", (610, 520, 150, 50), 3, 50)
         self.renderer.draw_text(
-            "Cancel", "black", (660, 535), size=FontSize.EXTRA_LARGE
+            "Cancel", "black", (660, 544), size=FontSize.EXTRA_LARGE
         )
         # bokuball cancel
         self.draw_boku_ball((620, 545), 1, 1 if self.marked[0] == 6 else 0)
@@ -257,26 +266,21 @@ class ViewBokumon:
         )
 
     def draw_potion_use(self):
-        tam = [(screen_height - 160), 150]
-        self.renderer.draw_rect("#00008B", (0, tam[0], screen_width, tam[1]), 0, 3)
-        self.renderer.draw_rect("black", (0, tam[0], screen_width, tam[1]), 3, 5)
-        self.renderer.draw_rect(
-            "white",
-            (10, tam[0] + 10, screen_width - 20, tam[1] - 20),
-            0,
-            5,
-        )
-        self.renderer.draw_text(
+        text_list = [
             f"{self.player.bokumons[0].atual_name} HP was restored",
-            "black",
-            (40, tam[0] + 40),
-            size=FontSize.DOUBLE_EXTRA_LARGE,
-        )
-        self.renderer.draw_text(
             f"by {self.bag_values[0][1]} point(s).",
-            "black",
-            (40, tam[0] + 80),
-            size=FontSize.DOUBLE_EXTRA_LARGE,
+        ]
+
+        self.text_component.draw_text_box(
+            text_list=text_list,
+            rect_color="#00008B",
+            text_size=FontSize.DOUBLE_EXTRA_LARGE,
+            rect_position=(0, screen_height - 160),
+            rect_size=(screen_width, 150),
+            border_radius=5,
+            has_inner_rect=True,
+            inner_rect_radius=5,
+            text_gap=40,
         )
 
     def input(self):
@@ -472,7 +476,7 @@ class ViewBokumon:
                 self.renderer.draw_text(
                     f"{sel}",
                     "black",
-                    (screen_width - 210, tam[0] + space_y_sel),
+                    (screen_width - 210, tam[0] + space_y_sel + 10),
                     size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
                 if self.selected_action[0] == i:

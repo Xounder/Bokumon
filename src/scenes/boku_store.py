@@ -1,12 +1,14 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from ui import Renderer, FontSize
+from ui import Renderer, FontSize, TextComponent
 from utils.timer import Timer
 
 
 class BokuStore:
     def __init__(self, renderer: Renderer, player, bag):
         self.renderer = renderer
+        self.text_component = TextComponent(self.renderer)
+
         self.player = player
         self.bag = bag
         self.timer = Timer(0.12)
@@ -61,7 +63,7 @@ class BokuStore:
             self.renderer.draw_text(
                 f"{text}",
                 "black",
-                [screen_width - 260, screen_height / 2 - 10 + space_y],
+                [screen_width - 260, screen_height / 2 + space_y],
                 size=FontSize.DOUBLE_EXTRA_LARGE,
             )
             if self.selected_action[0] == i:
@@ -78,29 +80,17 @@ class BokuStore:
             "Trade  a  Bokumon  to  obtain  a  Ticket  Points.",
             "See   you  later!",
         ]
-        self.renderer.draw_rect(
-            "#607078",
-            [20, screen_height - 120, screen_width - 40, 100],
-            0,
-            5,
-        )
-        self.renderer.draw_rect(
-            "black",
-            [20, screen_height - 120, screen_width - 40, 100],
-            3,
-            5,
-        )
-        self.renderer.draw_rect(
-            "white",
-            [30, screen_height - 110, screen_width - 60, 80],
-            0,
-            5,
-        )
-        self.renderer.draw_text(
-            f"{list_desc[self.selected_action[0]]}",
-            "black",
-            [50, screen_height - 90],
-            size=FontSize.DOUBLE_EXTRA_LARGE,
+
+        self.text_component.draw_text_box(
+            text_list=[f"{list_desc[self.selected_action[0]]}"],
+            rect_color="#607078",
+            text_size=FontSize.DOUBLE_EXTRA_LARGE,
+            rect_position=(20, screen_height - 120),
+            rect_size=(screen_width - 40, 100),
+            has_inner_rect=True,
+            inner_rect_radius=5,
+            border_radius=5,
+            text_gap=30,
         )
 
     def draw_buy_items(self):
@@ -111,32 +101,32 @@ class BokuStore:
         self.renderer.draw_text(
             f"Your   T.P:    {self.player.tickets}",
             "black",
-            [220, 40],
+            [220, 45],
             size=FontSize.MEDIUM,
         )
         self.renderer.draw_text(
             "Item",
             "black",
-            [250, 80],
+            [250, 90],
             size=FontSize.DOUBLE_EXTRA_LARGE,
         )
         self.renderer.draw_text(
             "Qnt.",
             "black",
-            [480, 80],
+            [480, 90],
             size=FontSize.DOUBLE_EXTRA_LARGE,
         )
         self.renderer.draw_text(
             "T.P",
             "black",
-            [630, 80],
+            [630, 90],
             size=FontSize.DOUBLE_EXTRA_LARGE,
         )
 
         self.renderer.draw_text(
             "*Obtain T.P Evolving, Upping or Trading a Bokumon",
             "black",
-            [220, screen_height - 155],
+            [220, screen_height - 165],
             size=FontSize.MEDIUM,
         )
         space_y = 0
@@ -145,7 +135,7 @@ class BokuStore:
                 self.renderer.draw_text(
                     f"{item[1][0]}",
                     "black",
-                    [250, 130 + space_y],
+                    [250, 140 + space_y],
                     size=FontSize.EXTRA_LARGE,
                 )
                 self.renderer.draw_text(
@@ -170,24 +160,6 @@ class BokuStore:
                 break
 
         if self.selected_item[2] or self.cant_buy:
-            self.renderer.draw_rect(
-                "#607078",
-                [20, screen_height - 120, screen_width - 50, 100],
-                0,
-                5,
-            )
-            self.renderer.draw_rect(
-                "black",
-                [20, screen_height - 120, screen_width - 50, 100],
-                3,
-                5,
-            )
-            self.renderer.draw_rect(
-                "white",
-                [30, screen_height - 110, screen_width - 70, 80],
-                0,
-                5,
-            )
             sel_item = self.items_disp[self.selected_item[0]]
             if self.cant_buy:
                 msg = "Don't have any Ticket Points."
@@ -195,11 +167,17 @@ class BokuStore:
                 msg = f"Buy {self.selected_item[1][0]*sel_item[0][1]} {sel_item[1][0]} using {self.selected_item[1][0]*sel_item[0][2]} Ticket Points?"
             else:
                 msg = f"{sel_item[1][0]} is selected."
-            self.renderer.draw_text(
-                msg,
-                "black",
-                [50, screen_height - 90],
-                size=FontSize.DOUBLE_EXTRA_LARGE,
+
+            self.text_component.draw_text_box(
+                text_list=[msg],
+                rect_color="#607078",
+                text_size=FontSize.DOUBLE_EXTRA_LARGE,
+                rect_position=(20, screen_height - 120),
+                rect_size=(screen_width - 50, 100),
+                has_inner_rect=True,
+                inner_rect_radius=5,
+                border_radius=5,
+                text_gap=30,
             )
 
         if self.selected_item[2]:
@@ -226,7 +204,7 @@ class BokuStore:
             self.renderer.draw_text(
                 f"x{zeros_txt}{self.selected_item[1][0]}",
                 "black",
-                [screen_width - 165, screen_height - 180],
+                [screen_width - 165, screen_height - 170],
                 size=FontSize.EXTRA_LARGE,
             )
 
@@ -252,13 +230,13 @@ class BokuStore:
             self.renderer.draw_text(
                 "Yes",
                 "black",
-                [screen_width - 100, screen_height - 280],
+                [screen_width - 100, screen_height - 270],
                 size=FontSize.LARGE,
             )
             self.renderer.draw_text(
                 "No",
                 "black",
-                [screen_width - 100, screen_height - 240],
+                [screen_width - 100, screen_height - 230],
                 size=FontSize.LARGE,
             )
             sel_y = screen_height - 275 if self.select_buy else screen_height - 235
@@ -295,25 +273,25 @@ class BokuStore:
         self.renderer.draw_text(
             "TRADE BOKUMON",
             "black",
-            [430, screen_height / 2 - 170],
+            [430, screen_height / 2 - 160],
             size=FontSize.DOUBLE_EXTRA_LARGE,
         )
         self.renderer.draw_text(
             f"Your T.P:    {self.player.tickets}",
             "black",
-            [370, screen_height - 170],
+            [370, screen_height - 160],
             size=FontSize.MEDIUM,
         )
         self.renderer.draw_text(
             "=>",
             "black",
-            [550, screen_height / 2 - 20],
+            [550, screen_height / 2 - 10],
             size=FontSize.EXTRA_LARGE,
         )
         self.renderer.draw_text(
             "T.P",
             "black",
-            [670, screen_height / 2 + 50],
+            [670, screen_height / 2 + 60],
             size=FontSize.EXTRA_LARGE,
         )
         self.renderer.draw_rect(
@@ -339,25 +317,25 @@ class BokuStore:
             self.renderer.draw_text(
                 f"{sel_boku.name}",
                 "black",
-                [380, screen_height / 2 - 110],
+                [380, screen_height / 2 - 100],
                 size=FontSize.EXTRA_LARGE,
             )
             self.renderer.draw_text(
                 f"/{sel_boku.name}",
                 "black",
-                [380, screen_height / 2 - 80],
+                [380, screen_height / 2 - 70],
                 size=FontSize.EXTRA_LARGE,
             )
             self.renderer.draw_text(
                 f"Lv{sel_boku.level}",
                 "black",
-                [410, screen_height / 2 + 50],
+                [410, screen_height / 2 + 60],
                 size=FontSize.EXTRA_LARGE,
             )
             self.renderer.draw_text(
                 f"{self.gain_tp}",
                 "black",
-                [690, screen_height / 2 - 10],
+                [690, screen_height / 2],
                 size=FontSize.EXTRA_LARGE,
                 is_center=True,
             )
@@ -388,13 +366,13 @@ class BokuStore:
             self.renderer.draw_text(
                 "Yes",
                 "black",
-                [screen_width - 100, screen_height - 190],
+                [screen_width - 100, screen_height - 180],
                 size=FontSize.LARGE,
             )
             self.renderer.draw_text(
                 "No",
                 "black",
-                [screen_width - 95, screen_height - 150],
+                [screen_width - 95, screen_height - 140],
                 size=FontSize.LARGE,
             )
             sel_y = screen_height - 185 if self.select_trade else screen_height - 145
@@ -405,30 +383,20 @@ class BokuStore:
                 20,
             )
             # text
-            self.renderer.draw_rect(
-                "#607078",
-                [20, screen_height - 110, screen_width - 50, 100],
-                0,
-                5,
+            self.text_component.draw_text_box(
+                text_list=[
+                    f"Trade  {sel_boku.name}  Lv{sel_boku.level}  for  {self.gain_tp}  Ticket Points?"
+                ],
+                rect_color="#607078",
+                text_size=FontSize.DOUBLE_EXTRA_LARGE,
+                rect_position=(20, screen_height - 110),
+                rect_size=(screen_width - 50, 100),
+                has_inner_rect=True,
+                inner_rect_radius=5,
+                border_radius=5,
+                text_gap=30,
             )
-            self.renderer.draw_rect(
-                "black",
-                [20, screen_height - 110, screen_width - 50, 100],
-                3,
-                5,
-            )
-            self.renderer.draw_rect(
-                "white",
-                [30, screen_height - 100, screen_width - 70, 80],
-                0,
-                5,
-            )
-            self.renderer.draw_text(
-                f"Trade  {sel_boku.name}  Lv{sel_boku.level}  for  {self.gain_tp}  Ticket Points?",
-                "black",
-                [50, screen_height - 80],
-                size=FontSize.DOUBLE_EXTRA_LARGE,
-            )
+
         else:
             if self.cant_trade:
                 self.renderer.draw_rect(
@@ -452,26 +420,26 @@ class BokuStore:
                 self.renderer.draw_text(
                     "Can't trade any more",
                     "black",
-                    [380, screen_height - 75],
+                    [380, screen_height - 65],
                     size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
             else:
                 self.renderer.draw_text(
                     "Bokumon",
                     "black",
-                    [380, screen_height / 2 - 90],
+                    [380, screen_height / 2 - 80],
                     size=FontSize.EXTRA_LARGE,
                 )
                 self.renderer.draw_text(
                     "Lv",
                     "black",
-                    [410, screen_height / 2 + 50],
+                    [410, screen_height / 2 + 60],
                     size=FontSize.EXTRA_LARGE,
                 )
                 self.renderer.draw_text(
                     "0",
                     "black",
-                    [690, screen_height / 2 - 10],
+                    [690, screen_height / 2],
                     size=FontSize.EXTRA_LARGE,
                     is_center=True,
                 )
@@ -508,7 +476,7 @@ class BokuStore:
             "white",
             [
                 208,
-                65 + space_y,
+                75 + space_y,
             ],
             size=FontSize.LARGE,
             is_shadowed_text=True,

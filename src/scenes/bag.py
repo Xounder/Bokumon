@@ -1,12 +1,14 @@
 import pygame
 from settings.settings import *
-from ui import Renderer, FontSize
+from ui import Renderer, FontSize, TextComponent
 from utils.timer import Timer
 
 
 class Bag:
     def __init__(self, renderer: Renderer, view_bokumon):
         self.renderer = renderer
+        self.text_component = TextComponent(self.renderer)
+
         self.view_bokumon = view_bokumon
         self.timer = Timer(0.12)
 
@@ -150,7 +152,7 @@ class Bag:
         self.renderer.draw_text(
             f"{self.section}",
             "white",
-            (140, 80),
+            (140, 70),
             size=FontSize.DOUBLE_EXTRA_LARGE,
             is_center=True,
             is_shadowed_text=True,
@@ -171,20 +173,7 @@ class Bag:
         # image rect
         self.renderer.draw_rect("white", (20, screen_height - 120, 90, 90), 0, 5)
         self.renderer.draw_rect("black", (20, screen_height - 120, 90, 90), 3, 5)
-        if self.selected:
-            # aviso de seleção (caixa de texto)
-            self.renderer.draw_rect(
-                "white",
-                (140, screen_height - 140, 420, 130),
-                0,
-                5,
-            )
-            self.renderer.draw_rect(
-                "black",
-                (140, screen_height - 140, 420, 130),
-                3,
-                5,
-            )
+
         space_y = 0
         for i, item in enumerate(self.all_items[self.section]):
             if (
@@ -195,7 +184,7 @@ class Bag:
                 self.renderer.draw_text(
                     f"{item[0]}",
                     "black",
-                    (330, 60 + space_y),
+                    (330, 70 + space_y),
                     size=FontSize.DOUBLE_EXTRA_LARGE,
                     is_shadowed_text=True,
                     shadow_color="gray",
@@ -203,7 +192,7 @@ class Bag:
                 self.renderer.draw_text(
                     f"X   {item[2]}",
                     "black",
-                    (650, 60 + space_y),
+                    (650, 70 + space_y),
                     size=FontSize.DOUBLE_EXTRA_LARGE,
                     is_shadowed_text=True,
                     shadow_color="gray",
@@ -234,19 +223,17 @@ class Bag:
                         )
                         self.renderer.blit(self.items_image[item[0]], item_rect)
                         if not self.toss:
-                            # aviso de seleção
-                            self.renderer.draw_text(
-                                f"{item[0]}  is",
-                                "black",
-                                (140 + 20, screen_height - 110),
-                                size=FontSize.DOUBLE_EXTRA_LARGE,
+                            text_list = [f"{item[0]}  is", "selected."]
+
+                            self.text_component.draw_text_box(
+                                text_list=text_list,
+                                rect_color="white",
+                                text_size=FontSize.DOUBLE_EXTRA_LARGE,
+                                rect_position=(140, screen_height - 140),
+                                rect_size=(420, 130),
+                                text_gap=30,
                             )
-                            self.renderer.draw_text(
-                                "selected.",
-                                "black",
-                                (140 + 20, screen_height - 65),
-                                size=FontSize.DOUBLE_EXTRA_LARGE,
-                            )
+
                         # pega o item respectivo e ve se está em batalha ou não
                         self.selected_item = (
                             self.items_selections[item[0]][self.in_battle]
@@ -283,7 +270,7 @@ class Bag:
                                 self.renderer.draw_text(
                                     f"{sel}",
                                     "black",
-                                    (screen_width - 190, tam[0] + space_y_sel),
+                                    (screen_width - 190, tam[0] + space_y_sel + 10),
                                     size=FontSize.DOUBLE_EXTRA_LARGE,
                                 )
                                 if self.marked[self.section][1] == j:

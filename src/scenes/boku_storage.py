@@ -49,7 +49,7 @@ class BokuStorage:
         self.renderer.draw_text(
             "BKMN DATA",
             [248, 216, 144],
-            [50, 35],
+            [50, 45],
             size=FontSize.EXTRA_LARGE,
             is_shadowed_text=True,
         )
@@ -70,21 +70,21 @@ class BokuStorage:
                 self.renderer.draw_text(
                     f"{boku_sel.atual_name}",
                     "white",
-                    [20, 320],
+                    [20, 330],
                     size=FontSize.DOUBLE_EXTRA_LARGE,
                     is_shadowed_text=True,
                 )
                 self.renderer.draw_text(
                     f"/{boku_sel.name}",
                     "white",
-                    [20, 360],
+                    [20, 370],
                     size=FontSize.DOUBLE_EXTRA_LARGE,
                     is_shadowed_text=True,
                 )
                 self.renderer.draw_text(
                     f"Lv{boku_sel.level}",
                     "white",
-                    [50, 400],
+                    [50, 410],
                     size=FontSize.DOUBLE_EXTRA_LARGE,
                     is_shadowed_text=True,
                 )
@@ -152,7 +152,7 @@ class BokuStorage:
                 "white",
                 [
                     428,
-                    65 + space_y,
+                    75 + space_y,
                 ],
                 size=FontSize.LARGE,
                 is_shadowed_text=True,
@@ -189,7 +189,7 @@ class BokuStorage:
         self.renderer.draw_text(
             f"{self.section_num+1}",
             "white",
-            [515, 65],
+            [515, 63],
             size=FontSize.LARGE,
             is_shadowed_text=True,
             shadow_color="black",
@@ -203,7 +203,7 @@ class BokuStorage:
         self.renderer.draw_text(
             f"PARTY BOKUMON",
             "white",
-            [258, 8],
+            [258, 18],
             size=FontSize.LARGE,
             is_shadowed_text=True,
             shadow_color="black",
@@ -227,7 +227,7 @@ class BokuStorage:
         self.renderer.draw_text(
             f"CLOSE BOX",
             "white",
-            [screen_width - 160, 8],
+            [screen_width - 160, 18],
             size=FontSize.LARGE,
             is_shadowed_text=True,
             shadow_color="black",
@@ -273,7 +273,7 @@ class BokuStorage:
             self.renderer.draw_text(
                 sel,
                 "black",
-                [50, space_y],
+                [50, space_y + 10],
                 size=FontSize.EXTRA_LARGE,
             )
             if i == self.selected_action[0]:
@@ -302,27 +302,27 @@ class BokuStorage:
             self.renderer.draw_text(
                 "Can't  take  any  more  Bokumon.",
                 "black",
-                [50, screen_height - 120],
+                [50, screen_height - 130],
                 size=FontSize.EXTRA_LARGE,
             )
         elif len(self.player.bokumons) == 1 and self.selected_action[0] == 1:
             self.renderer.draw_text(
                 "Can't  deposit  any  Bokumon.",
                 "black",
-                [50, screen_height - 120],
+                [50, screen_height - 110],
                 size=FontSize.EXTRA_LARGE,
             )
         else:
             self.renderer.draw_text(
                 selected_text[self.selected_action[0]][0],
                 "black",
-                [50, screen_height - 120],
+                [50, screen_height - 110],
                 size=FontSize.DOUBLE_EXTRA_LARGE,
             )
             self.renderer.draw_text(
                 selected_text[self.selected_action[0]][1],
                 "black",
-                [50, screen_height - 70],
+                [50, screen_height - 60],
                 size=FontSize.DOUBLE_EXTRA_LARGE,
             )
 
@@ -363,7 +363,7 @@ class BokuStorage:
             self.renderer.draw_text(
                 f"{text}",
                 "black",
-                [screen_width - 260, screen_height / 2 - 10 + space_y],
+                [screen_width - 260, screen_height / 2 + space_y],
                 size=FontSize.DOUBLE_EXTRA_LARGE,
             )
             if self.select_boku_action == i:
@@ -401,7 +401,7 @@ class BokuStorage:
             self.renderer.draw_text(
                 "Can't  take  any  more  Bokumon.",
                 "gray",
-                [screen_width - 530, screen_height - 90],
+                [screen_width - 530, screen_height - 80],
                 size=FontSize.EXTRA_LARGE,
                 is_shadowed_text=True,
             )
@@ -413,7 +413,7 @@ class BokuStorage:
             self.renderer.draw_text(
                 "Can't  deposit  any  Bokumon.",
                 "gray",
-                [screen_width - 530, screen_height - 90],
+                [screen_width - 530, screen_height - 80],
                 size=FontSize.EXTRA_LARGE,
                 is_shadowed_text=True,
             )
@@ -421,7 +421,7 @@ class BokuStorage:
             self.renderer.draw_text(
                 f"{name}  is  selected.",
                 "black",
-                [screen_width - 530, screen_height - 90],
+                [screen_width - 530, screen_height - 80],
                 size=FontSize.DOUBLE_EXTRA_LARGE,
             )
 

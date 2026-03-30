@@ -1,13 +1,15 @@
 import pygame
 from random import randint
 from settings.settings import screen_height, screen_width
-from ui import Renderer, FontSize
+from ui import Renderer, FontSize, TextComponent
 from utils.timer import Timer
 
 
 class BokuEvo:
     def __init__(self, renderer: Renderer, player):
         self.renderer = renderer
+        self.text_component = TextComponent(self.renderer)
+
         self.player = player
         self.atual_bokumon = self.player.atual_bokumon
         self.timer = Timer(0.12)
@@ -32,21 +34,16 @@ class BokuEvo:
                         (gas[0] + randint(-50, 50), gas[1] + randint(-50, 50)),
                         10,
                     )
-                self.renderer.draw_rect(
-                    "white",
-                    [0, screen_height - 130, screen_width, 130],
+
+                self.text_component.draw_text_box(
+                    text_list=[f"{self.atual_bokumon.name} is evolving..."],
+                    rect_color="white",
+                    text_size=FontSize.EXTRA_LARGE,
+                    rect_position=(0, screen_height - 130),
+                    rect_size=(screen_width, 130),
+                    is_middle=True,
                 )
-                self.renderer.draw_rect(
-                    "black",
-                    [0, screen_height - 130, screen_width, 130],
-                    3,
-                )
-                self.renderer.draw_text(
-                    f"{self.atual_bokumon.name} is evolving...",
-                    "black",
-                    [20, screen_height - 80],
-                    size=FontSize.EXTRA_LARGE,
-                )
+
                 if self.pressed_x:
                     self.cancel = True
                     if (
@@ -72,41 +69,32 @@ class BokuEvo:
                     self.msg_timer.active()
 
                 self.atual_bokumon.draw((screen_width / 2, screen_height / 2))
-                self.renderer.draw_rect(
-                    "white",
-                    [0, screen_height - 130, screen_width, 130],
-                )
-                self.renderer.draw_rect(
-                    "black",
-                    [0, screen_height - 130, screen_width, 130],
-                    3,
-                )
-                self.renderer.draw_text(
-                    f"{self.atual_bokumon.previous_name} evolved to {self.atual_bokumon.name}",
-                    "black",
-                    [20, screen_height - 80],
-                    size=FontSize.EXTRA_LARGE,
+
+                self.text_component.draw_text_box(
+                    text_list=[
+                        f"{self.atual_bokumon.previous_name} evolved to {self.atual_bokumon.name}"
+                    ],
+                    rect_color="white",
+                    text_size=FontSize.EXTRA_LARGE,
+                    rect_position=(0, screen_height - 130),
+                    rect_size=(screen_width, 130),
+                    is_middle=True,
                 )
 
                 self.up_info()
 
         else:
             self.atual_bokumon.draw((screen_width / 2, screen_height / 2))
-            self.renderer.draw_rect(
-                "white",
-                [0, screen_height - 130, screen_width, 130],
+
+            self.text_component.draw_text_box(
+                text_list=[f"{self.atual_bokumon.name} don't evolve"],
+                rect_color="white",
+                text_size=FontSize.EXTRA_LARGE,
+                rect_position=(0, screen_height - 130),
+                rect_size=(screen_width, 130),
+                is_middle=True,
             )
-            self.renderer.draw_rect(
-                "black",
-                [0, screen_height - 130, screen_width, 130],
-                3,
-            )
-            self.renderer.draw_text(
-                f"{self.atual_bokumon.name} don't evolve",
-                "black",
-                [20, screen_height - 80],
-                size=FontSize.EXTRA_LARGE,
-            )
+
             if self.pressed_z:
                 self.active = False
 
@@ -189,7 +177,7 @@ class BokuEvo:
                 self.renderer.draw_text(
                     ups[i],
                     "black",
-                    (screen_width / 2 + 149, screen_height / 2 - 180 + (20 * i)),
+                    (screen_width / 2 + 149, screen_height / 2 - 170 + (20 * i)),
                     size=FontSize.MEDIUM,
                     is_shadowed_text=True,
                     shadow_color="white",
@@ -197,7 +185,7 @@ class BokuEvo:
                 self.renderer.draw_text(
                     ups[i + 1],
                     "black",
-                    (screen_width / 2 + 278, screen_height / 2 - 180 + (20 * i)),
+                    (screen_width / 2 + 278, screen_height / 2 - 170 + (20 * i)),
                     size=FontSize.MEDIUM,
                     is_shadowed_text=True,
                     shadow_color="white",

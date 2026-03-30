@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from ui import Renderer, FontSize
+from ui import Renderer, FontSize, TextComponent
 from utils import save_system
 from utils.timer import Timer
 from sprites import BokuMon
@@ -9,6 +9,7 @@ from sprites import BokuMon
 class Menu:
     def __init__(self, renderer: Renderer, player, bag):
         self.renderer = renderer
+        self.text_component = TextComponent(self.renderer)
         self.player = player
         self.bag = bag
         self.timer = Timer(0.12)
@@ -41,31 +42,46 @@ class Menu:
                     (screen_width - 260, 180), self.selected_button
                 )
             elif self.msg:
-                self.blit_msg("Don't  have  any  saved  game.")
+                self.text_component.draw_text_box(
+                    text_list=["Don't  have  any  saved  game."],
+                    rect_color="#00008B",
+                    text_size=FontSize.DOUBLE_EXTRA_LARGE,
+                    rect_position=(20, screen_height - 120),
+                    rect_size=(screen_width - 50, 100),
+                    border_radius=5,
+                    has_inner_rect=True,
+                    inner_rect_radius=5,
+                    is_middle=True,
+                )
 
     def draw_overlay(self):
         self.renderer.draw_rect("#00009F", (0, 0, screen_width, screen_height))
         pos = [[240, 145], [280, 345]]
-        self.renderer.draw_rect("#00008B", (110, 100, screen_width - 250, 100), 0, 3)
-        self.renderer.draw_rect("black", (110, 100, screen_width - 250, 100), 3, 5)
-        self.renderer.draw_rect("white", (120, 110, screen_width - 270, 80), 0, 5)
-        self.renderer.draw_text(
-            "Continue   Game",
-            "black",
-            [380, 155],
-            size=FontSize.DOUBLE_EXTRA_LARGE,
+
+        self.text_component.draw_text_box(
+            text_list=["Continue   Game"],
+            rect_color="#00008B",
+            text_size=FontSize.DOUBLE_EXTRA_LARGE,
+            rect_position=(110, 100),
+            rect_size=(screen_width - 250, 100),
+            border_radius=5,
+            has_inner_rect=True,
+            inner_rect_radius=5,
             is_center=True,
         )
-        self.renderer.draw_rect("#00008B", (110, 300, screen_width - 250, 100), 0, 3)
-        self.renderer.draw_rect("black", (110, 300, screen_width - 250, 100), 3, 5)
-        self.renderer.draw_rect("white", (120, 310, screen_width - 270, 80), 0, 5)
-        self.renderer.draw_text(
-            "New   Game",
-            "black",
-            [380, 355],
-            size=FontSize.DOUBLE_EXTRA_LARGE,
+
+        self.text_component.draw_text_box(
+            text_list=["New   Game"],
+            rect_color="#00008B",
+            text_size=FontSize.DOUBLE_EXTRA_LARGE,
+            rect_position=(110, 300),
+            rect_size=(screen_width - 250, 100),
+            border_radius=5,
+            has_inner_rect=True,
+            inner_rect_radius=5,
             is_center=True,
         )
+
         color = "red" if self.selected[1] else "black"
         self.renderer.draw_rect(
             color,
@@ -75,6 +91,8 @@ class Menu:
         )
 
     def blit_select_continue(self, pos_rect, selected_button):
+        # TODO: criar e adicionar o componente TextInputComponent (verificar nome melhor)
+
         self.renderer.draw_rect(
             "#00008B",
             (pos_rect[0], pos_rect[1], 120, screen_height / 4.5),
@@ -106,13 +124,13 @@ class Menu:
         self.renderer.draw_text(
             "Yes",
             "black",
-            (pos[0][0] + 20, pos[0][1] - 10),
+            (pos[0][0] + 20, pos[0][1] + 5),
             size=FontSize.DOUBLE_EXTRA_LARGE,
         )
         self.renderer.draw_text(
             "No",
             "black",
-            (pos[1][0] + 20, pos[1][1] - 10),
+            (pos[1][0] + 20, pos[1][1] + 5),
             size=FontSize.DOUBLE_EXTRA_LARGE,
         )
 
@@ -122,7 +140,19 @@ class Menu:
             "#19A99F",
             (60, screen_height / 2 - 100, screen_width - 100, 160),
         )
-        self.blit_msg("Select  your  first  Bokumon!")
+
+        self.text_component.draw_text_box(
+            text_list=["Select  your  first  Bokumon!"],
+            rect_color="#00008B",
+            text_size=FontSize.DOUBLE_EXTRA_LARGE,
+            rect_position=(20, screen_height - 120),
+            rect_size=(screen_width - 50, 100),
+            border_radius=5,
+            has_inner_rect=True,
+            inner_rect_radius=5,
+            is_center=True,
+        )
+
         space_x = 0
         for i, boku in enumerate(self.firts_bokumons):
             boku.draw_modified([130 + space_x, screen_height / 2 - 40], 0.7)
@@ -141,32 +171,6 @@ class Menu:
                     20,
                 )
             space_x += 250
-
-    def blit_msg(self, msg):
-        self.renderer.draw_rect(
-            "#00008B",
-            (20, screen_height - 120, screen_width - 50, 100),
-            0,
-            3,
-        )
-        self.renderer.draw_rect(
-            "black",
-            (20, screen_height - 120, screen_width - 50, 100),
-            3,
-            5,
-        )
-        self.renderer.draw_rect(
-            "white",
-            (30, screen_height - 110, screen_width - 70, 80),
-            0,
-            5,
-        )
-        self.renderer.draw_text(
-            msg,
-            "black",
-            (80, screen_height - 80),
-            size=FontSize.DOUBLE_EXTRA_LARGE,
-        )
 
     def update(self):
         if self.timer.run:

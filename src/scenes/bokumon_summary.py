@@ -59,7 +59,7 @@ class BokuSummary:
         self.renderer.draw_text(
             section_text,
             "black",
-            (10, 15),
+            (10, 25),
             size=FontSize.DOUBLE_EXTRA_LARGE,
         )
         # dots
@@ -89,13 +89,13 @@ class BokuSummary:
         self.renderer.draw_text(
             f"Lv{self.boku_local[self.boku_selected].level}",
             "black",
-            (10, 60),
+            (10, 70),
             size=FontSize.DOUBLE_EXTRA_LARGE,
         )
         self.renderer.draw_text(
             f"{self.boku_local[self.boku_selected].name}",
             "black",
-            (130, 60),
+            (130, 70),
             size=FontSize.DOUBLE_EXTRA_LARGE,
         )
         self.boku_local[self.boku_selected].draw_modified((160, 200), 0.7)
@@ -200,14 +200,14 @@ class BokuSummary:
         self.renderer.draw_text(
             "HP",
             "white",
-            (screen_width / 2 + 70, 82),
+            (screen_width / 2 + 70, 80),
             size=FontSize.LARGE,
             is_center=True,
         )
         self.renderer.draw_text(
             f"{atual_boku.atual_life}/{atual_boku.life}",
             "black",
-            (screen_width - 40, 70),
+            (screen_width - 40, 80),
             size=FontSize.DOUBLE_EXTRA_LARGE,
             is_right=True,
         )
@@ -216,7 +216,7 @@ class BokuSummary:
         self.renderer.draw_text(
             "HP",
             "yellow",
-            (screen_width / 2 + 145, 102),
+            (screen_width / 2 + 145, 109),
             size=FontSize.LARGE,
         )
         self.renderer.draw_rect("white", (screen_width / 2 + 175, 105, 178, 10))
@@ -247,14 +247,14 @@ class BokuSummary:
             self.renderer.draw_text(
                 name_list[i],
                 "white",
-                (screen_width / 2 + 70, space_y + 22),
+                (screen_width / 2 + 70, space_y + 20),
                 size=FontSize.LARGE,
                 is_center=True,
             )
             self.renderer.draw_text(
                 stats_list[i],
                 "black",
-                (screen_width - 40, space_y + 10),
+                (screen_width - 40, space_y + 20),
                 size=FontSize.EXTRA_LARGE,
                 is_right=True,
             )
@@ -262,7 +262,7 @@ class BokuSummary:
         self.renderer.draw_text(
             "Chance",
             "white",
-            (screen_width / 2 + 70, space_y - 23),
+            (screen_width / 2 + 70, space_y - 20),
             size=FontSize.MEDIUM,
             is_center=True,
         )
@@ -278,20 +278,20 @@ class BokuSummary:
         self.renderer.draw_text(
             "EXP",
             "white",
-            (110, screen_height - 197),
+            (110, screen_height - 200),
             size=FontSize.EXTRA_LARGE,
             is_center=True,
         )
         self.renderer.draw_text(
             "Exp.  Points",
             "black",
-            (240, screen_height - 220),
+            (240, screen_height - 210),
             size=FontSize.DOUBLE_EXTRA_LARGE,
         )
         self.renderer.draw_text(
             "Next  Lv.",
             "black",
-            (240, screen_height - 170),
+            (240, screen_height - 160),
             size=FontSize.DOUBLE_EXTRA_LARGE,
         )
         # valores exp
@@ -314,14 +314,14 @@ class BokuSummary:
         self.renderer.draw_text(
             f"{atual_boku.all_exp}",
             "black",
-            (screen_width - 40, space_y + 20),
+            (screen_width - 40, space_y + 30),
             size=FontSize.EXTRA_LARGE,
             is_right=True,
         )
         self.renderer.draw_text(
             f"{round(atual_boku.up_exp - atual_boku.atual_exp)}",
             "black",
-            (screen_width - 40, space_y + 70),
+            (screen_width - 40, space_y + 80),
             size=FontSize.EXTRA_LARGE,
             is_right=True,
         )
@@ -348,7 +348,7 @@ class BokuSummary:
         self.renderer.draw_text(
             "EXP",
             "yellow",
-            (screen_width - 280, space_y + 105),
+            (screen_width - 280, space_y + 110),
             size=FontSize.MEDIUM,
         )
         self.renderer.draw_rect(
@@ -393,19 +393,19 @@ class BokuSummary:
                 self.renderer.draw_text(
                     f"{atual_bokumon.moves[i][0]}",
                     "black",
-                    (screen_width / 2 + 130, space_y + 10),
+                    (screen_width / 2 + 130, space_y + 20),
                     size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
                 self.renderer.draw_text(
                     f"PP",
                     "black",
-                    (screen_width / 2 + 235, space_y + 53),
+                    (screen_width / 2 + 235, space_y + 60),
                     size=FontSize.EXTRA_LARGE,
                 )
                 self.renderer.draw_text(
                     f"{atual_bokumon.moves_pp[i][0]}/{atual_bokumon.moves_pp[i][1]}",
                     "black",
-                    (screen_width / 2 + 270, space_y + 50),
+                    (screen_width / 2 + 270, space_y + 60),
                     size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
             else:
@@ -413,7 +413,7 @@ class BokuSummary:
                     self.renderer.draw_text(
                         f"Cancel",
                         "black",
-                        (screen_width / 2 + 130, space_y + 10),
+                        (screen_width / 2 + 150, space_y + 40),
                         size=FontSize.DOUBLE_EXTRA_LARGE,
                     )
 
@@ -450,7 +450,7 @@ class BokuSummary:
             self.renderer.draw_text(
                 "POWER",
                 "white",
-                (80, screen_height / 2 + 112),
+                (80, screen_height / 2 + 110),
                 size=FontSize.LARGE,
                 is_center=True,
             )
@@ -470,7 +470,7 @@ class BokuSummary:
             self.renderer.draw_text(
                 "ACCURACY",
                 "white",
-                (80, screen_height / 2 + 162),
+                (80, screen_height / 2 + 160),
                 size=FontSize.LARGE,
                 is_center=True,
             )
@@ -478,14 +478,14 @@ class BokuSummary:
                 self.renderer.draw_text(
                     f"{atual_bokumon.moves[self.selected_move[2][1]][1]}",
                     "black",
-                    (240, screen_height / 2 + 100),
+                    (240, screen_height / 2 + 110),
                     size=FontSize.EXTRA_LARGE,
                     is_right=True,
                 )
                 self.renderer.draw_text(
                     f"{atual_bokumon.moves[self.selected_move[2][1]][2]}",
                     "black",
-                    (240, screen_height / 2 + 150),
+                    (240, screen_height / 2 + 160),
                     size=FontSize.EXTRA_LARGE,
                     is_right=True,
                 )
