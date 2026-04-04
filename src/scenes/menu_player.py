@@ -26,15 +26,6 @@ class MenuPlayer:
         self.renderer.draw_rect("gray", (pos[0], pos[1], 190, screen_height - 200))
         self.renderer.draw_rect("black", (pos[0], pos[1], 190, screen_height - 200), 4)
 
-        self.renderer.draw_rect(
-            "gray",
-            (50, screen_height - 130, screen_width - 220, 120),
-        )
-        self.renderer.draw_rect(
-            "black",
-            (50, screen_height - 130, screen_width - 220, 120),
-            4,
-        )
         menu_list = ["Bokumon", "Bag", "Save", "Exit"]
         space_y = 40
         for i, name in enumerate(menu_list):
