@@ -1,13 +1,14 @@
 import pygame
 from random import randint
 from settings.settings import screen_height, screen_width
-from ui import Renderer, FontSize, TextBoxComponent
+from ui import Renderer, FontSize, BoxComponent, TextBoxComponent
 from utils.timer import Timer
 
 
 class BokuEvo:
     def __init__(self, renderer: Renderer, player):
         self.renderer = renderer
+        self.box_component = BoxComponent(self.renderer)
         self.text_box_component = TextBoxComponent(self.renderer)
 
         self.player = player
@@ -164,15 +165,13 @@ class BokuEvo:
                     f"{self.player.atual_bokumon.critical_chance}",
                 ]
 
-            self.renderer.draw_rect(
-                "gray",
-                (screen_width / 2 + 120, screen_height / 2 - 200, 220, 220),
+            self.box_component.draw_box(
+                rect_color="gray",
+                rect_position=(screen_width / 2 + 120, screen_height / 2 - 200),
+                rect_size=(220, 220),
+                border_color="black",
             )
-            self.renderer.draw_rect(
-                "black",
-                (screen_width / 2 + 120, screen_height / 2 - 200, 220, 220),
-                3,
-            )
+            
             for i in range(0, len(ups), 2):
                 self.renderer.draw_text(
                     ups[i],
