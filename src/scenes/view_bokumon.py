@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import *
-from ui import Renderer, FontSize, TextBoxComponent
+from ui import Renderer, FontSize, BoxComponent, TextBoxComponent
 from utils.timer import Timer
 from .bokumon_summary import BokuSummary
 
@@ -8,7 +8,9 @@ from .bokumon_summary import BokuSummary
 class ViewBokumon:
     def __init__(self, renderer: Renderer, player):
         self.renderer = renderer
+        self.box_component = BoxComponent(self.renderer)
         self.text_box_component = TextBoxComponent(self.renderer)
+
         self.player = player
         self.bokumon_summary = BokuSummary(self.renderer, self.player)
         self.timer = Timer(0.12)
@@ -78,7 +80,6 @@ class ViewBokumon:
         space_y = 90
         prev_y = 20
         self.renderer.draw_rect("green", (0, 0, screen_width, screen_height))
-        self.renderer.draw_rect("brown", (20, 100, 300, 200), 0, 5)
         if self.marked[0] == 0 or self.marked[1] == 0:
             if (self.selected or self.fainted or self.player.battle) and self.marked[
                 0
@@ -89,8 +90,18 @@ class ViewBokumon:
         else:
             color = "white"
         # first bokumon
-        self.renderer.draw_rect(color, (20, 100, 300, 200), 7, 5)
-        self.renderer.draw_rect("black", (20, 100, 300, 200), 3, 5)
+        self.box_component.draw_box(
+            rect_color=color,
+            rect_position=(20, 100),
+            rect_size=(300, 200),
+            rect_radius=5,
+            border_width=3,
+            border_radius=5,
+            has_inner_rect=True,
+            inner_rect_gap=7,
+            inner_rect_color="brown",
+        )
+
         self.status_txt(
             0,
             [[45, 240], [80, 245]],
@@ -106,7 +117,6 @@ class ViewBokumon:
         self.player.bokumons[0].draw_modified((60, 125), 1.3)
         for i in range(1, 6):
             if i <= self.boku_limit:
-                self.renderer.draw_rect("brown", (370, prev_y, 400, space_y), 0, 5)
                 if self.marked[0] == i or self.marked[1] == i:
                     if (
                         self.selected or self.fainted or self.player.battle
@@ -116,8 +126,18 @@ class ViewBokumon:
                         color = "black"
                 else:
                     color = "white"
-                self.renderer.draw_rect(color, (370, prev_y, 400, space_y), 7, 5)
-                self.renderer.draw_rect("black", (370, prev_y, 400, space_y), 3, 5)
+
+                self.box_component.draw_box(
+                    rect_color=color,
+                    rect_position=(370, prev_y),
+                    rect_size=(400, space_y),
+                    rect_radius=5,
+                    border_width=3,
+                    border_radius=5,
+                    has_inner_rect=True,
+                    inner_rect_gap=7,
+                    inner_rect_color="brown",
+                )
 
                 life_y = prev_y - 20
                 self.status_txt(
@@ -163,11 +183,20 @@ class ViewBokumon:
         )
 
         color = "black" if self.marked[0] == 6 or self.marked[1] == 6 else "white"
-        self.renderer.draw_rect("purple", (610, 520, 150, 50), 0, 50)
-        self.renderer.draw_rect(color, (610, 520, 150, 50), 5, 50)
-        self.renderer.draw_rect("black", (610, 520, 150, 50), 3, 50)
-        self.renderer.draw_text(
-            "Cancel", "black", (660, 544), size=FontSize.EXTRA_LARGE
+
+        self.text_box_component.draw_text_box(
+            text_list=["Cancel"],
+            rect_color=color,
+            text_size=FontSize.EXTRA_LARGE,
+            rect_position=(610, 520),
+            rect_size=(150, 50),
+            rect_radius=50,
+            border_radius=50,
+            has_inner_rect=True,
+            inner_rect_gap=5,
+            inner_rect_color="purple",
+            inner_rect_radius=50,
+            is_right=True,
         )
         # bokuball cancel
         self.draw_boku_ball((620, 545), 1, 1 if self.marked[0] == 6 else 0)
@@ -179,35 +208,18 @@ class ViewBokumon:
         ):
             if self.marked[0] == 0:
                 tam = [(screen_height - 160), 150]
-                self.renderer.draw_rect(
-                    "#00008B",
-                    (0, tam[0], screen_width, tam[1]),
-                    0,
-                    3,
-                )
-                self.renderer.draw_rect(
-                    "black",
-                    (0, tam[0], screen_width, tam[1]),
-                    3,
-                    5,
-                )
-                self.renderer.draw_rect(
-                    "white",
-                    (10, tam[0] + 10, screen_width - 20, tam[1] - 20),
-                    0,
-                    5,
-                )
-                self.renderer.draw_text(
-                    f"{self.player.bokumons[0].atual_name} is already",
-                    "black",
-                    (40, tam[0] + 40),
-                    size=FontSize.DOUBLE_EXTRA_LARGE,
-                )
-                self.renderer.draw_text(
-                    "in battle!",
-                    "black",
-                    (40, tam[0] + 80),
-                    size=FontSize.DOUBLE_EXTRA_LARGE,
+                text_list = [f"{self.player.bokumons[0].atual_name} is already", "in battle!"]
+
+                self.text_box_component.draw_text_box(
+                    text_list=text_list,
+                    rect_color="#00008B",
+                    text_size=FontSize.DOUBLE_EXTRA_LARGE,
+                    rect_position=(0, tam[0]),
+                    rect_size=(screen_width, tam[1]),
+                    border_radius=5,
+                    has_inner_rect=True,
+                    inner_rect_radius=5,
+                    text_gap=30,
                 )
 
         elif self.bag_values[3][0]:
