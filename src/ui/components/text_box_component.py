@@ -4,7 +4,7 @@ from ui.components.box_component import BoxComponent
 
 
 class TextBoxComponent:
-    def __init__(self, renderer: Renderer):
+    def __init__(self, renderer: Renderer) -> None:
         self.renderer = renderer
         self.box_component = BoxComponent(self.renderer)
 
@@ -28,12 +28,13 @@ class TextBoxComponent:
         inner_rect_radius: int = 0,
         text_color: str = "black",
         text_gap: int = 20,
+        text_spacing: int | None = None,
         is_shadowed_text: bool = False,
         shadow_color: str = "black",
         is_middle: bool = False,
         is_center: bool = False,
         is_right: bool = False,
-    ):
+    ) -> None:
         last_rect_position, last_rect_size = self.box_component.resolve_content_rect(
             rect_position,
             rect_size,
@@ -65,6 +66,7 @@ class TextBoxComponent:
             last_rect_position,
             last_rect_size,
             text_gap,
+            text_spacing,
             is_shadowed_text,
             shadow_color,
             is_middle,
@@ -80,20 +82,21 @@ class TextBoxComponent:
         rect_position: tuple[int, int],
         rect_size: tuple[int, int],
         text_gap: int,  # TODO: dividir em gap horizontal e vertical / modificar nome
+        text_spacing: int | None,
         is_shadowed_text: bool,
         shadow_color: str,
         is_middle: bool,  # TODO: modificar para enum Alignment
         is_center: bool,  # TODO: modificar para enum Alignment
         is_right: bool,  # TODO: modificar para enum Alignment
-    ):
-        Y_GAP = 35  # TODO: adicionar como parametro e adicionar uma função para buscar gaps para diferentes FontSize's /
+    ) -> None:
+        spacing = text_spacing or self._get_text_spacing(text_size)
 
         for index, text in enumerate(text_list):
             self._draw_text(
                 text,
                 text_color,
                 text_size,
-                (rect_position[0], rect_position[1] + Y_GAP * index),
+                (rect_position[0], rect_position[1] + spacing * index),
                 rect_size,
                 text_gap,
                 is_shadowed_text,
@@ -116,7 +119,7 @@ class TextBoxComponent:
         is_middle: bool,
         is_center: bool,
         is_right: bool,
-    ):
+    ) -> None:
         text_postion = [
             rect_position[0] + text_gap,
             rect_position[1] + text_gap,
@@ -140,5 +143,14 @@ class TextBoxComponent:
             is_center=is_center,
             is_right=is_right,
         )
+
+    def _get_text_spacing(self, size: FontSize) -> int:
+        match size:
+            case FontSize.SMALL | FontSize.MEDIUM | FontSize.LARGE:
+                return 35
+            case FontSize.EXTRA_LARGE:
+                return 40
+            case FontSize.DOUBLE_EXTRA_LARGE:
+                return 45
 
     # TODO: verificar como adicionar input/update neste componente

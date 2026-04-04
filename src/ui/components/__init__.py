@@ -1,2 +1,3 @@
 from .text_box_component import TextBoxComponent
 from .box_component import BoxComponent
+from .selection_box_component import SelectionBoxComponent
