@@ -1,12 +1,13 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from ui import Renderer, FontSize, TextBoxComponent
+from ui import Renderer, FontSize, BoxComponent, TextBoxComponent
 from utils.timer import Timer
 
 
 class LetterSelection:
     def __init__(self, renderer: Renderer):
         self.renderer = renderer
+        self.box_component = BoxComponent(self.renderer)
         self.text_box_component = TextBoxComponent(self.renderer)
 
         self.timer = Timer(0.12)
@@ -62,25 +63,25 @@ class LetterSelection:
 
     def draw_ballon_text(self):
         self.renderer.draw_rect("#E0D858", (0, 0, screen_width, screen_height))
-        self.renderer.draw_rect(
-            "#C0B8B0",
-            (100, 20, screen_width - 200, 150),
-            0,
-            15,
+
+        self.box_component.draw_box(
+            rect_color="#C0B8B0",
+            rect_position=(100, 20),
+            rect_size=(screen_width - 200, 150),
+            rect_radius=15,
+            border_color="#8C8C88",
+            border_radius=15,
+            has_inner_rect=True,
+            inner_rect_radius=15,
         )
-        self.renderer.draw_rect(
-            "#8C8C88",
-            (100, 20, screen_width - 200, 150),
-            3,
-            15,
-        )
-        self.renderer.draw_rect("white", (110, 30, screen_width - 220, 130), 0, 15)
+
         self.renderer.draw_text(
             f"{self.real_name}'s nickname?",
             "black",
             (250, 70),
             size=FontSize.DOUBLE_EXTRA_LARGE,
         )
+
         spaces = "_ _ _ _ _ _ _ _ _ _"
         count_space = spaces[
             (0 if len(self.name_choosed) == 0 else 1) : (
@@ -103,24 +104,19 @@ class LetterSelection:
         return new_word
 
     def draw_buttons(self):
-        self.renderer.draw_rect(
-            "#98C8E0",
-            (60, screen_height / 2 - 100, screen_width - 250, screen_height / 2 + 70),
+        self.box_component.draw_box(
+            rect_color="#98C8E0",
+            rect_position=(60, screen_height / 2 - 100),
+            rect_size=(screen_width - 250, screen_height / 2 + 70),
+            border_color="#6088A0",
         )
-        self.renderer.draw_rect(
-            "#6088A0",
-            (60, screen_height / 2 - 100, screen_width - 250, screen_height / 2 + 70),
-            3,
+        self.box_component.draw_box(
+            rect_color="#78A8C0",
+            rect_position=(70, screen_height / 2 - 90),
+            rect_size=(screen_width - 270, screen_height / 2 + 50),
+            border_color="#487088",
         )
-        self.renderer.draw_rect(
-            "#78A8C0",
-            (70, screen_height / 2 - 90, screen_width - 270, screen_height / 2 + 50),
-        )
-        self.renderer.draw_rect(
-            "#487088",
-            (70, screen_height / 2 - 90, screen_width - 270, screen_height / 2 + 50),
-            3,
-        )
+
         space_y = -50
         text_list = ["lower", "BACK", "OK"]
         for i in range(3):
