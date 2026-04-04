@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import *
-from ui import Renderer, FontSize, TextBoxComponent
+from ui import Renderer, FontSize, TextBoxComponent, SelectionBoxComponent
 from utils import save_system
 from utils.timer import Timer
 from game_types import PlayerData
@@ -10,6 +10,8 @@ class MenuPlayer:
     def __init__(self, renderer: Renderer, player, view_bokumon, bag):
         self.renderer = renderer
         self.text_box_component = TextBoxComponent(self.renderer)
+        self.selection_box_component = SelectionBoxComponent(self.renderer)
+
         self.player = player
         self.view_bokumon = view_bokumon
         self.bag = bag
@@ -21,45 +23,38 @@ class MenuPlayer:
         self.show_saved_feedback = False
 
     def draw_overlay(self):
-        # TODO: modificar pelo TextInputComponent
         pos = [screen_width - 200, 50]
-        self.renderer.draw_rect("gray", (pos[0], pos[1], 190, screen_height - 200))
-        self.renderer.draw_rect("black", (pos[0], pos[1], 190, screen_height - 200), 4)
-
         menu_list = ["Bokumon", "Bag", "Save", "Exit"]
-        space_y = 40
-        for i, name in enumerate(menu_list):
-            self.renderer.draw_text(
-                name,
-                "black",
-                (pos[0] + 30, pos[1] + space_y),
-                size=FontSize.EXTRA_LARGE,
-                is_shadowed_text=True,
-                shadow_color="white",
-            )
-            if self.selected == i:
-                text_list = (
-                    menu_description[name]
-                    if not self.show_saved_feedback
-                    else ["Game Saved!"]
-                )
 
-                self.text_box_component.draw_text_box(
-                    text_list=text_list,
-                    rect_color="gray",
-                    text_size=FontSize.EXTRA_LARGE,
-                    rect_position=(50, screen_height - 130),
-                    rect_size=(screen_width - 220, 120),
-                    is_shadowed_text=True,
-                    shadow_color="white",
-                )
+        self.selection_box_component.draw_selection_box(
+            text_list=menu_list,
+            rect_color="gray",
+            text_size=FontSize.EXTRA_LARGE,
+            rect_position=(pos[0], pos[1]),
+            rect_size=(190, screen_height - 200),
+            selected_index=self.selected,
+            text_gap=40,
+            text_spacing=60,
+            is_shadowed_text=True,
+            shadow_color="white",
+        )
 
-                self.renderer.draw_rect(
-                    "black",
-                    (pos[0] + 10, pos[1] + space_y - 5, 10, 10),
-                    4,
-                )
-            space_y += 60
+        text_list = (
+            menu_description[menu_list[self.selected]]
+            if not self.show_saved_feedback
+            else ["Game Saved!"]
+        )
+
+        self.text_box_component.draw_text_box(
+            text_list=text_list,
+            rect_color="gray",
+            text_size=FontSize.EXTRA_LARGE,
+            rect_position=(50, screen_height - 130),
+            rect_size=(screen_width - 220, 120),
+            is_shadowed_text=True,
+            shadow_color="white",
+        )
+
 
     def draw(self):
         if self.choose == "":
