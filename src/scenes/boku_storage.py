@@ -1,12 +1,15 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from ui import Renderer, FontSize
+from ui import Renderer, FontSize, BoxComponent, TextBoxComponent
 from utils.timer import Timer
 
 
 class BokuStorage:
     def __init__(self, renderer: Renderer, player, boku_summary):
         self.renderer = renderer
+        self.box_component = BoxComponent(self.renderer)
+        self.text_box_component = TextBoxComponent(self.renderer)
+
         self.player = player
         self.boku_summary = boku_summary
         self.timer = Timer(0.12)
@@ -34,18 +37,17 @@ class BokuStorage:
             5,
         )
         self.renderer.draw_rect("#505058", [-10, 8, 245, screen_height - 26], 3, 5)
-        self.renderer.draw_rect(
-            "#B8D4F4",
-            [15, 60, 200, screen_height / 2 - 90],
-            0,
-            10,
+
+        self.box_component.draw_box(
+            rect_color="#B8D4F4",
+            rect_position=(15, 60),
+            rect_size=(200, screen_height / 2 - 90),
+            rect_radius=10,
+            border_color="#606068",
+            border_width=5,
+            border_radius=10,
         )
-        self.renderer.draw_rect(
-            "#606068",
-            [15, 60, 200, screen_height / 2 - 90],
-            5,
-            10,
-        )
+
         self.renderer.draw_text(
             "BKMN DATA",
             [248, 216, 144],
@@ -91,32 +93,28 @@ class BokuStorage:
 
         if self.deposit or self.show_party:
             # bokumon_player_section
-            self.renderer.draw_rect("#388888", [240, 0, 300, screen_height - 20])
-            self.renderer.draw_rect(
-                "#80A8B0",
-                [240, 0, 300, screen_height - 20],
-                10,
+            self.box_component.draw_box(
+                rect_color="#80A8B0",
+                rect_position=(240, 0),
+                rect_size=(300, screen_height - 20),
+                border_color="#506070",
             )
-            self.renderer.draw_rect(
-                "#506070",
-                [240, 0, 300, screen_height - 20],
-                3,
-            )
-            self.renderer.draw_rect(
-                "#286860",
-                [250, 10, 280, screen_height - 40],
-                5,
+            self.box_component.draw_box(
+                rect_color="#388888",
+                rect_position=(250, 10),
+                rect_size=(280, screen_height - 40),
+                border_color="#286860",
+                border_width=5,
             )
             # bokumon's space
-            self.renderer.draw_rect(
-                "#3C6C70",
-                [260, screen_height / 2 - 70, 110, 80],
-                5,
+            self.box_component.draw_box(
+                rect_color="#0078F8",
+                rect_position=(260, screen_height / 2 - 70),
+                rect_size=(110, 80),
+                border_color="#3C6C70",
+                border_width=5,
             )
-            self.renderer.draw_rect(
-                "#0078F8",
-                [265, screen_height / 2 - 65, 100, 70],
-            )
+
             self.player.bokumons[0].draw_modified([330, screen_height / 2 - 15], 1.5)
             if self.select_player_boku[0] == 0:
                 self.renderer.draw_rect(
@@ -126,112 +124,115 @@ class BokuStorage:
                 )
             space_y = 20
             for i in range(5):
-                self.renderer.draw_rect(
-                    "#3C6C70",
-                    [400, 20 + space_y, 110, 80],
-                    5,
-                )
                 if i + 1 <= len(self.player.bokumons) - 1:
-                    self.renderer.draw_rect(
-                        "#0078F8",
-                        [405, 25 + space_y, 100, 70],
+                    self.box_component.draw_box(
+                        rect_color="#0078F8",
+                        rect_position=(400, 20 + space_y),
+                        rect_size=(110, 80),
+                        border_color="#3C6C70",
+                        border_width=5,
                     )
+
                     self.player.bokumons[i + 1].draw_modified([470, space_y + 75], 1.5)
                     if self.select_player_boku[0] == i + 1:
                         self.renderer.draw_rect("red", [400, 20 + space_y, 110, 80], 5)
                 space_y += 90
 
-            self.renderer.draw_rect(
-                "#A0D0F0",
-                [415, 55 + space_y, 100, 40],
-                0,
-                5,
-            )
-            self.renderer.draw_text(
-                "CANCEL",
-                "white",
-                [
-                    428,
-                    75 + space_y,
-                ],
-                size=FontSize.LARGE,
+            self.text_box_component.draw_text_box(
+                text_list=["CANCEL"],
+                rect_color="#A0D0F0",
+                text_size=FontSize.LARGE,
+                rect_position=(415, 55 + space_y),
+                rect_size=(100, 40),
+                rect_radius=5,
+                has_border=False,
+                text_color="white",
                 is_shadowed_text=True,
                 shadow_color="black",
+                is_center=True,
             )
+
             if self.select_player_boku[0] == 6:
                 self.renderer.draw_rect("red", [415, 55 + space_y, 100, 40], 3, 5)
 
     def draw_poke_space(self):
         self.renderer.draw_rect("#F8E4D8", [0, 0, screen_width, screen_height])
-        # bokumon_space
-        self.renderer.draw_rect(
-            "#B8B8B8",
-            [240, 100, 550, screen_height - 120],
-            0,
-            10,
+
+        self.box_component.draw_box(
+            rect_color="#E0E0E0",
+            rect_position=(240, 100),
+            rect_size=(550, screen_height - 120),
+            rect_radius=10,
+            border_color="#9080B0",
+            border_width=5,
+            border_radius=10,
+            has_inner_rect=True,
+            inner_rect_gap=8,
+            inner_rect_color="#B8B8B8",
+            inner_rect_radius=10,
         )
-        self.renderer.draw_rect(
-            "#E0E0E0",
-            [244, 104, 541, screen_height - 129],
-            5,
-            10,
-        )
-        self.renderer.draw_rect(
-            "#9080B0",
-            [240, 100, 550, screen_height - 120],
-            5,
-            10,
-        )
+
         # section_num
-        self.renderer.draw_rect("#9088E0", [390, 40, 250, 50], 0, 10)
-        self.renderer.draw_rect("#F8F8F8", [395, 45, 240, 40], 3, 10)
-        self.renderer.draw_rect("#9E92B2", [390, 40, 250, 50], 5, 10)
-        self.renderer.draw_text(
-            f"{self.section_num+1}",
-            "white",
-            [515, 63],
-            size=FontSize.LARGE,
+        self.text_box_component.draw_text_box(
+            text_list=[f"{self.section_num+1}"],
+            rect_color="#F8F8F8",
+            text_size=FontSize.LARGE,
+            rect_position=(390, 40),
+            rect_size=(250, 50),
+            rect_radius=10,
+            border_color="#9E92B2",
+            border_width=5,
+            border_radius=10,
+            has_inner_rect=True,
+            inner_rect_gap=8,
+            inner_rect_color="#9088E0",
+            inner_rect_radius=5,
+            text_color="white",
             is_shadowed_text=True,
             shadow_color="black",
             is_center=True,
         )
+
         if self.select_boku_box[0] == 1:
             self.renderer.draw_rect("red", [395, 45, 240, 40], 3, 10)
         # party bokumon
-        self.renderer.draw_rect("#A49C9C", [240, -10, 195, 48], 0, 5)
-        self.renderer.draw_rect("#A0E890", [248, 3, 180, 30], 0, 5)
-        self.renderer.draw_text(
-            f"PARTY BOKUMON",
-            "white",
-            [258, 18],
-            size=FontSize.LARGE,
+        self.text_box_component.draw_text_box(
+            text_list=["PARTY BOKUMON"],
+            rect_color="#A49C9C",
+            text_size=FontSize.LARGE,
+            rect_position=(240, -10),
+            rect_size=(195, 48),
+            rect_radius=5,
+            border_color="#506070",
+            border_radius=5,
+            has_inner_rect=True,
+            inner_rect_gap=7,
+            inner_rect_color="#A0E890",
+            inner_rect_radius=5,
+            text_color="white",
             is_shadowed_text=True,
             shadow_color="black",
+            is_center=True,
         )
-        self.renderer.draw_rect("#506070", [240, -10, 195, 48], 3, 5)
+
         if self.select_boku_box[0] == 0 and self.select_boku_box[1] == 0:
             self.renderer.draw_rect("red", [240, -10, 195, 48], 3, 5)
         # close box
-        self.renderer.draw_rect(
-            "#A0C8F0",
-            [screen_width - 200, 3, 195, 30],
-            0,
-            10,
-        )
-        self.renderer.draw_rect(
-            "#707078",
-            [screen_width - 200, 3, 195, 30],
-            3,
-            10,
-        )
-        self.renderer.draw_text(
-            f"CLOSE BOX",
-            "white",
-            [screen_width - 160, 18],
-            size=FontSize.LARGE,
+        self.text_box_component.draw_text_box(
+            text_list=["CLOSE BOX"],
+            rect_color="#A0C8F0",
+            text_size=FontSize.LARGE,
+            rect_position=(screen_width - 200, 3),
+            rect_size=(195, 30),
+            rect_radius=10,
+            border_color="#707078",
+            border_radius=10,
+            text_color="white",
             is_shadowed_text=True,
             shadow_color="black",
+            is_center=True,
         )
+
         if self.select_boku_box[0] == 0 and self.select_boku_box[1] == 1:
             self.renderer.draw_rect("red", [screen_width - 200, 3, 195, 30], 3, 10)
 
@@ -280,51 +281,36 @@ class BokuStorage:
                 self.renderer.draw_rect("black", [35, space_y + 5, 10, 10], 0, 20)
             space_y += 40
         # parte de baixo
-        self.renderer.draw_rect(
-            "white",
-            [20, screen_height - 150, screen_width - 40, 140],
-            0,
-            20,
-        )
-        self.renderer.draw_rect(
-            "#A0D0E0",
-            [20, screen_height - 150, screen_width - 40, 140],
-            5,
-            20,
-        )
         selected_text = [
             ["You  can  deposit  a  Bokumon  if  you", "have  any  in  a  Box."],
             ["You  can  deposit  your  party", "Bokumon  in  any  Box."],
             ["See   you   later!", ""],
         ]
 
+        text_list = [
+            selected_text[self.selected_action[0]][0],
+            selected_text[self.selected_action[0]][1],
+        ]
+        text_size = FontSize.DOUBLE_EXTRA_LARGE
+
         if len(self.player.bokumons) == 6 and self.selected_action[0] == 0:
-            self.renderer.draw_text(
-                "Can't  take  any  more  Bokumon.",
-                "black",
-                [50, screen_height - 130],
-                size=FontSize.EXTRA_LARGE,
-            )
+            text_list = ["Can't  take  any  more  Bokumon."]
+            text_size = FontSize.EXTRA_LARGE
         elif len(self.player.bokumons) == 1 and self.selected_action[0] == 1:
-            self.renderer.draw_text(
-                "Can't  deposit  any  Bokumon.",
-                "black",
-                [50, screen_height - 110],
-                size=FontSize.EXTRA_LARGE,
-            )
-        else:
-            self.renderer.draw_text(
-                selected_text[self.selected_action[0]][0],
-                "black",
-                [50, screen_height - 110],
-                size=FontSize.DOUBLE_EXTRA_LARGE,
-            )
-            self.renderer.draw_text(
-                selected_text[self.selected_action[0]][1],
-                "black",
-                [50, screen_height - 60],
-                size=FontSize.DOUBLE_EXTRA_LARGE,
-            )
+            text_list = ["Can't  deposit  any  Bokumon."]
+            text_size = FontSize.EXTRA_LARGE
+
+        self.text_box_component.draw_text_box(
+            text_list=text_list,
+            rect_color="white",
+            text_size=text_size,
+            rect_position=(20, screen_height - 150),
+            rect_size=(screen_width - 40, 140),
+            rect_radius=20,
+            border_color="#A0D0E0",
+            border_radius=20,
+            text_gap=40,
+        )
 
     def draw_boku_action(self):
         list_choose = [
@@ -375,55 +361,43 @@ class BokuStorage:
                 )
             space_y += 50
 
-        self.renderer.draw_rect(
-            "#607078",
-            [screen_width - 560, screen_height - 120, 540, 100],
-            0,
-            5,
-        )
-        self.renderer.draw_rect(
-            "black",
-            [screen_width - 560, screen_height - 120, 540, 100],
-            3,
-            5,
-        )
-        self.renderer.draw_rect(
-            "white",
-            [screen_width - 550, screen_height - 110, 520, 80],
-            0,
-            5,
-        )
+        text_list = [f"{name}  is  selected."]
+        text_size = FontSize.DOUBLE_EXTRA_LARGE
+        text_color = "black"
+        is_shadowed_text = False
+
         if (
             len(self.player.bokumons) == 6
             and self.select_boku_action == 0
             and self.withdraw
         ):
-            self.renderer.draw_text(
-                "Can't  take  any  more  Bokumon.",
-                "gray",
-                [screen_width - 530, screen_height - 80],
-                size=FontSize.EXTRA_LARGE,
-                is_shadowed_text=True,
-            )
+            text_list = ["Can't  take  any  more  Bokumon."]
+            text_size = FontSize.EXTRA_LARGE
+            text_color = "gray"
+            is_shadowed_text = True
         elif (
             len(self.player.bokumons) == 1
             and self.select_boku_action == 0
             and self.deposit
         ):
-            self.renderer.draw_text(
-                "Can't  deposit  any  Bokumon.",
-                "gray",
-                [screen_width - 530, screen_height - 80],
-                size=FontSize.EXTRA_LARGE,
-                is_shadowed_text=True,
-            )
-        else:
-            self.renderer.draw_text(
-                f"{name}  is  selected.",
-                "black",
-                [screen_width - 530, screen_height - 80],
-                size=FontSize.DOUBLE_EXTRA_LARGE,
-            )
+            text_list = ["Can't  deposit  any  Bokumon."]
+            text_size = FontSize.EXTRA_LARGE
+            text_color = "gray"
+            is_shadowed_text = True
+
+        self.text_box_component.draw_text_box(
+            text_list=text_list,
+            rect_color="#607078",
+            text_size=text_size,
+            rect_position=(screen_width - 560, screen_height - 120),
+            rect_size=(540, 100),
+            border_radius=5,
+            has_inner_rect=True,
+            inner_rect_radius=5,
+            text_color=text_color,
+            text_gap=30,
+            is_shadowed_text=is_shadowed_text,
+        )
 
     def draw(self):
         if self.boku_summary.active:
