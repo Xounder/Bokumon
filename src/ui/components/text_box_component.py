@@ -91,20 +91,68 @@ class TextBoxComponent:
     ) -> None:
         spacing = text_spacing or self._get_text_spacing(text_size)
 
+        text_position = self.resolve_text_position(
+            rect_position=rect_position,
+            rect_size=rect_size,
+            text_gap=text_gap,
+            is_calculate_resolve_content_rect=False,
+            is_middle=is_middle,
+            is_center=is_center,
+            is_right=is_right,
+        )
+
         for index, text in enumerate(text_list):
             self._draw_text(
                 text,
                 text_color,
                 text_size,
-                (rect_position[0], rect_position[1] + spacing * index),
-                rect_size,
-                text_gap,
+                (text_position[0], text_position[1] + spacing * index),
                 is_shadowed_text,
                 shadow_color,
-                is_middle,
                 is_center,
                 is_right,
             )
+
+    def resolve_text_position(
+        self,
+        rect_position: tuple[int, int],
+        rect_size: tuple[int, int],
+        text_gap: int,
+        is_calculate_resolve_content_rect: bool,
+        has_inner_rect: bool = False,
+        inner_rect_gap: int = 10,
+        inner_rect_position: tuple[int, int] = (),
+        inner_rect_size: tuple[int, int] = (),
+        is_middle: bool = False,
+        is_center: bool = False,
+        is_right: bool = False,
+    ) -> tuple[tuple[int, int], tuple[int, int]]:
+        last_rect_position = rect_position
+
+        if is_calculate_resolve_content_rect:
+            last_rect_position, _ = self.box_component.resolve_content_rect(
+                rect_position,
+                rect_size,
+                has_inner_rect,
+                inner_rect_gap,
+                inner_rect_position,
+                inner_rect_size,
+            )
+
+        text_position = [
+            last_rect_position[0] + text_gap,
+            last_rect_position[1] + text_gap,
+        ]
+
+        if is_middle:
+            text_position[1] = rect_position[1] + rect_size[1] / 2
+        elif is_center:
+            text_position[0] = rect_position[0] + rect_size[0] / 2
+            text_position[1] = rect_position[1] + rect_size[1] / 2
+        elif is_right:
+            text_position[0] = rect_position[0] + rect_size[0] - text_gap / 2
+
+        return text_position
 
     def _draw_text(
         self,
@@ -112,31 +160,15 @@ class TextBoxComponent:
         text_color: str,
         text_size: FontSize,
         rect_position: tuple[int, int],
-        rect_size: tuple[int, int],
-        text_gap: int,
         is_shadowed_text: bool,
         shadow_color: str,
-        is_middle: bool,
         is_center: bool,
         is_right: bool,
     ) -> None:
-        text_postion = [
-            rect_position[0] + text_gap,
-            rect_position[1] + text_gap,
-        ]
-
-        if is_middle:
-            text_postion[1] = rect_position[1] + rect_size[1] / 2
-        elif is_center:
-            text_postion[0] = rect_position[0] + rect_size[0] / 2
-            text_postion[1] = rect_position[1] + rect_size[1] / 2
-        elif is_right:
-            text_postion[0] = rect_position[0] + rect_size[0] - text_gap / 2
-
         self.renderer.draw_text(
             text=text,
             color=text_color,
-            position=text_postion,
+            position=rect_position,
             size=text_size,
             is_shadowed_text=is_shadowed_text,
             shadow_color=shadow_color,
