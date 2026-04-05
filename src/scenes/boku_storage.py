@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from ui import Renderer, FontSize, BoxComponent, TextBoxComponent
+from ui import Renderer, FontSize, BoxComponent, TextBoxComponent, SelectionBoxComponent
 from utils.timer import Timer
 
 
@@ -9,6 +9,7 @@ class BokuStorage:
         self.renderer = renderer
         self.box_component = BoxComponent(self.renderer)
         self.text_box_component = TextBoxComponent(self.renderer)
+        self.selection_box_component = SelectionBoxComponent(self.renderer)
 
         self.player = player
         self.boku_summary = boku_summary
@@ -28,15 +29,23 @@ class BokuStorage:
 
     def draw_player_bokumon(self):
         # bokumon data
-        self.renderer.draw_rect("#9090A8", [-10, 5, 250, screen_height - 20])
-        self.renderer.draw_rect("#F8E0D0", [-10, 5, 250, screen_height - 20], 5)
-        self.renderer.draw_rect(
-            "#707078",
-            [-5, 10, 240, screen_height / 2 - 20],
-            0,
-            5,
+        self.box_component.draw_box(
+            rect_color="#9090A8",
+            rect_position=(-5, 10),
+            rect_size=(240, screen_height - 30),
+            rect_radius=5,
+            border_color="#505058",
+            border_radius=5,
         )
-        self.renderer.draw_rect("#505058", [-10, 8, 245, screen_height - 26], 3, 5)
+        self.renderer.draw_rect("#707078", [-5, 13, 237, screen_height / 2 - 20])
+
+        self.renderer.draw_text(
+            "BKMN DATA",
+            [248, 216, 144],
+            [50, 45],
+            size=FontSize.EXTRA_LARGE,
+            is_shadowed_text=True,
+        )
 
         self.box_component.draw_box(
             rect_color="#B8D4F4",
@@ -46,14 +55,6 @@ class BokuStorage:
             border_color="#606068",
             border_width=5,
             border_radius=10,
-        )
-
-        self.renderer.draw_text(
-            "BKMN DATA",
-            [248, 216, 144],
-            [50, 45],
-            size=FontSize.EXTRA_LARGE,
-            is_shadowed_text=True,
         )
 
         # image and status bokumon
@@ -156,6 +157,7 @@ class BokuStorage:
                 self.renderer.draw_rect("red", [415, 55 + space_y, 100, 40], 3, 5)
 
     def draw_poke_space(self):
+        # TODO: modificar para fill
         self.renderer.draw_rect("#F8E4D8", [0, 0, screen_width, screen_height])
 
         self.box_component.draw_box(
@@ -266,31 +268,30 @@ class BokuStorage:
 
     def draw_selection_pc(self):
         # parte de cima
-        self.renderer.draw_rect("white", [20, 0, 300, 150], 0, 5)
-        self.renderer.draw_rect("#706880", [20, 0, 300, 150], 5, 5)
         select_list = ["Withdraw Bokumon", "Deposit Bokumon", "See ya!"]
-        space_y = 20
-        for i, sel in enumerate(select_list):
-            self.renderer.draw_text(
-                sel,
-                "black",
-                [50, space_y + 10],
-                size=FontSize.EXTRA_LARGE,
-            )
-            if i == self.selected_action[0]:
-                self.renderer.draw_rect("black", [35, space_y + 5, 10, 10], 0, 20)
-            space_y += 40
+        self.selection_box_component.draw_selection_box(
+            text_list=select_list,
+            rect_color="white",
+            text_size=FontSize.EXTRA_LARGE,
+            rect_position=(20, 0),
+            rect_size=(300, 150),
+            selected_index=self.selected_action[0],
+            selected_rect_radius=20,
+            rect_radius=5,
+            border_color="#706880",
+            border_width=5,
+            border_radius=5,
+            text_gap=30,
+            text_spacing=40,
+        )
+
         # parte de baixo
         selected_text = [
             ["You  can  deposit  a  Bokumon  if  you", "have  any  in  a  Box."],
             ["You  can  deposit  your  party", "Bokumon  in  any  Box."],
             ["See   you   later!", ""],
         ]
-
-        text_list = [
-            selected_text[self.selected_action[0]][0],
-            selected_text[self.selected_action[0]][1],
-        ]
+        text_list = selected_text[self.selected_action[0]]
         text_size = FontSize.DOUBLE_EXTRA_LARGE
 
         if len(self.player.bokumons) == 6 and self.selected_action[0] == 0:
@@ -326,40 +327,22 @@ class BokuStorage:
             )
             name = self.player.bokumon_storage[tam].atual_name
             j = 1
-        self.renderer.draw_rect(
-            "#706880",
-            [screen_width - 300, screen_height / 2 - 40, 280, 200],
-            0,
-            10,
+
+        self.selection_box_component.draw_selection_box(
+            text_list=list_choose[j],
+            rect_color="#706880",
+            text_size=FontSize.DOUBLE_EXTRA_LARGE,
+            rect_position=(screen_width - 300, screen_height / 2 - 40),
+            rect_size=(280, 200),
+            selected_index=self.select_boku_action,
+            selected_rect_radius=20,
+            rect_radius=10,
+            border_radius=10,
+            has_inner_rect=True,
+            inner_rect_radius=10,
+            text_gap=30,
+            text_spacing=50,
         )
-        self.renderer.draw_rect(
-            "black",
-            [screen_width - 300, screen_height / 2 - 40, 280, 200],
-            3,
-            10,
-        )
-        self.renderer.draw_rect(
-            "white",
-            [screen_width - 290, screen_height / 2 - 30, 260, 180],
-            0,
-            10,
-        )
-        space_y = 0
-        for i, text in enumerate(list_choose[j]):
-            self.renderer.draw_text(
-                f"{text}",
-                "black",
-                [screen_width - 260, screen_height / 2 + space_y],
-                size=FontSize.DOUBLE_EXTRA_LARGE,
-            )
-            if self.select_boku_action == i:
-                self.renderer.draw_rect(
-                    "black",
-                    [screen_width - 275, screen_height / 2 - 5 + space_y, 10, 10],
-                    0,
-                    20,
-                )
-            space_y += 50
 
         text_list = [f"{name}  is  selected."]
         text_size = FontSize.DOUBLE_EXTRA_LARGE
