@@ -54,6 +54,9 @@ class Renderer:
 
     def scale_image(self, image: pygame.Surface, scale: tuple) -> pygame.Surface:
         return pygame.transform.scale(image, scale)
+    
+    def fill_screen(self, color: str | tuple[int, int, int]) -> None:
+        self.display_surface.fill(color)
 
     def draw_rect(
         self,
