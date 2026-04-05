@@ -57,7 +57,7 @@ class Menu:
                 )
 
     def draw_overlay(self):
-        self.renderer.draw_rect("#00009F", (0, 0, screen_width, screen_height))
+        self.renderer.fill_screen("#00009F")
         pos = [[240, 145], [280, 345]]
 
         self.text_box_component.draw_text_box(
@@ -110,7 +110,7 @@ class Menu:
         )
 
     def select_first_bokumon(self):
-        self.renderer.draw_rect("#00899F", (0, 0, screen_width, screen_height))
+        self.renderer.fill_screen("#00899F")
         self.renderer.draw_rect(
             "#19A99F",
             (60, screen_height / 2 - 100, screen_width - 100, 160),

@@ -120,7 +120,7 @@ class Bag:
             self.view_bokumon.draw()
 
     def draw_overlay(self):
-        self.renderer.draw_rect("#655FFF", (0, 0, screen_width, screen_height))
+        self.renderer.fill_screen("#655FFF")
         # Items
         self.renderer.draw_rect(
             "orange",

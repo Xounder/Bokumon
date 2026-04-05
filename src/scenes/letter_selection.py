@@ -62,7 +62,7 @@ class LetterSelection:
             space[0] += 90
 
     def draw_ballon_text(self):
-        self.renderer.draw_rect("#E0D858", (0, 0, screen_width, screen_height))
+        self.renderer.fill_screen("#E0D858")
 
         self.box_component.draw_box(
             rect_color="#C0B8B0",

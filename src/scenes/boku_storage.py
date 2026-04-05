@@ -157,8 +157,7 @@ class BokuStorage:
                 self.renderer.draw_rect("red", [415, 55 + space_y, 100, 40], 3, 5)
 
     def draw_poke_space(self):
-        # TODO: modificar para fill
-        self.renderer.draw_rect("#F8E4D8", [0, 0, screen_width, screen_height])
+        self.renderer.fill_screen("#F8E4D8")
 
         self.box_component.draw_box(
             rect_color="#E0E0E0",

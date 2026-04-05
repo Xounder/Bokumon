@@ -79,7 +79,7 @@ class ViewBokumon:
         # TODO: adicionar TextInputComponent
         space_y = 90
         prev_y = 20
-        self.renderer.draw_rect("green", (0, 0, screen_width, screen_height))
+        self.renderer.fill_screen("green")
         if self.marked[0] == 0 or self.marked[1] == 0:
             if (self.selected or self.fainted or self.player.battle) and self.marked[
                 0
