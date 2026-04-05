@@ -19,6 +19,7 @@ class SelectionBoxComponent:
         selected_rect_color: str = "black",
         selected_rect_width: int = 4,
         selected_rect_size: int = 10,
+        selected_rect_radius: int = 0,
         rect_radius: int = 3,
         has_border: bool = True,
         border_color: str = "black",
@@ -35,9 +36,6 @@ class SelectionBoxComponent:
         text_spacing: int = 35,
         is_shadowed_text: bool = False,
         shadow_color: str = "black",
-        is_middle: bool = False,
-        is_center: bool = False,
-        is_right: bool = False,
     ) -> None:
         self.text_box_component.draw_text_box(
             text_list,
@@ -61,18 +59,27 @@ class SelectionBoxComponent:
             text_spacing,
             is_shadowed_text,
             shadow_color,
-            is_middle,
-            is_center,
-            is_right,
         )
+
+        text_position = self.text_box_component.resolve_text_position(
+            rect_position=rect_position,
+            rect_size=rect_size,
+            text_gap=text_gap,
+            is_calculate_resolve_content_rect=True,
+            has_inner_rect=has_inner_rect,
+            inner_rect_gap=inner_rect_gap,
+            inner_rect_position=inner_rect_position,
+            inner_rect_size=inner_rect_size,
+        )
+
         self._draw_selection(
             selected_rect_color,
-            rect_position,
+            text_position,
             selected_rect_width,
-            text_gap,
             text_spacing,
             selected_index,
             selected_rect_size,
+            selected_rect_radius,
         )
 
     def _draw_selection(
@@ -80,18 +87,19 @@ class SelectionBoxComponent:
         color: str,
         position: tuple[int, int],
         width: int,
-        text_gap: int,
         spacing: int,
         selected_index: int,
         size: int,
+        border_radius: int,
     ) -> None:
-        position_x = position[0] + text_gap - 2 * size
-        position_y = position[1] + text_gap - size / 2
+        position_x = position[0] - 2 * size
+        position_y = position[1] - size / 2
 
         self.renderer.draw_rect(
             color,
             (position_x, position_y + spacing * selected_index, size, size),
             width,
+            border_radius,
         )
 
     # TODO: verificar como adicionar input/update neste componente
