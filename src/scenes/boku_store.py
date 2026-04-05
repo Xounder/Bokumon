@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from ui import Renderer, FontSize, BoxComponent, TextBoxComponent
+from ui import Renderer, FontSize, BoxComponent, TextBoxComponent, SelectionBoxComponent
 from utils.timer import Timer
 
 
@@ -9,6 +9,7 @@ class BokuStore:
         self.renderer = renderer
         self.box_component = BoxComponent(self.renderer)
         self.text_box_component = TextBoxComponent(self.renderer)
+        self.selection_box_component = SelectionBoxComponent(self.renderer)
 
         self.player = player
         self.bag = bag
@@ -40,49 +41,28 @@ class BokuStore:
         self.selected_item = [0, [1, False], False]
 
     def draw_select_action(self):
-        # TODO: adicionar InputTextComponent
         list_choose = ["Buy", "Trade", "See ya!"]
-        self.renderer.draw_rect(
-            "#706880",
-            [screen_width - 300, screen_height / 2 - 40, 280, 200],
-            0,
-            10,
+        self.selection_box_component.draw_selection_box(
+            text_list=list_choose,
+            rect_color="#706880",
+            text_size=FontSize.DOUBLE_EXTRA_LARGE,
+            rect_position=(screen_width - 300, screen_height / 2 - 40),
+            rect_size=(280, 200),
+            selected_index=self.selected_action[0],
+            selected_rect_radius=20,
+            rect_radius=10,
+            border_radius=10,
+            has_inner_rect=True,
+            inner_rect_radius=10,
+            text_gap=30,
+            text_spacing=50,
         )
-        self.renderer.draw_rect(
-            "black",
-            [screen_width - 300, screen_height / 2 - 40, 280, 200],
-            3,
-            10,
-        )
-        self.renderer.draw_rect(
-            "white",
-            [screen_width - 290, screen_height / 2 - 30, 260, 180],
-            0,
-            10,
-        )
-        space_y = 0
-        for i, text in enumerate(list_choose):
-            self.renderer.draw_text(
-                f"{text}",
-                "black",
-                [screen_width - 260, screen_height / 2 + space_y],
-                size=FontSize.DOUBLE_EXTRA_LARGE,
-            )
-            if self.selected_action[0] == i:
-                self.renderer.draw_rect(
-                    "black",
-                    [screen_width - 275, screen_height / 2 - 5 + space_y, 10, 10],
-                    0,
-                    20,
-                )
-            space_y += 50
 
         list_desc = [
             "Buy  an  item  using  Ticket  Points.",
             "Trade  a  Bokumon  to  obtain  a  Ticket  Points.",
             "See   you  later!",
         ]
-
         self.text_box_component.draw_text_box(
             text_list=[f"{list_desc[self.selected_action[0]]}"],
             rect_color="#607078",
@@ -137,6 +117,8 @@ class BokuStore:
             [220, screen_height - 165],
             size=FontSize.MEDIUM,
         )
+
+        # TODO: melhorar esta parte dos draw
         space_y = 0
         for i, item in enumerate(self.items_disp):
             if self.limit_visu_items[0] <= i <= self.limit_visu_items[1]:
@@ -206,43 +188,19 @@ class BokuStore:
             )
 
         if self.selected_item[1][1]:
-            # TODO: adicionar InputTextComponent
-            self.renderer.draw_rect(
-                "#607078",
-                [screen_width - 130, screen_height - 300, 100, 100],
-                0,
-                5,
-            )
-            self.renderer.draw_rect(
-                "black",
-                [screen_width - 130, screen_height - 300, 100, 100],
-                3,
-                5,
-            )
-            self.renderer.draw_rect(
-                "white",
-                [screen_width - 120, screen_height - 290, 80, 80],
-                0,
-                5,
-            )
-            self.renderer.draw_text(
-                "Yes",
-                "black",
-                [screen_width - 100, screen_height - 270],
-                size=FontSize.LARGE,
-            )
-            self.renderer.draw_text(
-                "No",
-                "black",
-                [screen_width - 100, screen_height - 230],
-                size=FontSize.LARGE,
-            )
-            sel_y = screen_height - 275 if self.select_buy else screen_height - 235
-            self.renderer.draw_rect(
-                "black",
-                [screen_width - 115, sel_y, 10, 10],
-                0,
-                20,
+            self.selection_box_component.draw_selection_box(
+                text_list=["Yes", "No"],
+                rect_color="#607078",
+                text_size=FontSize.LARGE,
+                rect_position=(screen_width - 130, screen_height - 300),
+                rect_size=(100, 100),
+                selected_index=not self.select_buy,
+                selected_rect_radius=20,
+                rect_radius=5,
+                border_radius=5,
+                has_inner_rect=True,
+                inner_rect_radius=5,
+                text_gap=25,
             )
 
     def draw_trade(self):
@@ -336,43 +294,19 @@ class BokuStore:
 
             sel_boku.draw_modified([450, screen_height / 2 + 5], 1.5)
             # choose
-            # TODO: adicionar InputTextComponent
-            self.renderer.draw_rect(
-                "#388888",
-                [screen_width - 130, screen_height - 210, 100, 100],
-                0,
-                5,
-            )
-            self.renderer.draw_rect(
-                "black",
-                [screen_width - 130, screen_height - 210, 100, 100],
-                3,
-                5,
-            )
-            self.renderer.draw_rect(
-                "white",
-                [screen_width - 120, screen_height - 200, 80, 80],
-                0,
-                5,
-            )
-            self.renderer.draw_text(
-                "Yes",
-                "black",
-                [screen_width - 100, screen_height - 180],
-                size=FontSize.LARGE,
-            )
-            self.renderer.draw_text(
-                "No",
-                "black",
-                [screen_width - 95, screen_height - 140],
-                size=FontSize.LARGE,
-            )
-            sel_y = screen_height - 185 if self.select_trade else screen_height - 145
-            self.renderer.draw_rect(
-                "black",
-                [screen_width - 115, sel_y, 10, 10],
-                0,
-                20,
+            self.selection_box_component.draw_selection_box(
+                text_list=["Yes", "No"],
+                rect_color="#388888",
+                text_size=FontSize.LARGE,
+                rect_position=(screen_width - 130, screen_height - 210),
+                rect_size=(100, 100),
+                selected_index=not self.select_trade,
+                selected_rect_radius=20,
+                rect_radius=5,
+                border_radius=5,
+                has_inner_rect=True,
+                inner_rect_radius=5,
+                text_gap=25,
             )
             # text
             self.text_box_component.draw_text_box(
