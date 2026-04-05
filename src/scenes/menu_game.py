@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import screen_height, screen_width
-from ui import Renderer, FontSize, TextBoxComponent
+from ui import Renderer, FontSize, TextBoxComponent, SelectionBoxComponent
 from utils import save_system
 from utils.timer import Timer
 from sprites import BokuMon
@@ -10,6 +10,8 @@ class Menu:
     def __init__(self, renderer: Renderer, player, bag):
         self.renderer = renderer
         self.text_box_component = TextBoxComponent(self.renderer)
+        self.selection_box_component = SelectionBoxComponent(self.renderer)
+
         self.player = player
         self.bag = bag
         self.timer = Timer(0.12)
@@ -91,47 +93,20 @@ class Menu:
         )
 
     def blit_select_continue(self, pos_rect, selected_button):
-        # TODO: criar e adicionar o componente TextInputComponent (verificar nome melhor)
-
-        self.renderer.draw_rect(
-            "#00008B",
-            (pos_rect[0], pos_rect[1], 120, screen_height / 4.5),
-            0,
-            3,
-        )
-        self.renderer.draw_rect(
-            "black",
-            (pos_rect[0], pos_rect[1], 120, screen_height / 4.5),
-            3,
-            5,
-        )
-        self.renderer.draw_rect(
-            "white",
-            (pos_rect[0] + 10, pos_rect[1] + 10, 100, screen_height / 4.5 - 20),
-            0,
-            5,
-        )
-        pos = [
-            [pos_rect[0] + 20, pos_rect[1] + 40],
-            [pos_rect[0] + 20, pos_rect[1] + 90],
-        ]
-        self.renderer.draw_rect(
-            "black",
-            (pos[selected_button][0], pos[selected_button][1], 10, 10),
-            0,
-            20,
-        )
-        self.renderer.draw_text(
-            "Yes",
-            "black",
-            (pos[0][0] + 20, pos[0][1] + 5),
-            size=FontSize.DOUBLE_EXTRA_LARGE,
-        )
-        self.renderer.draw_text(
-            "No",
-            "black",
-            (pos[1][0] + 20, pos[1][1] + 5),
-            size=FontSize.DOUBLE_EXTRA_LARGE,
+        self.selection_box_component.draw_selection_box(
+            text_list=["Yes", "No"],
+            rect_color="#00008B",
+            text_size=FontSize.DOUBLE_EXTRA_LARGE,
+            rect_position=(pos_rect[0], pos_rect[1]),
+            rect_size=(120, screen_height / 4.5),
+            selected_index=selected_button,
+            selected_rect_radius=20,
+            rect_radius=5,
+            border_radius=5,
+            has_inner_rect=True,
+            inner_rect_radius=5,
+            text_gap=30,
+            text_spacing=50,
         )
 
     def select_first_bokumon(self):
