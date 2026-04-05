@@ -113,6 +113,28 @@ class TextBoxComponent:
                 is_right,
             )
 
+    def _draw_text(
+        self,
+        text: str,
+        text_color: str,
+        text_size: FontSize,
+        rect_position: tuple[int, int],
+        is_shadowed_text: bool,
+        shadow_color: str,
+        is_center: bool,
+        is_right: bool,
+    ) -> None:
+        self.renderer.draw_text(
+            text=text,
+            color=text_color,
+            position=rect_position,
+            size=text_size,
+            is_shadowed_text=is_shadowed_text,
+            shadow_color=shadow_color,
+            is_center=is_center,
+            is_right=is_right,
+        )
+
     def resolve_text_position(
         self,
         rect_position: tuple[int, int],
@@ -126,7 +148,7 @@ class TextBoxComponent:
         is_middle: bool = False,
         is_center: bool = False,
         is_right: bool = False,
-    ) -> tuple[tuple[int, int], tuple[int, int]]:
+    ) -> tuple[int, int]:
         last_rect_position = rect_position
 
         if is_calculate_resolve_content_rect:
@@ -153,28 +175,6 @@ class TextBoxComponent:
             text_position[0] = rect_position[0] + rect_size[0] - text_gap / 2
 
         return text_position
-
-    def _draw_text(
-        self,
-        text: str,
-        text_color: str,
-        text_size: FontSize,
-        rect_position: tuple[int, int],
-        is_shadowed_text: bool,
-        shadow_color: str,
-        is_center: bool,
-        is_right: bool,
-    ) -> None:
-        self.renderer.draw_text(
-            text=text,
-            color=text_color,
-            position=rect_position,
-            size=text_size,
-            is_shadowed_text=is_shadowed_text,
-            shadow_color=shadow_color,
-            is_center=is_center,
-            is_right=is_right,
-        )
 
     def _get_text_spacing(self, size: FontSize) -> int:
         match size:

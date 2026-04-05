@@ -2,7 +2,7 @@ from ui.renderer import Renderer
 
 
 class BoxComponent:
-    def __init__(self, renderer: Renderer):
+    def __init__(self, renderer: Renderer) -> None:
         self.renderer = renderer
 
     def draw_box(
@@ -21,7 +21,7 @@ class BoxComponent:
         inner_rect_gap: int = 10,
         inner_rect_color: str = "white",
         inner_rect_radius: int = 0,
-    ):
+    ) -> None:
         inner_rect_position, inner_rect_size = self.resolve_content_rect(
             rect_position,
             rect_size,
@@ -60,7 +60,7 @@ class BoxComponent:
         inner_rect_gap: int,
         inner_rect_position: tuple[int, int] = (),
         inner_rect_size: tuple[int, int] = (),
-    ):
+    ) -> tuple[tuple[int, int], tuple[int, int]]:
         if inner_rect_position and inner_rect_size:
             return inner_rect_position, inner_rect_size
 
