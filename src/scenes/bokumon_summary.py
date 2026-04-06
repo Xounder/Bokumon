@@ -1,12 +1,15 @@
 import pygame
 from settings.settings import *
-from ui import Renderer, FontSize
+from ui import Renderer, FontSize, BoxComponent, TextBoxComponent
 from utils.timer import Timer
 
 
 class BokuSummary:
     def __init__(self, renderer: Renderer, player):
         self.renderer = renderer
+        self.box_component = BoxComponent(self.renderer)
+        self.text_box_component = TextBoxComponent(self.renderer)
+
         self.player = player
         # vars
         self.seted = False
@@ -43,6 +46,8 @@ class BokuSummary:
             self.seted = True
 
     def draw(self):
+        self.renderer.fill_screen("#A0B2C4")
+
         # parte de cima
         self.renderer.draw_rect("#489870", (0, 0, screen_width, 50))
         self.renderer.draw_rect(
@@ -51,19 +56,25 @@ class BokuSummary:
             0,
             20,
         )
+
         move_x = screen_width / 2 if not self.section == 1 else screen_width / 2 + 50
-        self.renderer.draw_rect("#F8E898", (-20, 0, move_x, 50), 0, 20)
-        self.renderer.draw_rect("black", (-20, 0, move_x, 50), 3, 20)
-        self.renderer.draw_rect("black", (-20, 0, screen_width + 30, 50), 3)
         section_text = "Bokumon  Skill" if self.section == 0 else "Know  Moves"
-        self.renderer.draw_text(
-            section_text,
-            "black",
-            (10, 25),
-            size=FontSize.DOUBLE_EXTRA_LARGE,
+
+        self.text_box_component.draw_text_box(
+            text_list=[section_text],
+            rect_color="#F8E898",
+            text_size=FontSize.DOUBLE_EXTRA_LARGE,
+            rect_position=(-20, 0),
+            rect_size=(move_x, 50),
+            rect_radius=20,
+            border_radius=20,
+            is_middle=True,
+            text_gap=30,
         )
+
+        self.renderer.draw_rect("black", (-20, 0, screen_width + 30, 50), 3)
         # dots
-        color_1 = "#C0A060" if self.section == 0 else "#F8F8F8"
+        color_1 = "#C0A060" if self.section == 0 else "#F8F8F8" # TODO: modificar / verificar uso de draw_circle
         color_2 = "#C0A060" if self.section == 1 else "#F8F8F8"
         self.renderer.draw_rect(color_1, (screen_width / 2 - 10, 12, 20, 25), 0, 30)
         self.renderer.draw_rect(color_2, (screen_width / 2 - 60, 12, 20, 25), 0, 30)
@@ -73,19 +84,16 @@ class BokuSummary:
         else:
             self.draw_know_move()
         # bokumon
-        self.renderer.draw_rect(
-            "#788090",
-            (0, 49, screen_width / 2, screen_height / 2),
+        self.box_component.draw_box(
+            rect_color="#788090",
+            rect_position=(-2, 49),
+            rect_size=(screen_width / 2 + 2, screen_height / 2),
+            has_inner_rect=True,
+            inner_rect_position=(5, 100),
+            inner_rect_size=(screen_width / 2 - 15, screen_height / 2 - 60),
+            inner_rect_color="#C0C0C0",
         )
-        self.renderer.draw_rect(
-            "black",
-            (-20, 49, screen_width / 2 + 20, screen_height / 2),
-            3,
-        )
-        self.renderer.draw_rect(
-            "#C0C0C0",
-            (5, 100, screen_width / 2 - 15, screen_height / 2 - 60),
-        )
+
         self.renderer.draw_text(
             f"Lv{self.boku_local[self.boku_selected].level}",
             "black",
@@ -176,52 +184,68 @@ class BokuSummary:
         self.renderer.blit(image_mod, self.boku_ball_rect)
 
     def draw_skill_move(self):
-        # bloco
-        self.renderer.draw_rect("#A0B2C4", (0, 50, screen_width, screen_height))
         # details
-        self.renderer.draw_rect(
+        self.renderer.draw_rect(  # TODO: modificar para draw_line
             "#D4E4F6",
             (0, 50, screen_width / 2 + 3, screen_height / 2 + 2),
         )
-        self.renderer.draw_rect(
+        self.renderer.draw_rect(  # TODO: modificar para draw_line
             "#D4E4F6",
             (screen_width / 2 + 3, 50, screen_width / 2 + 3, 3),
         )
-        # stats
-        # life
+
+        # stats / life
         atual_boku = self.boku_local[self.boku_selected]
-        self.renderer.draw_rect(
-            "#E8F0F8",
-            (screen_width / 2 + 120, 60, 250, 40),
-            0,
-            10,
-        )
-        self.renderer.draw_rect("black", (screen_width / 2 + 10, 70, 120, 20), 0, 15)
-        self.renderer.draw_text(
-            "HP",
-            "white",
-            (screen_width / 2 + 70, 80),
-            size=FontSize.LARGE,
-            is_center=True,
-        )
-        self.renderer.draw_text(
-            f"{atual_boku.atual_life}/{atual_boku.life}",
-            "black",
-            (screen_width - 40, 80),
-            size=FontSize.DOUBLE_EXTRA_LARGE,
+
+        self.text_box_component.draw_text_box(
+            text_list=[f"{atual_boku.atual_life}/{atual_boku.life}"],
+            rect_color="#E8F0F8",
+            text_size=FontSize.DOUBLE_EXTRA_LARGE,
+            rect_position=(screen_width / 2 + 120, 60),
+            rect_size=(250, 40),
+            rect_radius=10,
+            has_border=False,
             is_right=True,
         )
-        # rect life
-        self.renderer.draw_rect("black", (screen_width / 2 + 140, 100, 220, 20), 0, 5)
-        self.renderer.draw_text(
-            "HP",
-            "yellow",
-            (screen_width / 2 + 145, 109),
-            size=FontSize.LARGE,
+        self.text_box_component.draw_text_box(
+            text_list=["HP"],
+            rect_color="black",
+            text_size=FontSize.LARGE,
+            rect_position=(screen_width / 2 + 10, 70),
+            rect_size=(120, 20),
+            rect_radius=15,
+            has_border=False,
+            text_color="white",
+            is_center=True,
         )
-        self.renderer.draw_rect("white", (screen_width / 2 + 175, 105, 178, 10))
+
+        # rect life
+        self.text_box_component.draw_text_box(
+            text_list=["HP"],
+            rect_color="black",
+            text_size=FontSize.LARGE,
+            rect_position=(screen_width / 2 + 140, 100),
+            rect_size=(220, 20),
+            rect_radius=5,
+            has_border=False,
+            text_color="yellow",
+            text_gap=10,  # TODO: modificar para text_gap_x = 5, text_gap_y=10
+        )
+
         x_life = 178 * atual_boku.atual_life / atual_boku.life
-        self.renderer.draw_rect("green", (screen_width / 2 + 175, 105, x_life, 10))
+
+        self.box_component.draw_box(
+            rect_color="white",
+            rect_position=(screen_width / 2 + 175, 105),
+            rect_size=(178, 10),
+            rect_radius=0,
+            inner_rect_position=(screen_width / 2 + 175, 105),
+            inner_rect_size=(x_life, 10),
+            has_border=False,
+            has_inner_rect=True,
+            inner_rect_color="green",
+        )
+
         # other stats
         space_y = 120
         name_list = ["ATTACK", "DEFENSE", "SPEED", "CRIT"]
@@ -232,31 +256,26 @@ class BokuSummary:
             f"{atual_boku.critical_chance}%",
         ]
         for i in range(4):
-            self.renderer.draw_rect(
-                "#E8F0F8",
-                (screen_width - 130, space_y, 100, 40),
-                0,
-                10,
-            )
-            self.renderer.draw_rect(
-                "black",
-                (screen_width / 2 + 10, space_y + 10, 120, 20),
-                0,
-                15,
-            )
-            self.renderer.draw_text(
-                name_list[i],
-                "white",
-                (screen_width / 2 + 70, space_y + 20),
-                size=FontSize.LARGE,
-                is_center=True,
-            )
-            self.renderer.draw_text(
-                stats_list[i],
-                "black",
-                (screen_width - 40, space_y + 20),
-                size=FontSize.EXTRA_LARGE,
+            self.text_box_component.draw_text_box(
+                text_list=[stats_list[i]],
+                rect_color="#E8F0F8",
+                text_size=FontSize.EXTRA_LARGE,
+                rect_position=(screen_width - 130, space_y),
+                rect_size=(100, 40),
+                rect_radius=10,
+                has_border=False,
                 is_right=True,
+            )
+            self.text_box_component.draw_text_box(
+                text_list=[name_list[i]],
+                rect_color="black",
+                text_size=FontSize.LARGE,
+                rect_position=(screen_width / 2 + 10, space_y + 10),
+                rect_size=(120, 20),
+                rect_radius=15,
+                has_border=False,
+                text_color="white",
+                is_center=True,
             )
             space_y += 60
         self.renderer.draw_text(
@@ -266,21 +285,13 @@ class BokuSummary:
             size=FontSize.MEDIUM,
             is_center=True,
         )
-        # parte de baixo
-        # EXP
+
+        # parte de baixo / EXP
         self.renderer.draw_rect(
             "#C8D8E8",
             (200, screen_height - 240, screen_width - 230, 100),
             0,
             10,
-        )
-        self.renderer.draw_rect("black", (10, screen_height - 210, 200, 20), 0, 15)
-        self.renderer.draw_text(
-            "EXP",
-            "white",
-            (110, screen_height - 200),
-            size=FontSize.EXTRA_LARGE,
-            is_center=True,
         )
         self.renderer.draw_text(
             "Exp.  Points",
@@ -294,92 +305,104 @@ class BokuSummary:
             (240, screen_height - 160),
             size=FontSize.DOUBLE_EXTRA_LARGE,
         )
+
+        self.text_box_component.draw_text_box(
+            text_list=["EXP"],
+            rect_color="black",
+            text_size=FontSize.EXTRA_LARGE,
+            rect_position=(10, screen_height - 210),
+            rect_size=(200, 20),
+            rect_radius=15,
+            has_border=False,
+            text_color="white",
+            is_center=True,
+        )
+
         # valores exp
         self.renderer.draw_rect(
             "#E8F0F8",
             (screen_width - 260, space_y + 10, 230, 80),
         )
-        self.renderer.draw_rect(
-            "#E8F0F8",
-            (screen_width - 260, space_y, 230, 50),
-            0,
-            10,
-        )
-        self.renderer.draw_rect(
-            "#E8F0F8",
-            (screen_width - 260, space_y + 50, 230, 50),
-            0,
-            10,
-        )
-        self.renderer.draw_text(
-            f"{atual_boku.all_exp}",
-            "black",
-            (screen_width - 40, space_y + 30),
-            size=FontSize.EXTRA_LARGE,
+        self.text_box_component.draw_text_box(
+            text_list=[f"{atual_boku.all_exp}"],
+            rect_color="#E8F0F8",
+            text_size=FontSize.EXTRA_LARGE,
+            rect_position=(screen_width - 260, space_y),
+            rect_size=(230, 50),
+            rect_radius=10,
+            has_border=False,
+            text_gap=30,  # TODO: modificar para text_gap_x = 30
             is_right=True,
         )
-        self.renderer.draw_text(
-            f"{round(atual_boku.up_exp - atual_boku.atual_exp)}",
-            "black",
-            (screen_width - 40, space_y + 80),
-            size=FontSize.EXTRA_LARGE,
+        self.text_box_component.draw_text_box(
+            text_list=[f"{round(atual_boku.up_exp - atual_boku.atual_exp)}"],
+            rect_color="#E8F0F8",
+            text_size=FontSize.EXTRA_LARGE,
+            rect_position=(screen_width - 260, space_y + 50),
+            rect_size=(230, 50),
+            rect_radius=10,
+            has_border=False,
+            text_gap=30,  # TODO: modificar para text_gap_x = 30
             is_right=True,
         )
+
         # divisoria
-        self.renderer.draw_rect(
+        self.renderer.draw_rect(  # TODO: modificar para draw_line
             "#E8F0F8",
             (230, screen_height - 189, screen_width - 260, 3),
             0,
             10,
         )
-        self.renderer.draw_rect(
+        self.renderer.draw_rect(  # TODO: modificar para draw_line
             "#C8D8E8",
             (screen_width - 260, screen_height - 189, 220, 3),
             0,
             10,
         )
         # rect exp
-        self.renderer.draw_rect(
-            "black",
-            (screen_width - 290, space_y + 100, 255, 20),
-            0,
-            10,
+        self.text_box_component.draw_text_box(
+            text_list=["EXP"],
+            rect_color="black",
+            text_size=FontSize.MEDIUM,
+            rect_position=(screen_width - 290, space_y + 100),
+            rect_size=(255, 20),
+            rect_radius=10,
+            has_border=False,
+            text_color="yellow",
+            text_gap=10,
         )
-        self.renderer.draw_text(
-            "EXP",
-            "yellow",
-            (screen_width - 280, space_y + 110),
-            size=FontSize.MEDIUM,
-        )
+
         self.renderer.draw_rect(
             "white",
             (screen_width - 248, space_y + 103, 208, 14),
             0,
             20,
         )
-        self.renderer.draw_rect(
-            "#898D91",
-            (screen_width - 240, space_y + 105, 195, 10),
-        )
+
         x_exp = 195 * atual_boku.atual_exp / atual_boku.up_exp
-        self.renderer.draw_rect("blue", (screen_width - 240, space_y + 105, x_exp, 10))
+
+        self.box_component.draw_box(
+            rect_color="#898D91",
+            rect_position=(screen_width - 240, space_y + 105),
+            rect_size=(195, 10),
+            rect_radius=0,
+            inner_rect_position=(screen_width - 240, space_y + 105),
+            inner_rect_size=(x_exp, 10),
+            has_border=False,
+            has_inner_rect=True,
+            inner_rect_color="blue",
+        )
 
     def draw_know_move(self):
         atual_bokumon = self.boku_local[self.boku_selected]
+
         # bloco
-        self.renderer.draw_rect(
-            "#A0B2C4",
-            (0, screen_height / 2 + 49, screen_width / 2, screen_height / 2),
+        self.box_component.draw_box(
+            rect_color="#969EAE",
+            rect_position=(screen_width / 2 - 1, 49),
+            rect_size=(screen_width / 2 + 1, screen_height - 49),
         )
-        self.renderer.draw_rect(
-            "#969EAE",
-            (screen_width / 2 - 1, 49, screen_width / 2 + 1, screen_height - 49),
-        )
-        self.renderer.draw_rect(
-            "black",
-            (screen_width / 2 - 1, 49, screen_width / 2 + 1, screen_height - 49),
-            3,
-        )
+
         # moves
         space_y = 70
         for i in range(5):
@@ -420,75 +443,69 @@ class BokuSummary:
             if (
                 self.selected_move[2][0] == i or self.selected_move[2][1] == i
             ) and self.selected_move[0]:
-                color = (
-                    "blue"
-                    if (self.selected_move[1] and self.selected_move[2][0] == i)
-                    else "red"
-                )
+                color = "red"
+                if (self.selected_move[1] and self.selected_move[2][0] == i):
+                    color = "blue"
+
                 self.renderer.draw_rect(
                     color,
                     (screen_width / 2 + 20, space_y, screen_width / 2 - 35, 80),
                     3,
                     10,
                 )
+
             space_y += 100
 
         if self.selected_move[0]:
-            # especification move
-            self.renderer.draw_rect(
-                "#E8F0F8",
-                (160, screen_height / 2 + 90, 100, 40),
-                0,
-                10,
+            text_power = ""
+            text_accuracy = ""
+            if self.selected_move[2][1] != 4:
+                text_power = f"{atual_bokumon.moves[self.selected_move[2][1]][1]}"
+                text_accuracy = f"{atual_bokumon.moves[self.selected_move[2][1]][2]}"
+
+            self.text_box_component.draw_text_box(
+                text_list=[text_power],
+                rect_color="#E8F0F8",
+                text_size=FontSize.EXTRA_LARGE,
+                rect_position=(160, screen_height / 2 + 90),
+                rect_size=(100, 40),
+                rect_radius=10,
+                has_border=False,
+                is_right=True,
             )
-            self.renderer.draw_rect(
-                "black",
-                (20, screen_height / 2 + 100, 120, 20),
-                0,
-                15,
-            )
-            self.renderer.draw_text(
-                "POWER",
-                "white",
-                (80, screen_height / 2 + 110),
-                size=FontSize.LARGE,
-                is_center=True,
+            self.text_box_component.draw_text_box(
+                text_list=[text_accuracy],
+                rect_color="#E8F0F8",
+                text_size=FontSize.EXTRA_LARGE,
+                rect_position=(160, screen_height / 2 + 140),
+                rect_size=(100, 40),
+                rect_radius=10,
+                has_border=False,
+                is_right=True,
             )
 
-            self.renderer.draw_rect(
-                "#E8F0F8",
-                (160, screen_height / 2 + 140, 100, 40),
-                0,
-                10,
-            )
-            self.renderer.draw_rect(
-                "black",
-                (20, screen_height / 2 + 150, 120, 20),
-                0,
-                15,
-            )
-            self.renderer.draw_text(
-                "ACCURACY",
-                "white",
-                (80, screen_height / 2 + 160),
-                size=FontSize.LARGE,
+            self.text_box_component.draw_text_box(
+                text_list=["POWER"],
+                rect_color="black",
+                text_size=FontSize.LARGE,
+                rect_position=(20, screen_height / 2 + 100),
+                rect_size=(120, 20),
+                rect_radius=15,
+                has_border=False,
+                text_color="white",
                 is_center=True,
             )
-            if self.selected_move[2][1] != 4:
-                self.renderer.draw_text(
-                    f"{atual_bokumon.moves[self.selected_move[2][1]][1]}",
-                    "black",
-                    (240, screen_height / 2 + 110),
-                    size=FontSize.EXTRA_LARGE,
-                    is_right=True,
-                )
-                self.renderer.draw_text(
-                    f"{atual_bokumon.moves[self.selected_move[2][1]][2]}",
-                    "black",
-                    (240, screen_height / 2 + 160),
-                    size=FontSize.EXTRA_LARGE,
-                    is_right=True,
-                )
+            self.text_box_component.draw_text_box(
+                text_list=["ACCURACY"],
+                rect_color="black",
+                text_size=FontSize.LARGE,
+                rect_position=(20, screen_height / 2 + 150),
+                rect_size=(120, 20),
+                rect_radius=15,
+                has_border=False,
+                text_color="white",
+                is_center=True,
+            )
 
     def move_marked(self, move, pos, selected):
         if not selected:
