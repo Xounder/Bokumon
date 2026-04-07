@@ -229,7 +229,8 @@ class BokuSummary:
             rect_radius=5,
             has_border=False,
             text_color="yellow",
-            text_gap=10,  # TODO: modificar para text_gap_x = 5, text_gap_y=10
+            text_gap=5,  # TODO: modificar para text_gap_x = 5
+            is_middle=True,
         )
 
         x_life = 178 * atual_boku.atual_life / atual_boku.life

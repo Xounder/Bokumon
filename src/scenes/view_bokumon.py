@@ -1,6 +1,6 @@
 import pygame
 from settings.settings import *
-from ui import Renderer, FontSize, BoxComponent, TextBoxComponent
+from ui import Renderer, FontSize, BoxComponent, TextBoxComponent, SelectionBoxComponent
 from utils.timer import Timer
 from .bokumon_summary import BokuSummary
 
@@ -10,6 +10,7 @@ class ViewBokumon:
         self.renderer = renderer
         self.box_component = BoxComponent(self.renderer)
         self.text_box_component = TextBoxComponent(self.renderer)
+        self.selection_box_component = SelectionBoxComponent(self.renderer)
 
         self.player = player
         self.bokumon_summary = BokuSummary(self.renderer, self.player)
@@ -237,23 +238,24 @@ class ViewBokumon:
             * self.player.bokumons[num_boku].atual_life
             / self.player.bokumons[num_boku].life
         )
-        self.renderer.draw_rect(
-            "black",
-            (pos_rect[0][0], pos_rect[0][1], tam[1], tam[2]),
-            0,
-            5,
+
+        self.text_box_component.draw_text_box(
+            text_list=["HP"],
+            rect_color="black",
+            text_size=life_font,
+            rect_position=(pos_rect[0][0], pos_rect[0][1]),
+            rect_size=(tam[1], tam[2]),
+            rect_radius=5,
+            has_border=False,
+            text_color="red",
+            text_gap=5, # TODO: modificar para text_gap_x
+            is_middle=True,
         )
         self.renderer.draw_rect(
             "green",
             (pos_rect[1][0], pos_rect[1][1], tam_life, tam[3]),
         )
-        self.renderer.draw_text(
-            "HP",
-            "red",
-            (pos_text[0][0], pos_text[0][1]),
-            size=life_font,
-            is_shadowed_text=True,
-        )
+
         self.renderer.draw_text(
             f"{round(self.player.bokumons[num_boku].atual_life)}/{self.player.bokumons[num_boku].life}",
             "white",
@@ -458,43 +460,23 @@ class ViewBokumon:
         if self.selected_action[1]:
             qnt_sel = len(self.text_select_action) - 2
             tam = [(screen_height - 160) - qnt_sel * 40, 150 + qnt_sel * 40]
-            # caixa de seleção do item
-            self.renderer.draw_rect(
-                "#00008B",
-                (screen_width - 250, tam[0], 220, tam[1]),
-                0,
-                3,
-            )
-            self.renderer.draw_rect(
-                "black",
-                (screen_width - 250, tam[0], 220, tam[1]),
-                3,
-                5,
-            )
-            self.renderer.draw_rect(
-                "white",
-                (screen_width - 240, tam[0] + 10, 200, tam[1] - 20),
-                0,
-                5,
-            )
-            # possiveis seleções
+
             if self.fainted:
                 self.list_selected = 2
             else:
                 self.list_selected = self.player.battle
 
-            space_y_sel = 40
-            for i, sel in enumerate(self.text_select_action[self.list_selected]):
-                self.renderer.draw_text(
-                    f"{sel}",
-                    "black",
-                    (screen_width - 210, tam[0] + space_y_sel + 10),
-                    size=FontSize.DOUBLE_EXTRA_LARGE,
-                )
-                if self.selected_action[0] == i:
-                    # botão de seleção
-                    self.renderer.draw_rect(
-                        "black",
-                        (screen_width - 230, tam[0] + space_y_sel + 5, 10, 10),
-                    )
-                space_y_sel += 45
+            self.selection_box_component.draw_selection_box(
+                text_list=self.text_select_action[self.list_selected],
+                rect_color="#00008B",
+                text_size=FontSize.DOUBLE_EXTRA_LARGE,
+                rect_position=(screen_width - 250, tam[0]),
+                rect_size=(220, tam[1]),
+                selected_index=self.selected_action[0],
+                rect_radius=5,
+                border_radius=5,
+                has_inner_rect=True,
+                inner_rect_radius=5,
+                text_gap=30,
+                text_spacing=50,
+            )
