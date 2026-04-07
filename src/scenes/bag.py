@@ -1,13 +1,15 @@
 import pygame
 from settings.settings import *
-from ui import Renderer, FontSize, TextBoxComponent
+from ui import Renderer, FontSize, BoxComponent, TextBoxComponent, SelectionBoxComponent
 from utils.timer import Timer
 
 
 class Bag:
     def __init__(self, renderer: Renderer, view_bokumon):
         self.renderer = renderer
+        self.box_component = BoxComponent(self.renderer)
         self.text_box_component = TextBoxComponent(self.renderer)
+        self.selection_box_component = SelectionBoxComponent(self.renderer)
 
         self.view_bokumon = view_bokumon
         self.timer = Timer(0.12)
@@ -33,6 +35,7 @@ class Bag:
             "Key Items": [],
             "Boku Balls": [["Boku Ball", 1, 5]],
         }
+        # TODO: verificar mover essa parte para a pasta data
         self.items_description = {
             "Boku Ball": [
                 "A  ball  thrown  to  catch  a  wild",
@@ -120,59 +123,58 @@ class Bag:
             self.view_bokumon.draw()
 
     def draw_overlay(self):
+        # TODO: modificar esse agora
         self.renderer.fill_screen("#655FFF")
         # Items
-        self.renderer.draw_rect(
-            "orange",
-            (250, 20, screen_width - 270, screen_height - 200),
-            0,
-            5,
+        self.box_component.draw_box(
+            rect_color="orange",
+            rect_position=(250, 20),
+            rect_size=(screen_width - 270, screen_height - 200),
+            rect_radius=5,
+            border_radius=5,
         )
-        self.renderer.draw_rect(
-            "black",
-            (250, 17, screen_width - 270, screen_height - 197),
-            3,
-            5,
+
+        # TODO: verificar possibilidade de usar text_box_component aqui
+        self.box_component.draw_box(
+            rect_color="#ECD580",
+            rect_position=(300, 40),
+            rect_size=(screen_width - 350, screen_height - 250),
+            rect_radius=5,
+            border_radius=5,
         )
-        self.renderer.draw_rect(
-            "#ECD580",
-            (300, 40, screen_width - 350, screen_height - 250),
-            0,
-            5,
-        )
-        self.renderer.draw_rect(
-            "black",
-            (300, 40, screen_width - 350, screen_height - 250),
-            3,
-            5,
-        )
+
         # Nome seção
-        self.renderer.draw_rect("black", (18, 17, 240, 106), 3, 5)
-        self.renderer.draw_rect("orange", (20, 20, 250, 100), 0, 3)
-        self.renderer.draw_text(
-            f"{self.section}",
-            "white",
-            (140, 70),
-            size=FontSize.DOUBLE_EXTRA_LARGE,
-            is_center=True,
+        self.renderer.draw_rect("black", (18, 20, 240, 106), 3, 5)
+        self.text_box_component.draw_text_box(
+            text_list=[f"{self.section}"],
+            rect_color="orange",
+            text_size=FontSize.DOUBLE_EXTRA_LARGE,
+            rect_position=(20, 23),
+            rect_size=(250, 100),
+            rect_radius=5,
+            has_border=False,
+            text_color="white",
             is_shadowed_text=True,
+            is_center=True,
         )
+        
         # parte de baixo
-        self.renderer.draw_rect(
-            "blue",
-            (0, screen_height - 150, screen_width, 150),
-            0,
-            3,
+        self.box_component.draw_box(
+            rect_color="blue",
+            rect_position=(0, screen_height - 150),
+            rect_size=(screen_width, 150),
+            rect_radius=5,
+            border_radius=5,
         )
-        self.renderer.draw_rect(
-            "black",
-            (0, screen_height - 150, screen_width, 150),
-            3,
-            5,
-        )
+
         # image rect
-        self.renderer.draw_rect("white", (20, screen_height - 120, 90, 90), 0, 5)
-        self.renderer.draw_rect("black", (20, screen_height - 120, 90, 90), 3, 5)
+        self.box_component.draw_box(
+            rect_color="white",
+            rect_position=(20, screen_height - 120),
+            rect_size=(90, 90),
+            rect_radius=5,
+            border_radius=5,
+        )
 
         space_y = 0
         for i, item in enumerate(self.all_items[self.section]):
@@ -202,12 +204,16 @@ class Bag:
                     color = "black" if not self.selected else "red"
                     self.renderer.draw_rect(color, (315, 65 + space_y, 10, 10), 0, 20)
                     space_y_desc = 0
+
+                    item_rect = self.items_image[item[0]].get_rect(
+                        center=(65, screen_height - 75)
+                    )
+                    self.renderer.blit(self.items_image[item[0]], item_rect)
+
                     if not self.selected:
-                        item_rect = self.items_image[item[0]].get_rect(
-                            center=(65, screen_height - 75)
-                        )
-                        self.renderer.blit(self.items_image[item[0]], item_rect)
                         # descrição
+                        
+                        # TODO: mover esse print do texto para dentro do rect que ele aparece (utilizar text_box_component)
                         for desc in self.items_description[item[0]]:
                             self.renderer.draw_text(
                                 desc,
@@ -218,10 +224,6 @@ class Bag:
                             )
                             space_y_desc += 40
                     else:
-                        item_rect = self.items_image[item[0]].get_rect(
-                            center=(65, screen_height - 75)
-                        )
-                        self.renderer.blit(self.items_image[item[0]], item_rect)
                         if not self.toss:
                             text_list = [f"{item[0]}  is", "selected."]
 
@@ -242,51 +244,28 @@ class Bag:
                         )
                         qnt_sel = len(self.selected_item) - 2 if not self.toss else 0
                         tam = [(screen_height - 150) - qnt_sel * 40, 150 + qnt_sel * 40]
-                        # caixa de seleção do item
-                        self.renderer.draw_rect(
-                            "#00008B",
-                            (screen_width - 230, tam[0], 220, tam[1]),
-                            0,
-                            3,
-                        )
-                        self.renderer.draw_rect(
-                            "black",
-                            (screen_width - 230, tam[0], 220, tam[1]),
-                            3,
-                            5,
-                        )
-                        self.renderer.draw_rect(
-                            "white",
-                            (screen_width - 220, tam[0] + 10, 200, tam[1] - 20),
-                            0,
-                            5,
-                        )
+
                         # possiveis seleções
                         if self.toss:
-                            self.toss_item()
+                            self.toss_item(tam)
                         else:
-                            space_y_sel = 40
-                            for j, sel in enumerate(self.selected_item):
-                                self.renderer.draw_text(
-                                    f"{sel}",
-                                    "black",
-                                    (screen_width - 190, tam[0] + space_y_sel + 10),
-                                    size=FontSize.DOUBLE_EXTRA_LARGE,
-                                )
-                                if self.marked[self.section][1] == j:
-                                    # botão de seleção
-                                    self.renderer.draw_rect(
-                                        "black",
-                                        (
-                                            screen_width - 210,
-                                            tam[0] + space_y_sel + 5,
-                                            10,
-                                            10,
-                                        ),
-                                        0,
-                                        20,
-                                    )
-                                space_y_sel += 45
+                            # caixa de seleção do item
+                            self.selection_box_component.draw_selection_box(
+                                text_list=self.selected_item,
+                                rect_color="#00008B",
+                                text_size=FontSize.DOUBLE_EXTRA_LARGE,
+                                rect_position=(screen_width - 230, tam[0]),
+                                rect_size=(220, tam[1]),
+                                selected_index=self.marked[self.section][1],
+                                selected_rect_radius=20,
+                                rect_radius=5,
+                                border_radius=5,
+                                has_inner_rect=True,
+                                inner_rect_radius=5,
+                                text_gap=30,
+                                text_spacing=50,
+                            )
+
                 space_y += 50
             elif i > self.limit_visu_items[self.section][1]:
                 break
@@ -446,11 +425,13 @@ class Bag:
             self.bag_used[0] = True
             self.active = False
 
-    def toss_item(self):
+    def toss_item(self, tam): # TODO: verficar como remover o 'tam', foi colocado temporariamente
         # aviso de seleção
+        
         item = self.all_items[self.section][self.marked[self.section][0]]
         if item[2] > 1:
             if not self.pressed_z[0]:
+                # TODO: modificar para mudar o texto baseado na condicional, tentar utilizar apenas um text_box_component
                 self.renderer.draw_text(
                     f"Toss out how many",
                     "black",
@@ -463,16 +444,24 @@ class Bag:
                     (140 + 20, screen_height - 65),
                     size=FontSize.DOUBLE_EXTRA_LARGE,
                 )
+
                 zeros_txt = "000"
                 zeros_txt = zeros_txt[: 3 - len(str(self.selected_item[1][0]))]
-                self.renderer.draw_text(
-                    f"x{zeros_txt}{self.toss_values[0]}",
-                    "black",
-                    (screen_width - 150, screen_height - 80),
-                    size=FontSize.EXTRA_LARGE,
+                self.text_box_component.draw_text_box(
+                    text_list=[f"x{zeros_txt}{self.toss_values[0]}"],
+                    rect_color="#00008B",
+                    text_size=FontSize.EXTRA_LARGE,
+                    rect_position=(screen_width - 230, tam[0]),
+                    rect_size=(220, tam[1]),
+                    rect_radius=5,
+                    border_radius=5,
+                    has_inner_rect=True,
+                    inner_rect_radius=5,
+                    is_center=True,
                 )
             else:
                 if not self.pressed_z[1]:
+                    # TODO: modificar para apenas um text_box_component (esse tbm)
                     self.renderer.draw_text(
                         f"Throw away {self.toss_values[0]} of",
                         "black",
@@ -486,29 +475,21 @@ class Bag:
                         size=FontSize.DOUBLE_EXTRA_LARGE,
                     )
                     # botão de seleção
-                    self.renderer.draw_text(
-                        "Yes",
-                        "black",
-                        (screen_width - 165, screen_height - 110),
-                        size=FontSize.DOUBLE_EXTRA_LARGE,
-                    )
-                    self.renderer.draw_text(
-                        "No",
-                        "black",
-                        (screen_width - 160, screen_height - 65),
-                        size=FontSize.DOUBLE_EXTRA_LARGE,
-                    )
-
-                    pos = (
-                        screen_height - 100
-                        if self.toss_values[1]
-                        else screen_height - 60
-                    )
-                    self.renderer.draw_rect(
-                        "black",
-                        (screen_width - 180, pos, 10, 10),
-                        0,
-                        20,
+                    # TODO: transformar esse em um componente de escolha - Yes/No (verificar nome do componente)
+                    self.selection_box_component.draw_selection_box(
+                        text_list=["Yes", "No"],
+                        rect_color="#00008B",
+                        text_size=FontSize.DOUBLE_EXTRA_LARGE,
+                        rect_position=(screen_width - 230, tam[0]),
+                        rect_size=(220, tam[1]),
+                        selected_index=not self.toss_values[1],
+                        selected_rect_radius=20,
+                        rect_radius=5,
+                        border_radius=5,
+                        has_inner_rect=True,
+                        inner_rect_radius=5,
+                        text_gap=30,
+                        text_spacing=50,
                     )
                 else:
                     if self.toss_values[1]:
@@ -516,6 +497,7 @@ class Bag:
                     self.reset_toss()
         else:
             if not self.pressed_z[0]:
+                # TODO: modificar para apenas um text_box_component (esse tbm)
                 self.renderer.draw_text(
                     f"Throw away 1 of",
                     "black",
